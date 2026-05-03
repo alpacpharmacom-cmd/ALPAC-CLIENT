@@ -36,8 +36,9 @@ export default function CardSkeleton({
           width: '100%',
           aspectRatio: '0.85',
           borderRadius: { xs: '14px', sm: '18px' },
-          bgcolor: '#f8f7f4', // Matches ProductCard image placeholder bg
+          bgcolor: 'rgba(0,0,0,0.08)',
           mb: { xs: 1, sm: 1.5 },
+          transform: 'none',
         }}
         animation="wave"
       />
