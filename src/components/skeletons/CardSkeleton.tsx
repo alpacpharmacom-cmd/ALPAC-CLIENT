@@ -30,18 +30,32 @@ export default function CardSkeleton({
         position: 'relative'
       }}
     >
-      <Skeleton
-        variant="rectangular"
+      {/* Image area — mirrors ProductCard's aspectRatio: '0.85' container */}
+      <Box
         sx={{
+          position: 'relative',
           width: '100%',
-          aspectRatio: '0.85',
+          paddingTop: 'calc(100% / 0.85)', // enforces 0.85 aspect ratio
           borderRadius: { xs: '14px', sm: '18px' },
-          bgcolor: 'rgba(0,0,0,0.08)',
+          overflow: 'hidden',
           mb: { xs: 1, sm: 1.5 },
-          transform: 'none',
+          bgcolor: 'rgba(0,0,0,0.06)',
         }}
-        animation="wave"
-      />
+      >
+        <Skeleton
+          variant="rectangular"
+          animation="wave"
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            bgcolor: 'rgba(0,0,0,0.08)',
+            transform: 'none',
+          }}
+        />
+      </Box>
       <CardContent sx={{ p: 0, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
         <Skeleton 
           variant="text" 
