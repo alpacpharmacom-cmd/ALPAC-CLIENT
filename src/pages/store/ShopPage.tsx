@@ -454,7 +454,7 @@ export default function ShopPage() {
       </Box>
 
       {/* Main Content Area */}
-      <Container maxWidth={false} sx={{ px: { xs: 0.5, md: 6, lg: 8 }, py: { xs: 3, md: 6 } }}>
+      <Container maxWidth={false} sx={{ px: { xs: 2, md: 6, lg: 8 }, py: { xs: 3, md: 6 } }}>
         <Grid container spacing={{ xs: 3, md: 6 }}>
           {/* Sidebar - Desktop */}
           {isDesktop && (
@@ -782,7 +782,7 @@ export default function ShopPage() {
               </Fade>
             ) : (
               <motion.div layout>
-                <Grid container spacing={{ xs: 0.8, sm: 4 }}>
+                <Grid container spacing={{ xs: 2.5, sm: 4 }}>
                   <AnimatePresence mode="popLayout">
                     {filteredProducts.map((product, index) => (
                       <Grid component="div" size={{ xs: 6, sm: 4 }} key={product._id}>
