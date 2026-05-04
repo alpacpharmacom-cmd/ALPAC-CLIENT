@@ -5,7 +5,7 @@ import {
   TextField, MenuItem, InputAdornment, Grid
 } from '@mui/material';
 import { 
-  ShoppingBag, Search, FilterList, Sort, Event, 
+  Inventory2, Search, FilterList, Sort, Event, 
 } from '@mui/icons-material';
 import { useOrderStore } from '../../stores/orderStore';
 import StoreOrdersSkeleton from '../../components/skeletons/StoreOrdersSkeleton';
@@ -372,7 +372,7 @@ export default function OrdersPage() {
               border: '1px solid rgba(0,0,0,0.06)'
             }}
           >
-            <ShoppingBag sx={{ fontSize: 60, color: 'primary.main', opacity: 0.1, mb: 3 }} />
+            <Inventory2 sx={{ fontSize: 60, color: 'primary.main', opacity: 0.1, mb: 3 }} />
             <Typography variant="h5" sx={{ mb: 1, fontWeight: 700, fontFamily: '"Playfair Display", serif' }}>
               {orders.length > 0 ? "No Records Found" : "A Quiet Beginning"}
             </Typography>

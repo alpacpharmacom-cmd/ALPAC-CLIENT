@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import {
   Box, Container, Typography, Button, IconButton, Divider, Grid, Card, Stack
 } from '@mui/material';
-import { Add, Remove, Delete, ArrowForward, LocalMall } from '@mui/icons-material';
+import { Add, Remove, Delete, ArrowForward, ShoppingCart } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 
 const MotionBox = motion.create(Box);
@@ -107,7 +107,7 @@ export default function CartPage() {
               mx: 'auto'
             }}
           >
-            <LocalMall sx={{ fontSize: 64, color: 'primary.main', opacity: 0.15, mb: 3 }} />
+            <ShoppingCart sx={{ fontSize: 64, color: 'primary.main', opacity: 0.15, mb: 3 }} />
             <Typography variant="h3" sx={{ mb: 2, fontWeight: 700, fontFamily: '"Playfair Display", serif', color: 'primary.dark' }}>
               A Quiet Registry
             </Typography>

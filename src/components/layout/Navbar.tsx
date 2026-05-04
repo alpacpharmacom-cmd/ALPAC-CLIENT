@@ -25,14 +25,14 @@ import {
   Collapse,
 } from '@mui/material';
 import {
-  ShoppingBag,
+  ShoppingCart,
   Person,
   Menu as MenuIcon,
   Close,
   Dashboard,
   Search,
   FavoriteBorder,
-  LocalMall,
+  Inventory2,
   KeyboardArrowDown,
   ExpandLess,
   ExpandMore,
@@ -479,7 +479,7 @@ export default function Navbar() {
                     },
                   }}
                 >
-                  <ShoppingBag sx={{ fontSize: 21 }} />
+                  <ShoppingCart sx={{ fontSize: 21 }} />
                 </Badge>
               </IconButton>
             </Tooltip>
@@ -494,7 +494,7 @@ export default function Navbar() {
                   transition: 'all 0.2s'
                 }}
               >
-                <LocalMall sx={{ fontSize: 21 }} />
+                <Inventory2 sx={{ fontSize: 21 }} />
               </IconButton>
             </Tooltip>
           </Box>
@@ -715,7 +715,7 @@ export default function Navbar() {
               </ListItem>
               <ListItem disablePadding>
                 <ListItemButton component={Link} to="/orders" onClick={() => setMobileOpen(false)} sx={{ py: 1.5, px: 3, gap: 2 }}>
-                  <LocalMall sx={{ fontSize: 22, color: '#666' }} />
+                  <Inventory2 sx={{ fontSize: 22, color: '#666' }} />
                   <ListItemText primary="My Orders" />
                 </ListItemButton>
               </ListItem>

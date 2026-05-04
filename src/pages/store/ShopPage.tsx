@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import { 
   Search, Close, RestartAlt, 
-  Tune, ArrowForwardIos, ShoppingBag
+  Tune, ArrowForwardIos, ShoppingCart
 } from '@mui/icons-material';
 import { useAuthStore } from '../../stores/authStore';
 import { useWishlistStore } from '../../stores/wishlistStore';
@@ -762,7 +762,7 @@ export default function ShopPage() {
                   }}
                 >
                   <Box sx={{ mb: 3, opacity: 0.1 }}>
-                    <ShoppingBag sx={{ fontSize: 80 }} />
+                    <ShoppingCart sx={{ fontSize: 80 }} />
                   </Box>
                   <Typography variant="h4" sx={{ mb: 2, fontWeight: 300 }}>
                     No products found

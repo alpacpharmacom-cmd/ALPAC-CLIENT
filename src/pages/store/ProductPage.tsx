@@ -4,7 +4,7 @@ import {
   Box, Container, Typography, Grid, Button, Rating, Divider,
   TextField, Breadcrumbs, Chip, IconButton, Link as MuiLink, Stack
 } from '@mui/material';
-import { Add, Remove, ShoppingBag, FavoriteBorder, Favorite } from '@mui/icons-material';
+import { Add, Remove, ShoppingCart, FavoriteBorder, Favorite } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { productsAPI } from '../../api/products.api';
@@ -345,7 +345,7 @@ export default function ProductPage() {
                         size="large"
                         onClick={handleAddToCart}
                         disabled={isInCart}
-                        startIcon={isInCart ? null : <ShoppingBag />}
+                        startIcon={isInCart ? null : <ShoppingCart />}
                         sx={{
                           flex: 1,
                           height: { xs: 56, sm: 64 },
