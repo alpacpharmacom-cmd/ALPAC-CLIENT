@@ -233,7 +233,6 @@ export default function ProductCard({
                 WebkitLineClamp: 2,
                 WebkitBoxOrient: 'vertical',
                 overflow: 'hidden',
-                minHeight: { xs: '1.92rem', sm: '2.5rem' },
                 transition: 'color 0.3s ease',
               }}
             >
