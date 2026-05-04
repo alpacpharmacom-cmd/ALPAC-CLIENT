@@ -82,9 +82,9 @@ export default function ProductCard({
           flexDirection: 'column',
           bgcolor: '#f5f3ec',
           borderRadius: { xs: '20px', sm: '24px' },
-          px: { xs: 1, sm: 2 },
+          px: { xs: 0.8, sm: 2 },
           pt: { xs: 1, sm: 2 },
-          pb: { xs: 0.6, sm: 1 },
+          pb: { xs: 1, sm: 1.5 },
           border: '1px solid rgba(0,0,0,0.05)',
           boxShadow: '0 10px 40px rgba(0,0,0,0.03)',
           transition: 'all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1)',
@@ -286,7 +286,7 @@ export default function ProductCard({
               onClick={handleAddToCartInternal}
               startIcon={addingToCart || isInCart ? null : <ShoppingCart sx={{ fontSize: { xs: '0.75rem !important', sm: '0.9rem !important' } }} />}
               sx={{
-                mt: 0.5,
+                mt: 0.8,
                 bgcolor: isInCart ? 'rgba(0,0,0,0.05)' : 'primary.main',
                 color: isInCart ? 'text.secondary' : 'white',
                 borderRadius: '10px',
