@@ -82,6 +82,10 @@ export default function ProductCard({
           flexDirection: 'column',
           bgcolor: '#f5f3ec',
           borderRadius: { xs: '20px', sm: '24px' },
+          px: 0,
+          pt: { xs: 1, sm: 2 },
+          pb: 0,
+
           border: '1px solid rgba(0,0,0,0.05)',
           boxShadow: '0 10px 40px rgba(0,0,0,0.03)',
           transition: 'all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1)',
@@ -109,7 +113,8 @@ export default function ProductCard({
             overflow: 'hidden',
             bgcolor: '#f8f7f4',
             aspectRatio: '0.85',
-            borderRadius: { xs: '14px', sm: '18px' },
+            borderRadius: { xs: '16px', sm: '20px' },
+            mx: { xs: 1, sm: 2 },
             mb: { xs: 1, sm: 1.5 },
             display: 'block',
             textDecoration: 'none'
@@ -198,7 +203,7 @@ export default function ProductCard({
           </IconButton>
         </Box>
 
-        <CardContent sx={{ p: 0, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+        <CardContent sx={{ p: 0, flexGrow: 1, display: 'flex', flexDirection: 'column', px: { xs: 1, sm: 2 } }}>
           {/* Linkable Text Area */}
           <Box 
             component={Link} 
@@ -286,15 +291,19 @@ export default function ProductCard({
                 mt: 'auto',
                 bgcolor: isInCart ? 'rgba(0,0,0,0.05)' : 'primary.main',
                 color: isInCart ? 'text.secondary' : 'white',
-                borderRadius: '10px',
+                borderRadius: 0,
+                borderBottomLeftRadius: { xs: '16px', sm: '20px' },
+                borderBottomRightRadius: { xs: '16px', sm: '20px' },
                 fontSize: { xs: '0.65rem', sm: '0.75rem' },
                 fontWeight: 700,
-                py: { xs: 0.8, sm: 1.2 },
+                py: { xs: 1, sm: 1.4 },
                 whiteSpace: 'nowrap',
                 transition: 'all 0.2s ease',
                 '&:hover': { bgcolor: isInCart ? 'rgba(0,0,0,0.05)' : 'primary.dark' },
                 '&:active': { transform: isInCart ? 'none' : 'scale(0.98)' },
-                border: isInCart ? '1px solid rgba(0,0,0,0.1)' : 'none'
+                border: isInCart ? '1px solid rgba(0,0,0,0.1)' : 'none',
+                mx: -0,
+                width: '100%',
               }}
             >
               {addingToCart ? (

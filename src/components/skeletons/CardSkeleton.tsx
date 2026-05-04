@@ -20,9 +20,9 @@ export default function CardSkeleton({
         flexDirection: 'column',
         bgcolor: '#f5f3ec',
         borderRadius: { xs: '20px', sm: '24px' },
-        px: { xs: 1, sm: 2 },
+        px: 0,
         pt: { xs: 1, sm: 2 },
-        pb: { xs: 0.6, sm: 1 },
+        pb: 0,
         border: '1px solid rgba(0,0,0,0.05)',
         boxShadow: '0 10px 40px rgba(0,0,0,0.03)',
         height: '100%',
@@ -34,11 +34,12 @@ export default function CardSkeleton({
       <Box
         sx={{
           position: 'relative',
-          width: '100%',
-          paddingTop: 'calc(100% / 0.85)', // enforces 0.85 aspect ratio
-          borderRadius: { xs: '14px', sm: '18px' },
+          width: 'auto',
+          paddingTop: 'calc(100% / 0.85)',
+          borderRadius: { xs: '16px', sm: '20px' },
           overflow: 'hidden',
           mb: { xs: 1, sm: 1.5 },
+          mx: { xs: 1, sm: 2 },
           bgcolor: 'rgba(0,0,0,0.06)',
         }}
       >
@@ -56,7 +57,7 @@ export default function CardSkeleton({
           }}
         />
       </Box>
-      <CardContent sx={{ p: 0, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+      <CardContent sx={{ p: 0, flexGrow: 1, display: 'flex', flexDirection: 'column', px: { xs: 1, sm: 2 } }}>
         <Skeleton 
           variant="rectangular" 
           width="40%" 
@@ -72,7 +73,7 @@ export default function CardSkeleton({
           animation="wave"
         />
         
-        <Box sx={{ mt: 'auto', mb: 1.5 }}>
+        <Box sx={{ mt: 1.5, mb: 1.5 }}>
           {hasRating && (
             <Box sx={{ display: 'flex', gap: { xs: 0.4, sm: 0.8 }, mb: 0.5 }}>
               {[1, 2, 3, 4, 5].map((i) => (
@@ -101,9 +102,11 @@ export default function CardSkeleton({
             variant="rectangular" 
             width="100%" 
             sx={{ 
-              height: { xs: 32, sm: 38 },
-              mt: 0.5,
-              borderRadius: '10px', 
+              height: { xs: 36, sm: 42 },
+              mt: 'auto',
+              borderRadius: 0,
+              borderBottomLeftRadius: { xs: '16px', sm: '20px' },
+              borderBottomRightRadius: { xs: '16px', sm: '20px' },
               bgcolor: 'rgba(45, 75, 56, 0.08)' 
             }} 
             animation="wave"
