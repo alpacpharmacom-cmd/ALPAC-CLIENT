@@ -726,10 +726,13 @@ export default function Navbar() {
           
           <Divider sx={{ my: 2, opacity: 0.6 }} />
           
+
+
+          {isAuthenticated ? (
+            <>
           <Typography variant="overline" sx={{ px: 3, color: '#999', fontWeight: 600, letterSpacing: '0.1em' }}>
             Account & Shopping
           </Typography>
-
           <ListItem disablePadding>
             <ListItemButton component={Link} to="/cart" onClick={() => setMobileOpen(false)} sx={{ py: 1.5, px: 3, gap: 2 }}>
               <Badge badgeContent={totalItems} color="success" sx={{ '& .MuiBadge-badge': { bgcolor: '#3d6b4f' } }}>
@@ -738,9 +741,6 @@ export default function Navbar() {
               <ListItemText primary="Shopping Cart" />
             </ListItemButton>
           </ListItem>
-
-          {isAuthenticated ? (
-            <>
               <ListItem disablePadding>
                 <ListItemButton component={Link} to="/profile" onClick={() => setMobileOpen(false)} sx={{ py: 1.5, px: 3, gap: 2 }}>
                   <Person sx={{ fontSize: 22, color: '#666' }} />
