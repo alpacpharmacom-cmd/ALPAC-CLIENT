@@ -22,7 +22,7 @@ export default function CardSkeleton({
         borderRadius: { xs: '20px', sm: '24px' },
         px: 0,
         pt: { xs: 1, sm: 2 },
-        pb: 0,
+        pb: { xs: 1, sm: 2 },
         border: '1px solid rgba(0,0,0,0.05)',
         boxShadow: '0 10px 40px rgba(0,0,0,0.03)',
         height: '100%',
@@ -104,9 +104,7 @@ export default function CardSkeleton({
             sx={{ 
               height: { xs: 36, sm: 42 },
               mt: 'auto',
-              borderRadius: 0,
-              borderBottomLeftRadius: { xs: '16px', sm: '20px' },
-              borderBottomRightRadius: { xs: '16px', sm: '20px' },
+              borderRadius: { xs: '14px', sm: '16px' },
               bgcolor: 'rgba(45, 75, 56, 0.08)' 
             }} 
             animation="wave"

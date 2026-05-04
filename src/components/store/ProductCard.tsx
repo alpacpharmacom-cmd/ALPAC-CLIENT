@@ -84,7 +84,7 @@ export default function ProductCard({
           borderRadius: { xs: '20px', sm: '24px' },
           px: 0,
           pt: { xs: 1, sm: 2 },
-          pb: 0,
+          pb: { xs: 1, sm: 2 },
 
           border: '1px solid rgba(0,0,0,0.05)',
           boxShadow: '0 10px 40px rgba(0,0,0,0.03)',
@@ -291,9 +291,7 @@ export default function ProductCard({
                 mt: 'auto',
                 bgcolor: isInCart ? 'rgba(0,0,0,0.05)' : 'primary.main',
                 color: isInCart ? 'text.secondary' : 'white',
-                borderRadius: 0,
-                borderBottomLeftRadius: { xs: '16px', sm: '20px' },
-                borderBottomRightRadius: { xs: '16px', sm: '20px' },
+                borderRadius: { xs: '14px', sm: '16px' },
                 fontSize: { xs: '0.65rem', sm: '0.75rem' },
                 fontWeight: 700,
                 py: { xs: 1, sm: 1.4 },
@@ -302,8 +300,6 @@ export default function ProductCard({
                 '&:hover': { bgcolor: isInCart ? 'rgba(0,0,0,0.05)' : 'primary.dark' },
                 '&:active': { transform: isInCart ? 'none' : 'scale(0.98)' },
                 border: isInCart ? '1px solid rgba(0,0,0,0.1)' : 'none',
-                mx: -0,
-                width: '100%',
               }}
             >
               {addingToCart ? (
