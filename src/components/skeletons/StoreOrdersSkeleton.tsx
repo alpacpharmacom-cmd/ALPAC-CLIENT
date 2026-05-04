@@ -97,18 +97,16 @@ export default function StoreOrdersSkeleton() {
 
                     {/* BOTTOM SECTION */}
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-                      <Box sx={{ display: 'flex', gap: 1.5 }}>
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, flex: 1, minWidth: 200 }}>
                         {[...Array(3)].map((_, j) => (
                           <Skeleton 
                             key={j} 
                             variant="rectangular" 
-                            width={56} 
-                            height={70} 
-                            sx={{ borderRadius: '12px' }} 
+                            sx={{ width: { xs: 48, md: 56 }, height: { xs: 60, md: 70 }, borderRadius: '12px' }} 
                           />
                         ))}
                       </Box>
-                      <Skeleton variant="rectangular" width={120} height={32} sx={{ borderRadius: '8px' }} />
+                      <Skeleton variant="rectangular" sx={{ width: { xs: '100%', sm: 120 }, height: 32, borderRadius: '8px' }} />
                     </Box>
                   </Box>
                 </Box>

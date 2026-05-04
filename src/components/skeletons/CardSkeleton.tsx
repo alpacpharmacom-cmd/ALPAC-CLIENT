@@ -22,7 +22,7 @@ export default function CardSkeleton({
         borderRadius: { xs: '20px', sm: '24px' },
         px: { xs: 1, sm: 2 },
         pt: { xs: 1, sm: 2 },
-        pb: { xs: 1, sm: 1.5 },
+        pb: { xs: 0.6, sm: 1 },
         border: '1px solid rgba(0,0,0,0.05)',
         boxShadow: '0 10px 40px rgba(0,0,0,0.03)',
         height: '100%',
@@ -72,7 +72,7 @@ export default function CardSkeleton({
           animation="wave"
         />
         
-        <Box sx={{ mt: 'auto', mb: 2 }}>
+        <Box sx={{ mt: 'auto', mb: 1.5 }}>
           {hasRating && (
             <Box sx={{ display: 'flex', gap: 0.8, mb: 1 }}>
               {[1, 2, 3, 4, 5].map((i) => (

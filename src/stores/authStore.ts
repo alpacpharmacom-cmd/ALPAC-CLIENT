@@ -27,7 +27,7 @@ interface AuthState {
   login: (email: string, password: string) => Promise<void>;
   register: (name: string, email: string, password: string, phone: string) => Promise<void>;
   logout: () => Promise<void>;
-  loadUser: () => void;
+  loadUser: () => Promise<void>;
   updateProfile: (data: any) => Promise<void>;
 }
 
@@ -44,7 +44,6 @@ export const useAuthStore = create<AuthState>((set) => ({
       const { data: res } = await authAPI.login({ email, password });
       const { token, user } = res.data;
       localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
       set({
         user,
         token,
@@ -64,7 +63,6 @@ export const useAuthStore = create<AuthState>((set) => ({
       const { data: res } = await authAPI.register({ name, email, password, phone });
       const { token, user } = res.data;
       localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
       set({
         user,
         token,
@@ -85,7 +83,6 @@ export const useAuthStore = create<AuthState>((set) => ({
       // Continue with local cleanup even if the API call fails
     }
     localStorage.removeItem('token');
-    localStorage.removeItem('user');
     set({
       user: null,
       token: null,
@@ -94,12 +91,12 @@ export const useAuthStore = create<AuthState>((set) => ({
     });
   },
 
-  loadUser: () => {
+  loadUser: async () => {
     const token = localStorage.getItem('token');
-    const userStr = localStorage.getItem('user');
-    if (token && userStr) {
+    if (token) {
       try {
-        const user = JSON.parse(userStr);
+        const { data: res } = await authAPI.getProfile();
+        const user = res.data;
         set({
           user,
           token,
@@ -108,7 +105,6 @@ export const useAuthStore = create<AuthState>((set) => ({
         });
       } catch {
         localStorage.removeItem('token');
-        localStorage.removeItem('user');
       }
     }
   },
@@ -118,7 +114,6 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       const { data: res } = await authAPI.updateProfile(data);
       const updatedUser = res.data;
-      localStorage.setItem('user', JSON.stringify(updatedUser));
       set({
         user: updatedUser,
         isLoading: false,

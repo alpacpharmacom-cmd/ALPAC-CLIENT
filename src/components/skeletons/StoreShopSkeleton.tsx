@@ -27,10 +27,10 @@ export default function StoreShopSkeleton() {
       </Box>
 
       {/* Main Content Area Skeleton */}
-      <Container maxWidth={false} sx={{ px: { xs: 2, md: 8 }, py: { xs: 3, md: 6 } }}>
-        <Grid container spacing={6}>
+      <Container maxWidth={false} sx={{ px: { xs: 2, md: 6, lg: 8 }, py: { xs: 3, md: 6 } }}>
+        <Grid container spacing={{ xs: 3, md: 6 }}>
           {/* Sidebar Skeleton */}
-          <Grid component="div" size={{ xs: 0, lg: 3 }}>
+          <Grid component="div" size={{ lg: 3, xl: 2.5 }}>
             <Box sx={{ display: { xs: 'none', lg: 'block' } }}>
               <Stack spacing={4}>
                 <Skeleton variant="rectangular" height={40} sx={{ borderRadius: '12px' }} />
@@ -55,14 +55,14 @@ export default function StoreShopSkeleton() {
           </Grid>
 
           {/* Product Grid Area Skeleton */}
-          <Grid component="div" size={{ xs: 12, lg: 9 }}>
+          <Grid component="div" size={{ xs: 12, lg: 9, xl: 9.5 }}>
             {/* Toolbar Skeleton */}
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 4, alignItems: 'center' }}>
               <Skeleton width={120} height={24} />
               <Skeleton variant="rectangular" width={180} height={40} sx={{ borderRadius: '12px' }} />
             </Box>
 
-            <Grid container spacing={4}>
+            <Grid container spacing={{ xs: 2.5, sm: 4 }}>
               {[...Array(8)].map((_, i) => (
                 <Grid component="div" size={{ xs: 6, sm: 4 }} key={i}>
                    <CardSkeleton />
