@@ -27,6 +27,7 @@ import {
 import {
   ShoppingCart,
   Person,
+  Logout,
   Menu as MenuIcon,
   Close, 
   Dashboard,
@@ -630,10 +631,13 @@ export default function Navbar() {
           </IconButton>
         </Box>
         <Divider />
-        <List>
+        <List sx={{ pt: 0 }}>
           {navLinks.map((link) => {
             const hasSubLinks = link.subLinks && link.subLinks.length > 0;
             const isExpanded = mobileExpanded[link.label];
+            const isShopRoot = link.path === '/shop' && (location.pathname === '/shop' && location.search === '');
+            const isExactMatch = location.pathname + location.search === link.path;
+            const isActive = isShopRoot || isExactMatch;
 
             return (
               <Box key={link.label}>
@@ -643,17 +647,24 @@ export default function Navbar() {
                       component={Link}
                       to={link.path}
                       onClick={() => setMobileOpen(false)}
-                      sx={{ py: 1.5, px: 3, flexGrow: 1 }}
+                      sx={{ 
+                        py: 1.8, 
+                        px: 3, 
+                        flexGrow: 1,
+                        bgcolor: isActive ? 'rgba(61, 107, 79, 0.04)' : 'transparent',
+                        color: isActive ? '#3d6b4f' : 'inherit',
+                        borderLeft: isActive ? '4px solid #3d6b4f' : '4px solid transparent',
+                      }}
                     >
                       <ListItemText
                         primary={link.label}
                         slotProps={{
                           primary: {
                             sx: {
-                              fontSize: '0.85rem',
-                              letterSpacing: '0.04em',
+                              fontSize: '0.9rem',
+                              letterSpacing: '0.06em',
                               textTransform: 'uppercase',
-                              fontWeight: 500,
+                              fontWeight: isActive ? 700 : 500,
                             }
                           }
                         }}
@@ -662,10 +673,11 @@ export default function Navbar() {
                     {hasSubLinks && (
                       <IconButton 
                         onClick={(e) => {
+                          e.preventDefault();
                           e.stopPropagation();
                           toggleMobileExpanded(link.label);
                         }}
-                        sx={{ mr: 1 }}
+                        sx={{ mr: 1, color: isActive ? '#3d6b4f' : 'inherit' }}
                       >
                         {isExpanded ? <ExpandLess /> : <ExpandMore />}
                       </IconButton>
@@ -675,42 +687,64 @@ export default function Navbar() {
                 
                 {hasSubLinks && (
                   <Collapse in={isExpanded} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding sx={{ bgcolor: 'rgba(0,0,0,0.02)' }}>
-                      {link.subLinks.map((sub: any) => (
-                        <ListItemButton
-                          key={sub.path}
-                          component={Link}
-                          to={sub.path}
-                          onClick={() => setMobileOpen(false)}
-                          sx={{ py: 1.2, pl: 5 }}
-                        >
-                          <ListItemText 
-                            primary={sub.label} 
-                            slotProps={{
-                              primary: {
-                                sx: {
-                                  fontSize: '0.8rem',
-                                  color: '#666',
-                                  letterSpacing: '0.02em',
-                                }
-                              }
+                    <List component="div" disablePadding sx={{ bgcolor: 'rgba(0,0,0,0.01)' }}>
+                      {link.subLinks.map((sub: any) => {
+                        const isSubActive = location.pathname + location.search === sub.path;
+                        return (
+                          <ListItemButton
+                            key={sub.path}
+                            component={Link}
+                            to={sub.path}
+                            onClick={() => setMobileOpen(false)}
+                            sx={{ 
+                              py: 1.2, 
+                              pl: 6,
+                              color: isSubActive ? '#3d6b4f' : '#666',
+                              fontWeight: isSubActive ? 600 : 400,
                             }}
-                          />
-                        </ListItemButton>
-                      ))}
+                          >
+                            <ListItemText 
+                              primary={sub.label} 
+                              slotProps={{
+                                primary: {
+                                  sx: {
+                                    fontSize: '0.85rem',
+                                    letterSpacing: '0.02em',
+                                  }
+                                }
+                              }}
+                            />
+                          </ListItemButton>
+                        );
+                      })}
                     </List>
                   </Collapse>
                 )}
               </Box>
             );
           })}
-          <Divider sx={{ my: 1 }} />
+          
+          <Divider sx={{ my: 2, opacity: 0.6 }} />
+          
+          <Typography variant="overline" sx={{ px: 3, color: '#999', fontWeight: 600, letterSpacing: '0.1em' }}>
+            Account & Shopping
+          </Typography>
+
+          <ListItem disablePadding>
+            <ListItemButton component={Link} to="/cart" onClick={() => setMobileOpen(false)} sx={{ py: 1.5, px: 3, gap: 2 }}>
+              <Badge badgeContent={totalItems} color="success" sx={{ '& .MuiBadge-badge': { bgcolor: '#3d6b4f' } }}>
+                <ShoppingCart sx={{ fontSize: 22, color: '#666' }} />
+              </Badge>
+              <ListItemText primary="Shopping Cart" />
+            </ListItemButton>
+          </ListItem>
+
           {isAuthenticated ? (
             <>
               <ListItem disablePadding>
                 <ListItemButton component={Link} to="/profile" onClick={() => setMobileOpen(false)} sx={{ py: 1.5, px: 3, gap: 2 }}>
                   <Person sx={{ fontSize: 22, color: '#666' }} />
-                  <ListItemText primary="Profile" />
+                  <ListItemText primary="Profile Settings" />
                 </ListItemButton>
               </ListItem>
               <ListItem disablePadding>
@@ -729,22 +763,84 @@ export default function Navbar() {
                 <ListItem disablePadding>
                   <ListItemButton component={Link} to="/admin" onClick={() => setMobileOpen(false)} sx={{ py: 1.5, px: 3, gap: 2 }}>
                     <Dashboard sx={{ fontSize: 22, color: '#3d6b4f' }} />
-                    <ListItemText primary="Admin Dashboard" slotProps={{ primary: { sx: { color: '#3d6b4f', fontWeight: 500 } } }} />
+                    <ListItemText primary="Admin Dashboard" slotProps={{ primary: { sx: { color: '#3d6b4f', fontWeight: 600 } } }} />
                   </ListItemButton>
                 </ListItem>
               )}
+              <Divider sx={{ my: 1, opacity: 0.6 }} />
+              <ListItem disablePadding>
+                <ListItemButton 
+                  onClick={() => {
+                    setMobileOpen(false);
+                    handleLogout();
+                  }} 
+                  sx={{ 
+                    py: 1.5, 
+                    px: 3, 
+                    gap: 2,
+                    color: '#d32f2f',
+                    '&:hover': { bgcolor: 'rgba(211, 47, 47, 0.04)' }
+                  }}
+                >
+                  <Logout sx={{ fontSize: 22 }} />
+                  <ListItemText 
+                    primary="Sign Out" 
+                    slotProps={{ 
+                      primary: { 
+                        sx: { fontWeight: 600 } 
+                      } 
+                    }} 
+                  />
+                </ListItemButton>
+              </ListItem>
             </>
           ) : (
             <>
-              <ListItem disablePadding>
-                <ListItemButton component={Link} to="/login" onClick={() => setMobileOpen(false)} sx={{ py: 1.5, px: 3 }}>
-                  <ListItemText primary="Sign In" />
-                </ListItemButton>
+              <ListItem disablePadding sx={{ mt: 1 }}>
+                <Box sx={{ px: 2, width: '100%' }}>
+                  <Button
+                    fullWidth
+                    component={Link}
+                    to="/login"
+                    variant="contained"
+                    onClick={() => setMobileOpen(false)}
+                    sx={{
+                      bgcolor: '#3d6b4f',
+                      color: 'white',
+                      py: 1.2,
+                      borderRadius: '8px',
+                      textTransform: 'uppercase',
+                      fontWeight: 600,
+                      letterSpacing: '0.05em',
+                      '&:hover': { bgcolor: '#2d4b38' }
+                    }}
+                  >
+                    Sign In
+                  </Button>
+                </Box>
               </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton component={Link} to="/register" onClick={() => setMobileOpen(false)} sx={{ py: 1.5, px: 3 }}>
-                  <ListItemText primary="Create Account" />
-                </ListItemButton>
+              <ListItem disablePadding sx={{ mt: 1 }}>
+                <Box sx={{ px: 2, width: '100%' }}>
+                  <Button
+                    fullWidth
+                    component={Link}
+                    to="/register"
+                    variant="outlined"
+                    onClick={() => setMobileOpen(false)}
+                    sx={{
+                      borderColor: '#3d6b4f',
+                      color: '#3d6b4f',
+                      py: 1.2,
+                      borderRadius: '8px',
+                      textTransform: 'uppercase',
+                      fontWeight: 600,
+                      letterSpacing: '0.05em',
+                      '&:hover': { bgcolor: 'rgba(61,107,79,0.04)', borderColor: '#2d4b38' }
+                    }}
+                  >
+                    Create Account
+                  </Button>
+                </Box>
               </ListItem>
             </>
           )}
