@@ -97,7 +97,7 @@ export default function HomePage() {
             inset: 0,
             backgroundImage: 'url(/images/hero/hero_banner.png)',
             backgroundSize: 'cover',
-            backgroundPosition: 'center 35%', // Slightly higher focus to show products better
+            backgroundPosition: 'center',
             '&::after': {
               content: '""',
               position: 'absolute',
