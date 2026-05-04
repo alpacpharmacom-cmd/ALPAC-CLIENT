@@ -28,7 +28,7 @@ import {
   ShoppingCart,
   Person,
   Menu as MenuIcon,
-  Close,
+  Close, 
   Dashboard,
   Search,
   FavoriteBorder,
