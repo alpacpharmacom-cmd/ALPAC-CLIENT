@@ -113,7 +113,7 @@ export default function ProductCard({
             bgcolor: '#f8f7f4',
             aspectRatio: '0.85',
             borderRadius: { xs: '14px', sm: '18px' },
-            mb: { xs: 1, sm: 1.5 },
+            mb: { xs: 0.8, sm: 1.5 },
             display: 'block',
             textDecoration: 'none'
           }}
@@ -215,7 +215,7 @@ export default function ProductCard({
                 textTransform: 'uppercase',
                 fontWeight: 800,
                 fontSize: { xs: '0.6rem', sm: '0.75rem' },
-                mb: 0.5,
+                mb: 0.2,
                 opacity: 0.9,
               }}
             >
@@ -226,22 +226,22 @@ export default function ProductCard({
               sx={{
                 fontWeight: 600,
                 fontSize: { xs: '0.8rem', sm: '1.05rem' },
-                mb: 0.5,
+                mb: 0.3,
                 lineHeight: 1.2,
                 color: 'primary.dark',
                 display: '-webkit-box',
                 WebkitLineClamp: 2,
                 WebkitBoxOrient: 'vertical',
                 overflow: 'hidden',
-                minHeight: { xs: '1.92rem', sm: '2.5rem' },
+                minHeight: { xs: '1.8rem', sm: '2.5rem' },
                 transition: 'color 0.3s ease',
               }}
             >
               {product.name}
             </Typography>
             
-            <Box sx={{ mt: 'auto', mb: 1.5 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.4, sm: 0.8 }, mb: 0.5 }}>
+            <Box sx={{ mt: 'auto', mb: 1 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.4, sm: 0.8 }, mb: 0.2 }}>
                 <Rating
                   value={product.rating}
                   readOnly
@@ -286,13 +286,13 @@ export default function ProductCard({
               onClick={handleAddToCartInternal}
               startIcon={addingToCart || isInCart ? null : <ShoppingCart sx={{ fontSize: { xs: '0.75rem !important', sm: '0.9rem !important' } }} />}
               sx={{
-                mt: 0.5,
+                mt: 0.3,
                 bgcolor: isInCart ? 'rgba(0,0,0,0.05)' : 'primary.main',
                 color: isInCart ? 'text.secondary' : 'white',
                 borderRadius: '10px',
                 fontSize: { xs: '0.65rem', sm: '0.75rem' },
                 fontWeight: 700,
-                py: { xs: 0.8, sm: 1.2 },
+                py: { xs: 0.6, sm: 1.2 },
                 whiteSpace: 'nowrap',
                 transition: 'all 0.2s ease',
                 '&:hover': { bgcolor: isInCart ? 'rgba(0,0,0,0.05)' : 'primary.dark' },
