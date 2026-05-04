@@ -40,12 +40,12 @@ export default function WishlistPage() {
 
   if (loading && items.length === 0) {
     return (
-      <Container maxWidth="xl" sx={{ py: { xs: 4, md: 8 }, px: { xs: 2, md: 6 } }}>
-        <Box sx={{ mb: 6, textAlign: 'center' }}>
+      <Container maxWidth="xl" sx={{ py: { xs: 2, md: 8 }, px: { xs: 1.5, md: 6 } }}>
+        <Box sx={{ mb: { xs: 4, md: 6 }, textAlign: 'center' }}>
           <Skeleton variant="text" width={300} height={40} sx={{ mx: 'auto', mb: 2 }} />
           <Skeleton variant="text" width={200} height={20} sx={{ mx: 'auto' }} />
         </Box>
-        <Grid container spacing={4}>
+        <Grid container spacing={{ xs: 2, md: 4 }}>
           {[...Array(4)].map((_, i) => (
             <Grid size={{ xs: 6, md: 3 }} key={i}>
               <CardSkeleton />
@@ -61,8 +61,8 @@ export default function WishlistPage() {
       <Box 
         sx={{ 
           bgcolor: 'primary.dark', 
-          pt: { xs: 8, md: 12 }, 
-          pb: { xs: 8, md: 12 }, 
+          pt: { xs: 4, md: 12 }, 
+          pb: { xs: 4, md: 12 }, 
           textAlign: 'center', 
           color: 'white', 
           position: 'relative', 
@@ -75,10 +75,10 @@ export default function WishlistPage() {
             variant="h1"
             sx={{ 
               fontWeight: 700, 
-              fontSize: { xs: '2.5rem', md: '4rem' }, 
+              fontSize: { xs: '2rem', md: '4rem' }, 
               fontFamily: '"Playfair Display", serif',
               letterSpacing: '-0.02em',
-              mb: 2
+              mb: 1
             }}
           >
             My Wishlist
@@ -98,7 +98,7 @@ export default function WishlistPage() {
         />
       </Box>
 
-      <Container maxWidth={false} sx={{ px: { xs: 2.5, md: 6, lg: 10 }, py: { xs: 6, md: 10 } }}>
+      <Container maxWidth={false} sx={{ px: { xs: 1.5, md: 6, lg: 10 }, py: { xs: 3, md: 10 } }}>
         {items.length === 0 ? (
           <Box sx={{ textAlign: 'center', py: 8 }}>
             <Typography variant="h5" sx={{ mb: 3, fontWeight: 300, color: 'text.secondary' }}>
@@ -142,7 +142,7 @@ export default function WishlistPage() {
               </Button>
             </Box>
 
-            <Grid container spacing={{ xs: 2.5, sm: 4.5 }}>
+            <Grid container spacing={{ xs: 2, sm: 4.5 }}>
               {items.map((item, index) => (
                 <Grid size={{ xs: 6, sm: 4, md: 3 }} key={item._id}>
                   <ProductCard

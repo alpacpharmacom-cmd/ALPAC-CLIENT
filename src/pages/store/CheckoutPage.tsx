@@ -134,8 +134,8 @@ export default function CheckoutPage() {
       <Box 
         sx={{ 
           bgcolor: 'primary.dark', 
-          pt: { xs: 8, md: 12 }, 
-          pb: { xs: 8, md: 12 }, 
+          pt: { xs: 4, md: 12 }, 
+          pb: { xs: 4, md: 12 }, 
           mb: 3,
           textAlign: 'center', 
           color: 'white', 
@@ -149,10 +149,10 @@ export default function CheckoutPage() {
             variant="h1"
             sx={{ 
               fontWeight: 700, 
-              fontSize: { xs: '2.5rem', md: '4rem' }, 
+              fontSize: { xs: '2rem', md: '4rem' }, 
               fontFamily: '"Playfair Display", serif',
               letterSpacing: '-0.02em',
-              mb: 2
+              mb: 1
             }}
           >
             Checkout Protocol
@@ -172,8 +172,8 @@ export default function CheckoutPage() {
         />
       </Box>
 
-      <Container maxWidth="lg" sx={{ py: { xs: 4, md: 6 } }}>
-        <Grid container spacing={6}>
+      <Container maxWidth="lg" sx={{ py: { xs: 2.5, md: 6 } }}>
+        <Grid container spacing={{ xs: 3, md: 6 }}>
           {/* Shipping Address */}
           <Grid size={{ xs: 12, md: 7 }}>
             <MotionBox initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
@@ -202,7 +202,7 @@ export default function CheckoutPage() {
                     </Box>
                   </Box>
                 )}
-                <Box sx={{ p: { xs: 3, md: 5 } }}>
+                <Box sx={{ p: { xs: 2.5, md: 5 } }}>
                   <Typography
                     variant="h5"
                     sx={{
@@ -279,8 +279,8 @@ export default function CheckoutPage() {
               <Box
                 sx={{
                   bgcolor: 'white',
-                  p: 4,
-                  pt: 5,
+                  p: { xs: 2.5, md: 4 },
+                  pt: { xs: 3, md: 5 },
                   position: 'sticky',
                   top: 100,
                   borderRadius: '32px',

@@ -52,8 +52,8 @@ export default function CartPage() {
       <Box 
         sx={{ 
           bgcolor: 'primary.dark', 
-          pt: { xs: 8, md: 12 }, 
-          pb: { xs: 8, md: 12 }, 
+          pt: { xs: 4, md: 12 }, 
+          pb: { xs: 4, md: 12 }, 
           mb: 3,
           textAlign: 'center', 
           color: 'white', 
@@ -67,10 +67,10 @@ export default function CartPage() {
             variant="h1"
             sx={{ 
               fontWeight: 700, 
-              fontSize: { xs: '2.5rem', md: '4rem' }, 
+              fontSize: { xs: '2rem', md: '4rem' }, 
               fontFamily: '"Playfair Display", serif',
               letterSpacing: '-0.02em',
-              mb: 2
+              mb: 1
             }}
           >
             Your Cart
@@ -90,7 +90,7 @@ export default function CartPage() {
         />
       </Box>
 
-      <Container maxWidth="lg" sx={{ py: { xs: 4, md: 6 }, mt: { xs: -4, md: -6 }, position: 'relative', zIndex: 3 }}>
+      <Container maxWidth="lg" sx={{ py: { xs: 2, md: 6 }, mt: { xs: -2.5, md: -6 }, position: 'relative', zIndex: 3 }}>
         {items.length === 0 ? (
           <MotionBox 
             initial={{ opacity: 0, y: 20 }}
@@ -137,19 +137,19 @@ export default function CartPage() {
             </Button>
           </MotionBox>
         ) : (
-          <Grid container spacing={{ xs: 4, lg: 6 }}>
+          <Grid container spacing={{ xs: 2.5, lg: 6 }}>
             {/* Cart Ledger */}
             <Grid size={{ xs: 12, md: 8 }}>
               <MotionBox initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
                 <Card sx={{ borderRadius: '32px', boxShadow: '0 40px 80px rgba(0,0,0,0.06)', border: '1px solid rgba(0,0,0,0.04)', overflow: 'hidden' }}>
-                  <Box sx={{ p: { xs: 3, md: 5 } }}>
+                  <Box sx={{ p: { xs: 2, md: 5 } }}>
                     <Box 
                       sx={{ 
                         display: 'flex', 
                         flexDirection: { xs: 'column', sm: 'row' },
                         justifyContent: 'space-between', 
                         alignItems: { xs: 'flex-start', sm: 'center' }, 
-                        mb: 4,
+                        mb: { xs: 2.5, md: 4 },
                         gap: 2
                       }}
                     >
@@ -182,8 +182,8 @@ export default function CartPage() {
                           key={item._id}
                           sx={{
                             display: 'flex',
-                            gap: { xs: 2, md: 4 },
-                            py: 4,
+                            gap: { xs: 1.5, md: 4 },
+                            py: { xs: 2.5, md: 4 },
                             px: { xs: 0, md: 2 },
                             alignItems: 'center',
                             transition: 'all 0.3s ease',
@@ -194,8 +194,8 @@ export default function CartPage() {
                             component={Link}
                             to={`/products/${item.product._id}`}
                             sx={{
-                              width: { xs: 85, md: 100 },
-                              height: { xs: 110, md: 130 },
+                              width: { xs: 75, md: 100 },
+                              height: { xs: 95, md: 130 },
                               flexShrink: 0,
                               bgcolor: 'rgba(45,75,56,0.02)',
                               display: 'flex',
@@ -232,7 +232,7 @@ export default function CartPage() {
                               component={Link}
                               to={`/products/${item.product._id}`}
                               sx={{
-                                fontSize: { xs: '1.1rem', md: '1.25rem' },
+                                fontSize: { xs: '1rem', md: '1.25rem' },
                                 fontWeight: 800,
                                 textDecoration: 'none',
                                 color: 'primary.dark',
@@ -248,7 +248,7 @@ export default function CartPage() {
                             </Typography>
 
                             {/* Quantity controls */}
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mt: 3, flexWrap: 'wrap' }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mt: { xs: 2, md: 3 }, flexWrap: 'wrap' }}>
                               <Box
                                 sx={{
                                   display: 'flex',
@@ -327,8 +327,8 @@ export default function CartPage() {
                 <Box
                   sx={{
                     bgcolor: 'white',
-                    p: 4,
-                    pt: 5,
+                    p: { xs: 2.5, md: 4 },
+                    pt: { xs: 3, md: 5 },
                     position: 'sticky',
                     top: 100,
                     borderRadius: '32px',

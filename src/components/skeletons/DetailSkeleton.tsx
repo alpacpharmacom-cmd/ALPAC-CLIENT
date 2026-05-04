@@ -15,7 +15,7 @@ export default function DetailSkeleton({
 }: DetailSkeletonProps) {
   return (
     <Box>
-      <Container maxWidth="lg" sx={{ py: isAdmin ? 0 : { xs: 3, md: 5 } }}>
+      <Container maxWidth="lg" sx={{ py: isAdmin ? 0 : { xs: 2, md: 5 } }}>
         {/* Header/Navigation Skeleton */}
         <Box sx={{ mb: 5, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Skeleton variant="text" width={200} height={32} sx={{ bgcolor: 'rgba(0,0,0,0.02)' }} />
@@ -33,7 +33,7 @@ export default function DetailSkeleton({
             bgcolor: 'white', 
             border: '1px solid rgba(0,0,0,0.06)', 
             borderRadius: '24px', 
-            p: { xs: 3, md: 5 }, 
+            p: { xs: 2, md: 5 }, 
             boxShadow: '0 10px 40px rgba(0,0,0,0.03)', 
             mb: 5 
           }}
@@ -95,7 +95,7 @@ export default function DetailSkeleton({
         <Grid container spacing={4}>
           {[1, 2].map(i => (
             <Grid size={{ xs: 12, md: 6 }} key={i}>
-              <Box sx={{ bgcolor: 'white', border: '1px solid rgba(0,0,0,0.06)', borderRadius: '24px', p: 4, boxShadow: '0 10px 40px rgba(0,0,0,0.03)' }}>
+              <Box sx={{ bgcolor: 'white', border: '1px solid rgba(0,0,0,0.06)', borderRadius: '24px', p: { xs: 2, md: 4 }, boxShadow: '0 10px 40px rgba(0,0,0,0.03)' }}>
                 <Skeleton width="150px" height={32} sx={{ mb: 3 }} />
                 <Stack spacing={2}>
                    {[1, 2].map(j => (

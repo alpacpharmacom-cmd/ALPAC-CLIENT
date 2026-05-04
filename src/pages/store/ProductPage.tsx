@@ -110,7 +110,7 @@ export default function ProductPage() {
 
   return (
     <Box>
-      <Container maxWidth="lg" sx={{ py: { xs: 3, md: 5 } }}>
+      <Container maxWidth="lg" sx={{ py: { xs: 2, md: 5 } }}>
         {/* Breadcrumbs */}
         <Breadcrumbs sx={{ mb: 4 }}>
           <MuiLink component={Link} to="/" color="text.secondary" sx={{ textDecoration: 'none', fontSize: '0.85rem', '&:hover': { color: 'primary.main' } }}>
@@ -127,12 +127,12 @@ export default function ProductPage() {
         <Box sx={{ 
           bgcolor: 'white', 
           borderRadius: '32px', 
-          p: { xs: 4, md: 8 }, 
+          p: { xs: 2, md: 8 }, 
           border: '1px solid rgba(0,0,0,0.06)',
           boxShadow: '0 12px 60px rgba(0,0,0,0.03)',
-          mb: 8
+          mb: { xs: 4, md: 8 }
         }}>
-          <Grid container spacing={{ xs: 6, md: 10 }}>
+          <Grid container spacing={{ xs: 3, md: 10 }}>
             {/* Product Image */}
             <Grid size={{ xs: 12, md: 6 }}>
               <MotionBox
@@ -236,22 +236,22 @@ export default function ProductPage() {
                   variant="h1"
                   sx={{
                     fontWeight: 600,
-                    fontSize: { xs: '2.5rem', md: '3.2rem' },
-                    mb: 3,
+                    fontSize: { xs: '2rem', md: '3.2rem' },
+                    mb: { xs: 1.5, md: 3 },
                     color: 'text.primary'
                   }}
                 >
                   {product.name}
                 </Typography>
 
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: { xs: 2, md: 4 } }}>
                   <Rating value={product.rating} readOnly precision={0.5} size="small" />
                   <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 500 }}>
                     {product.numReviews} Trusted Reviews
                   </Typography>
                 </Box>
 
-                <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 2, mb: 4 }}>
+                <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 2, mb: { xs: 2, md: 4 } }}>
                   <Typography
                     variant="h3"
                     sx={{
@@ -285,7 +285,7 @@ export default function ProductPage() {
                   sx={{
                     color: 'text.secondary',
                     lineHeight: 1.8,
-                    mb: 5,
+                    mb: { xs: 2.5, md: 5 },
                     fontSize: '1.1rem'
                   }}
                 >
@@ -312,7 +312,7 @@ export default function ProductPage() {
                   <Stack 
                     direction={{ xs: 'column', sm: 'row' }} 
                     spacing={{ xs: 2, sm: 3 }} 
-                    sx={{ mb: 6, alignItems: { xs: 'stretch', sm: 'center' } }}
+                    sx={{ mb: { xs: 3, md: 6 }, alignItems: { xs: 'stretch', sm: 'center' } }}
                   >
                     {!isInCart && (
                       <Box
@@ -348,7 +348,7 @@ export default function ProductPage() {
                         startIcon={isInCart ? null : <ShoppingCart />}
                         sx={{
                           flex: 1,
-                          height: { xs: 56, sm: 64 },
+                          height: { xs: 48, sm: 64 },
                           borderRadius: '16px',
                           fontSize: { xs: '1rem', sm: '1.1rem' },
                           fontWeight: 700,
@@ -369,8 +369,8 @@ export default function ProductPage() {
                           border: '2px solid',
                           borderColor: 'rgba(0,0,0,0.05)',
                           borderRadius: '16px',
-                          width: { xs: 56, sm: 64 },
-                          height: { xs: 56, sm: 64 },
+                          width: { xs: 48, sm: 64 },
+                          height: { xs: 48, sm: 64 },
                           color: isWishlisted ? 'error.main' : 'text.primary',
                           bgcolor: 'white',
                           '&:hover': { bgcolor: '#f8f7f4' }
@@ -388,10 +388,10 @@ export default function ProductPage() {
 
         {/* Reviews Section - Boxed Container */}
         <Box sx={{ 
-          mt: { xs: 10, md: 16 }, 
+          mt: { xs: 6, md: 16 }, 
           bgcolor: 'rgba(244, 242, 238, 0.4)', 
           borderRadius: { xs: '32px', md: '40px' }, 
-          p: { xs: 1, md: 8 },
+          p: { xs: 2, md: 8 },
           border: '1px solid rgba(0,0,0,0.04)'
         }}>
           <Typography
@@ -471,7 +471,7 @@ export default function ProductPage() {
                   <Box 
                     key={review._id || index} 
                     sx={{ 
-                      p: { xs: 2, md: 4 }, // Minimized padding for maximum width
+                      p: { xs: 1.5, md: 4 }, // Minimized padding for maximum width
                       bgcolor: 'white',
                       borderRadius: '20px',
                       border: '1px solid rgba(0,0,0,0.06)',

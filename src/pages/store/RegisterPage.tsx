@@ -90,7 +90,7 @@ export default function RegisterPage() {
   if (isLoading) return <FormSkeleton fields={5} titleWidth="60%" />;
 
   return (
-    <Box sx={{ minHeight: 'calc(100vh - 68px)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', bgcolor: 'transparent', position: 'relative', overflow: 'hidden', pt: { xs: 4, md: 6 }, pb: 8 }}>
+    <Box sx={{ minHeight: 'calc(100vh - 68px)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', bgcolor: 'transparent', position: 'relative', overflow: 'hidden', pt: { xs: 2, md: 6 }, pb: 8 }}>
       <Container maxWidth="sm" sx={{ position: 'relative', zIndex: 1, maxWidth: { sm: 500, md: 560 } }}>
         <MotionBox
           initial={{ opacity: 0, scale: 0.98 }}
@@ -104,9 +104,9 @@ export default function RegisterPage() {
               border: '1px solid rgba(0,0,0,0.03)', 
               overflow: 'visible',
               bgcolor: 'white',
-              px: { xs: 3, md: 5 },
-              pt: { xs: 5, md: 6 },
-              pb: { xs: 5, md: 6 }
+              px: { xs: 2, md: 5 },
+              pt: { xs: 4, md: 6 },
+              pb: { xs: 4, md: 6 }
             }}
           >
             <MotionForm 
@@ -115,11 +115,11 @@ export default function RegisterPage() {
               initial="hidden"
               animate="visible"
             >
-              <MotionBox variants={itemVariants} sx={{ textAlign: 'center', mb: 5 }}>
+              <MotionBox variants={itemVariants} sx={{ textAlign: 'center', mb: { xs: 3, md: 5 } }}>
                 <Typography
                   sx={{
                     fontFamily: '"Playfair Display", serif',
-                    fontSize: { xs: '2.2rem', md: '2.5rem' },
+                    fontSize: { xs: '1.8rem', md: '2.5rem' },
                     fontWeight: 700,
                     letterSpacing: '-0.02em',
                     color: '#1A1A1A',

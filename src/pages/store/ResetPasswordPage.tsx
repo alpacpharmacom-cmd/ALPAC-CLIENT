@@ -113,19 +113,19 @@ export default function ResetPasswordPage() {
           alignItems: 'center', 
           justifyContent: 'center',
           bgcolor: '#FCFAF7',
-          px: { xs: 2.5, md: 8 },
+          px: { xs: 2, md: 8 },
           position: 'relative'
         }}
       >
         <Box sx={{ position: 'absolute', bottom: '15%', left: '5%', width: 300, height: 300, bgcolor: 'rgba(184,149,106,0.04)', borderRadius: '50%', filter: 'blur(60px)' }} />
         
-        <Container maxWidth="xs" sx={{ py: 8, position: 'relative', zIndex: 1 }}>
+        <Container maxWidth="xs" sx={{ py: { xs: 4, md: 8 }, position: 'relative', zIndex: 1 }}>
           <MotionBox
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <Box sx={{ mb: 6 }}>
+            <Box sx={{ mb: { xs: 3, md: 6 } }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 3 }}>
                 <LockReset sx={{ color: '#3d6b4f', fontSize: 32 }} />
                 <Typography sx={{ color: '#3d6b4f', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', fontSize: '0.8rem' }}>
@@ -135,7 +135,7 @@ export default function ResetPasswordPage() {
               <Typography
                 sx={{
                   fontFamily: '"Playfair Display", serif',
-                  fontSize: { xs: '2.4rem', md: '3.2rem' },
+                  fontSize: { xs: '2rem', md: '3.2rem' },
                   fontWeight: 600,
                   mb: 1.5,
                   color: '#1A1A1A',

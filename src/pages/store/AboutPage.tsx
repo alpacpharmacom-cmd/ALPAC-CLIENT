@@ -43,7 +43,7 @@ export default function AboutPage() {
       {/* Hero Section */}
       <Box
         sx={{
-          height: { xs: '60vh', md: '80vh' },
+          height: { xs: '50vh', md: '80vh' },
           position: 'relative',
           display: 'flex',
           alignItems: 'center',
@@ -96,7 +96,7 @@ export default function AboutPage() {
               variants={itemVariants}
               variant="h1"
               sx={{
-                fontSize: { xs: '3rem', md: '5rem' },
+                fontSize: { xs: '2.5rem', md: '5rem' },
                 mb: 3,
                 fontWeight: 600,
                 lineHeight: 1.1,
@@ -126,11 +126,11 @@ export default function AboutPage() {
       </Box>
 
       {/* Company Story Section */}
-      <Box sx={{ py: { xs: 10, md: 15 } }}>
+      <Box sx={{ py: { xs: 6, md: 15 } }}>
         <Container maxWidth="lg">
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: { xs: 8, md: 12 } }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: { xs: 5, md: 12 } }}>
             {/* Row 1: Overview & Mission */}
-            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: { xs: 8, md: 12 } }}>
+            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: { xs: 5, md: 12 } }}>
               <Box sx={{ flex: 1 }}>
                 <Typography variant="overline" sx={{ color: 'secondary.main', mb: 2, display: 'block', fontWeight: 800 }}>
                   COMPANY OVERVIEW
@@ -157,7 +157,7 @@ export default function AboutPage() {
             </Box>
 
             {/* Row 2: Foundation & Vision */}
-            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: { xs: 8, md: 12 } }}>
+            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: { xs: 5, md: 12 } }}>
               <Box sx={{ flex: 1 }}>
                 <Typography variant="overline" sx={{ color: 'secondary.main', mb: 2, display: 'block', fontWeight: 800 }}>
                   OUR FOUNDATION

@@ -417,8 +417,8 @@ export default function ShopPage() {
       <Box
         sx={{
           bgcolor: 'primary.dark',
-          pt: { xs: 3, md: 10 },
-          pb: { xs: 3, md: 10 },
+          pt: { xs: 2, md: 10 },
+          pb: { xs: 2, md: 10 },
           textAlign: 'center',
           color: 'white',
           position: 'relative',
@@ -443,7 +443,7 @@ export default function ShopPage() {
           </Typography>
           <Typography
             variant="h1"
-            sx={{ fontWeight: 600, fontSize: { xs: '2.5rem', md: '5rem' }, mb: 2 }}
+            sx={{ fontWeight: 600, fontSize: { xs: '2rem', md: '5rem' }, mb: 1 }}
           >
             {activeCategory === 'all' ? 'All Products' : activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)}
           </Typography>
@@ -454,8 +454,8 @@ export default function ShopPage() {
       </Box>
 
       {/* Main Content Area */}
-      <Container maxWidth={false} sx={{ px: { xs: 2, md: 6, lg: 8 }, py: { xs: 3, md: 6 } }}>
-        <Grid container spacing={{ xs: 3, md: 6 }}>
+      <Container maxWidth={false} sx={{ px: { xs: 1.5, md: 6, lg: 8 }, py: { xs: 2, md: 6 } }}>
+        <Grid container spacing={{ xs: 2, md: 6 }}>
           {/* Sidebar - Desktop */}
           {isDesktop && (
             <Grid component="div" size={{ lg: 3, xl: 2.5 }}>
@@ -482,7 +482,7 @@ export default function ShopPage() {
                 display: 'flex', 
                 alignItems: 'center', 
                 justifyContent: 'space-between',
-                mb: 4,
+                mb: { xs: 2.5, md: 4 },
                 gap: 2,
                 flexWrap: 'wrap'
               }}
@@ -503,7 +503,7 @@ export default function ShopPage() {
                         borderRadius: '10px', 
                         bgcolor: 'primary.dark',
                         px: 2,
-                        py: 0.8,
+                        py: { xs: 0.6, md: 0.8 },
                         fontSize: '0.75rem',
                         fontWeight: 700,
                         letterSpacing: '0.02em',
@@ -782,7 +782,7 @@ export default function ShopPage() {
               </Fade>
             ) : (
               <motion.div layout>
-                <Grid container spacing={{ xs: 2.5, sm: 4 }}>
+                <Grid container spacing={{ xs: 2, sm: 4 }}>
                   <AnimatePresence mode="popLayout">
                     {filteredProducts.map((product, index) => (
                       <Grid component="div" size={{ xs: 6, sm: 4 }} key={product._id}>

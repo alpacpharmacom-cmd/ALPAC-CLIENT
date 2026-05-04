@@ -97,19 +97,19 @@ export default function ForgotPasswordPage() {
           alignItems: 'center', 
           justifyContent: 'center',
           bgcolor: '#FCFAF7',
-          px: { xs: 2.5, md: 8 },
+          px: { xs: 2, md: 8 },
           position: 'relative'
         }}
       >
         <Box sx={{ position: 'absolute', top: '10%', right: '10%', width: 250, height: 250, bgcolor: 'rgba(74,107,65,0.03)', borderRadius: '50%', filter: 'blur(50px)' }} />
         
-        <Container maxWidth="xs" sx={{ py: 8, position: 'relative', zIndex: 1 }}>
+        <Container maxWidth="xs" sx={{ py: { xs: 4, md: 8 }, position: 'relative', zIndex: 1 }}>
           <MotionBox
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <Box sx={{ mb: 6 }}>
+            <Box sx={{ mb: { xs: 3, md: 6 } }}>
               <Button
                 component={Link}
                 to="/login"
@@ -128,7 +128,7 @@ export default function ForgotPasswordPage() {
               <Typography
                 sx={{
                   fontFamily: '"Playfair Display", serif',
-                  fontSize: { xs: '2.4rem', md: '3.2rem' },
+                  fontSize: { xs: '2rem', md: '3.2rem' },
                   fontWeight: 600,
                   mb: 1.5,
                   color: '#1A1A1A',
