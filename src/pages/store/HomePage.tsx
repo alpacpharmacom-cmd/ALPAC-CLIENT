@@ -97,12 +97,12 @@ export default function HomePage() {
             inset: 0,
             backgroundImage: 'url(/images/hero/hero_banner.png)',
             backgroundSize: 'cover',
-            backgroundPosition: 'center',
+            backgroundPosition: 'center 35%', // Slightly higher focus to show products better
             '&::after': {
               content: '""',
               position: 'absolute',
               inset: 0,
-              background: 'linear-gradient(90deg, rgba(45,75,56,0.85) 0%, rgba(45,75,56,0.4) 100%)',
+              background: 'linear-gradient(90deg, rgba(45,75,56,0.7) 0%, rgba(45,75,56,0.2) 100%)',
             }
           }}
         />
