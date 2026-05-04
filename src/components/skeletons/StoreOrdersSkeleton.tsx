@@ -11,8 +11,8 @@ export default function StoreOrdersSkeleton() {
       <Box 
         sx={{ 
           bgcolor: 'primary.dark', 
-          pt: { xs: 8, md: 12 }, 
-          pb: { xs: 8, md: 12 }, 
+          pt: { xs: 4, md: 12 }, 
+          pb: { xs: 4, md: 12 }, 
           textAlign: 'center', 
           color: 'white', 
           position: 'relative', 
@@ -36,8 +36,8 @@ export default function StoreOrdersSkeleton() {
         </Box>
       </Box>
 
-      <Container maxWidth={false} sx={{ py: { xs: 4, md: 6 }, mt: { xs: -2, md: -4 }, position: 'relative', zIndex: 3, px: { xs: 2, md: 6 }, maxWidth: '1600px' }}>
-        <Grid container spacing={5}>
+      <Container maxWidth={false} sx={{ py: { xs: 2, md: 6 }, mt: { xs: -1.5, md: -4 }, position: 'relative', zIndex: 3, px: { xs: 1.5, md: 6 }, maxWidth: '1600px' }}>
+        <Grid container spacing={{ xs: 2, md: 5 }}>
           {/* Main Column Skeleton */}
           <Grid size={{ xs: 12, md: 9 }}>
             {/* Ritual Control Bar Skeleton */}
@@ -47,9 +47,9 @@ export default function StoreOrdersSkeleton() {
                 flexDirection: { xs: 'column', md: 'row' },
                 gap: 2, 
                 mb: 2,
-                p: 1.5,
+                p: { xs: 1, md: 1.5 },
                 bgcolor: 'white',
-                borderRadius: '24px',
+                borderRadius: { xs: '16px', md: '24px' },
                 border: '1px solid rgba(0,0,0,0.06)',
                 boxShadow: '0 10px 40px rgba(0,0,0,0.02)',
                 alignItems: 'center'
@@ -63,19 +63,19 @@ export default function StoreOrdersSkeleton() {
               </Box>
             </Box>
 
-            <Stack spacing={3}>
+            <Stack spacing={{ xs: 2, md: 3 }}>
               {[...Array(4)].map((_, i) => (
                 <Box
                   key={i}
                   sx={{
-                    p: { xs: 2.5, md: 3 },
-                    borderRadius: '24px',
+                    p: { xs: 2, md: 3 },
+                    borderRadius: { xs: '16px', md: '24px' },
                     bgcolor: 'white',
                     border: '1px solid rgba(0,0,0,0.06)',
                     boxShadow: '0 10px 40px rgba(0,0,0,0.02)',
                   }}
                 >
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: { xs: 2, md: 3 } }}>
                     {/* TOP SECTION */}
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                       <Stack direction="row" spacing={3} sx={{ alignItems: 'center' }}>
@@ -97,12 +97,12 @@ export default function StoreOrdersSkeleton() {
 
                     {/* BOTTOM SECTION */}
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, flex: 1, minWidth: 200 }}>
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: { xs: 1, md: 1.5 }, flex: 1, minWidth: 200 }}>
                         {[...Array(3)].map((_, j) => (
                           <Skeleton 
                             key={j} 
                             variant="rectangular" 
-                            sx={{ width: { xs: 48, md: 56 }, height: { xs: 60, md: 70 }, borderRadius: '12px' }} 
+                            sx={{ width: { xs: 44, md: 56 }, height: { xs: 54, md: 70 }, borderRadius: '12px' }} 
                           />
                         ))}
                       </Box>

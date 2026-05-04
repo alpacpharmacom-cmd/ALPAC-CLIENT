@@ -84,8 +84,8 @@ export default function OrderDetailPage() {
       <Box 
         sx={{ 
           bgcolor: 'primary.dark', 
-          pt: { xs: 8, md: 12 }, 
-          pb: { xs: 12, md: 15 }, 
+          pt: { xs: 4, md: 12 }, 
+          pb: { xs: 6, md: 15 }, 
           textAlign: 'center', 
           color: 'white', 
           position: 'relative', 
@@ -106,7 +106,7 @@ export default function OrderDetailPage() {
               variant="h1"
               sx={{ 
                 fontWeight: 800, 
-                fontSize: { xs: '2.5rem', md: '4rem' }, 
+                fontSize: { xs: '2rem', md: '4rem' }, 
                 fontFamily: '"Playfair Display", serif',
                 letterSpacing: '-0.02em',
                 mb: 1
@@ -132,7 +132,7 @@ export default function OrderDetailPage() {
         />
       </Box>
 
-      <Container maxWidth="lg" sx={{ py: 4, position: 'relative', zIndex: 3 }}>
+      <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 }, position: 'relative', zIndex: 3 }}>
         {/* Action Layer */}
         <Stack spacing={3} sx={{ mb: 4 }}>
           <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
@@ -170,9 +170,9 @@ export default function OrderDetailPage() {
             <Card sx={{ borderRadius: '32px', boxShadow: '0 60px 120px rgba(0,0,0,0.08)', border: '1px solid rgba(0,0,0,0.04)', overflow: 'hidden' }}>
               <Grid container>
                 {/* Left Side: Acquisition Record */}
-                <Grid size={{ xs: 12, md: 8 }} sx={{ p: { xs: 4, md: 6 } }}>
+                <Grid size={{ xs: 12, md: 8 }} sx={{ p: { xs: 2.5, md: 6 } }}>
                   {/* High-Contrast Registry Stamp */}
-                  <Box sx={{ mb: 8, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 4 }}>
+                  <Box sx={{ mb: { xs: 4, md: 8 }, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 4 }}>
                     <Box>
                       <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.2em', display: 'block', mb: 1 }}>
                         Reference
@@ -220,8 +220,8 @@ export default function OrderDetailPage() {
                         sx={{ 
                           display: 'flex', 
                           alignItems: 'flex-start', 
-                          gap: { xs: 2, md: 4 }, 
-                          p: { xs: 2, md: 3 },
+                          gap: { xs: 1.5, md: 4 }, 
+                          p: { xs: 1.5, md: 3 },
                           borderRadius: '24px', 
                           border: '1px solid rgba(0,0,0,0.03)',
                           bgcolor: 'white',
@@ -310,14 +310,14 @@ export default function OrderDetailPage() {
                 </Grid>
 
                 {/* Right Side: Sidebar Protocol Pane (ASIDE ASIDE) */}
-                <Grid size={{ xs: 12, md: 4 }} sx={{ bgcolor: '#fbfaf8', borderLeft: { md: '1px solid rgba(0,0,0,0.06)' }, p: { xs: 4, md: 6 } }}>
-                  <Stack spacing={8}>
+                <Grid size={{ xs: 12, md: 4 }} sx={{ bgcolor: '#fbfaf8', borderLeft: { md: '1px solid rgba(0,0,0,0.06)' }, p: { xs: 2.5, md: 6 } }}>
+                  <Stack spacing={{ xs: 4, md: 8 }}>
                     {/* Shipping Sanctuary Section */}
                     <Box>
-                      <Typography variant="caption" sx={{ fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.2em', color: 'text.secondary', mb: 3, display: 'block' }}>
+                      <Typography variant="caption" sx={{ fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.2em', color: 'text.secondary', mb: 2, display: 'block' }}>
                         Delivery Destination
                       </Typography>
-                      <Box sx={{ bgcolor: 'white', p: 4, borderRadius: '24px', boxShadow: '0 10px 30px rgba(0,0,0,0.02)', border: '1px solid rgba(0,0,0,0.04)' }}>
+                      <Box sx={{ bgcolor: 'white', p: { xs: 2.5, md: 4 }, borderRadius: '24px', boxShadow: '0 10px 30px rgba(0,0,0,0.02)', border: '1px solid rgba(0,0,0,0.04)' }}>
 
                         <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 2, fontSize: '0.95rem' }}>
                           {order.shippingAddress?.street}<br />
@@ -329,10 +329,10 @@ export default function OrderDetailPage() {
 
                     {/* Financial Protocol Section */}
                     <Box>
-                      <Typography variant="caption" sx={{ fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.2em', color: 'text.secondary', mb: 3, display: 'block' }}>
+                      <Typography variant="caption" sx={{ fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.2em', color: 'text.secondary', mb: 2, display: 'block' }}>
                         Financial Summary
                       </Typography>
-                      <Box sx={{ bgcolor: 'white', p: 4, borderRadius: '24px', border: '1px solid rgba(0,0,0,0.04)', boxShadow: '0 20px 40px rgba(0,0,0,0.03)' }}>
+                      <Box sx={{ bgcolor: 'white', p: { xs: 2.5, md: 4 }, borderRadius: '24px', border: '1px solid rgba(0,0,0,0.04)', boxShadow: '0 20px 40px rgba(0,0,0,0.03)' }}>
                         <Stack spacing={2.5}>
                           {[
                             { label: 'Market Subtotal', value: order.itemsPrice },
@@ -397,7 +397,7 @@ export default function OrderDetailPage() {
                         </Button>
                       ) : (
                         <Box sx={{ 
-                          p: 4, 
+                          p: { xs: 2.5, md: 4 }, 
                           bgcolor: 'white', 
                           borderRadius: '24px', 
                           border: '2px dashed rgba(45,75,56,0.1)',

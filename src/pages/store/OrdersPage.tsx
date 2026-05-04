@@ -117,8 +117,8 @@ export default function OrdersPage() {
       <Box 
         sx={{ 
           bgcolor: 'primary.dark', 
-          pt: { xs: 8, md: 12 }, 
-          pb: { xs: 8, md: 12 }, 
+          pt: { xs: 4, md: 12 }, 
+          pb: { xs: 4, md: 12 }, 
           textAlign: 'center', 
           color: 'white', 
           position: 'relative', 
@@ -131,7 +131,7 @@ export default function OrdersPage() {
             variant="h1"
             sx={{ 
               fontWeight: 700, 
-              fontSize: { xs: '2.5rem', md: '4rem' }, 
+              fontSize: { xs: '2rem', md: '4rem' }, 
               fontFamily: '"Playfair Display", serif',
               letterSpacing: '-0.02em',
               mb: 2
@@ -154,8 +154,8 @@ export default function OrdersPage() {
         />
       </Box>
 
-      <Container maxWidth={false} sx={{ py: { xs: 4, md: 6 }, mt: { xs: -2, md: -4 }, position: 'relative', zIndex: 3, px: { xs: 2, md: 6 }, maxWidth: '1600px' }}>
-        <Grid container spacing={5}>
+      <Container maxWidth={false} sx={{ py: { xs: 2, md: 6 }, mt: { xs: -1.5, md: -4 }, position: 'relative', zIndex: 3, px: { xs: 1.5, md: 6 }, maxWidth: '1600px' }}>
+        <Grid container spacing={{ xs: 2, md: 5 }}>
           {/* Main Column */}
           <Grid size={{ xs: 12, md: 9 }}>
             {/* Ritual Control Bar */}
@@ -168,9 +168,9 @@ export default function OrdersPage() {
               flexDirection: { xs: 'column', md: 'row' },
               gap: 2, 
               mb: 2,
-              p: 1.5,
+              p: { xs: 1, md: 1.5 },
               bgcolor: 'white',
-              borderRadius: '24px',
+              borderRadius: { xs: '16px', md: '24px' },
               border: '1px solid rgba(0,0,0,0.06)',
               boxShadow: '0 10px 40px rgba(0,0,0,0.02)',
               alignItems: { xs: 'stretch', md: 'center' },
@@ -392,7 +392,7 @@ export default function OrdersPage() {
             )}
           </MotionBox>
         ) : (
-          <Stack spacing={3}>
+          <Stack spacing={{ xs: 2, md: 3 }}>
             {filteredOrders.map((order, index) => (
               <MotionBox
                 key={order._id}
@@ -404,8 +404,8 @@ export default function OrdersPage() {
                   component={Link}
                   to={`/orders/${order._id}`}
                   sx={{
-                    p: { xs: 2.5, md: 3 },
-                    borderRadius: '24px',
+                    p: { xs: 2, md: 3 },
+                    borderRadius: { xs: '16px', md: '24px' },
                     border: '1px solid rgba(0,0,0,0.06)',
                     boxShadow: '0 10px 40px rgba(0,0,0,0.02)',
                     transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -419,7 +419,7 @@ export default function OrdersPage() {
                     },
                   }}
                 >
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: { xs: 3, md: 2.5 } }}>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: { xs: 2, md: 2.5 } }}>
                     {/* TOP SECTION: Meta and Total */}
                     <Box sx={{ 
                       display: 'flex', 
@@ -427,10 +427,10 @@ export default function OrdersPage() {
                       flexWrap: 'wrap',
                       justifyContent: 'space-between', 
                       alignItems: 'flex-start',
-                      rowGap: 2.5,
-                      columnGap: 2
+                      rowGap: { xs: 2, md: 2.5 },
+                      columnGap: { xs: 1.5, md: 2 }
                     }}>
-                      <Stack direction="row" spacing={{ xs: 2, sm: 3 }} sx={{ alignItems: 'center', flexWrap: 'wrap', gap: { xs: 2, sm: 0 } }}>
+                      <Stack direction="row" spacing={{ xs: 1.5, sm: 3 }} sx={{ alignItems: 'center', flexWrap: 'wrap', gap: { xs: 1.5, sm: 0 } }}>
                         <Box>
                           <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 800, fontSize: '0.65rem', textTransform: 'uppercase', display: 'block' }}>
                             Reference
@@ -470,15 +470,15 @@ export default function OrdersPage() {
                       alignItems: 'flex-end',
                       gap: 2 
                     }}>
-                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, flex: 1, minWidth: 200 }}>
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: { xs: 1, md: 1.5 }, flex: 1, minWidth: 200 }}>
                         {order.orderItems?.slice(0, 5).map((item: any, i: number) => (
                           <Avatar
                             key={i}
                             src={item.image}
                             variant="rounded"
                             sx={{
-                              width: { xs: 48, md: 56 },
-                              height: { xs: 60, md: 70 },
+                              width: { xs: 44, md: 56 },
+                              height: { xs: 54, md: 70 },
                               borderRadius: '12px',
                               border: '1px solid rgba(0,0,0,0.06)',
                               bgcolor: '#f5f4f0'
@@ -491,8 +491,8 @@ export default function OrdersPage() {
                           <Avatar
                             variant="rounded"
                             sx={{
-                              width: { xs: 48, md: 56 },
-                              height: { xs: 60, md: 70 },
+                              width: { xs: 44, md: 56 },
+                              height: { xs: 54, md: 70 },
                               borderRadius: '12px',
                               bgcolor: 'rgba(45,75,56,0.05)',
                               color: 'primary.main',
