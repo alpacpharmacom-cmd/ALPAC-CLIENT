@@ -84,7 +84,7 @@ export default function ProductCard({
           borderRadius: { xs: '20px', sm: '24px' },
           px: { xs: 1, sm: 2 },
           pt: { xs: 1, sm: 2 },
-          pb: { xs: 0.6, sm: 1 },
+          pb: { xs: 1.5, sm: 2 },
           border: '1px solid rgba(0,0,0,0.05)',
           boxShadow: '0 10px 40px rgba(0,0,0,0.03)',
           transition: 'all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1)',
@@ -233,13 +233,14 @@ export default function ProductCard({
                 WebkitLineClamp: 2,
                 WebkitBoxOrient: 'vertical',
                 overflow: 'hidden',
+                minHeight: { xs: '1.92rem', sm: '2.5rem' },
                 transition: 'color 0.3s ease',
               }}
             >
               {product.name}
             </Typography>
             
-            <Box sx={{ mt: 'auto', mb: 1.5 }}>
+            <Box sx={{ mt: 1.5, mb: 1.5 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.4, sm: 0.8 }, mb: 0.5 }}>
                 <Rating
                   value={product.rating}
@@ -285,7 +286,7 @@ export default function ProductCard({
               onClick={handleAddToCartInternal}
               startIcon={addingToCart || isInCart ? null : <ShoppingCart sx={{ fontSize: { xs: '0.75rem !important', sm: '0.9rem !important' } }} />}
               sx={{
-                mt: 0.5,
+                mt: 'auto',
                 bgcolor: isInCart ? 'rgba(0,0,0,0.05)' : 'primary.main',
                 color: isInCart ? 'text.secondary' : 'white',
                 borderRadius: '10px',
