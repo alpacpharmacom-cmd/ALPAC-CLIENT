@@ -298,7 +298,7 @@ export default function HomePage() {
                     sx={{
                       position: 'absolute',
                       inset: 0,
-                      backgroundImage: 'url(/images/products/orizzonte_gel_cream_boxes.jpg)',
+                      backgroundImage: 'url(/images/nature/botanical_cosmetics.png)',
                       backgroundSize: 'cover',
                       backgroundPosition: 'center',
                     }}
@@ -373,7 +373,7 @@ export default function HomePage() {
                       sx={{
                         position: 'absolute',
                         inset: 0,
-                        backgroundImage: 'url(/images/products/ginoback.jpg)',
+                        backgroundImage: 'url(/images/nature/misty_vitality.png)',
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                       }}
@@ -417,7 +417,7 @@ export default function HomePage() {
                       sx={{
                         position: 'absolute',
                         inset: 0,
-                        backgroundImage: 'url(/images/products/orizzonte_spray.jpg)',
+                        backgroundImage: 'url(/images/nature/organic_story.png)',
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                       }}
