@@ -287,7 +287,7 @@ export default function ProductCard({
               startIcon={addingToCart || isInCart ? null : <ShoppingCart sx={{ fontSize: { xs: '0.75rem !important', sm: '0.9rem !important' } }} />}
               sx={{
                 mt: { xs: 0, sm: 0.3 },
-                mb: { xs: 6, sm: 6 },
+                mb: { xs: 0.1, sm: 0.1 },
                 bgcolor: isInCart ? 'rgba(0,0,0,0.05)' : 'primary.main',
                 color: isInCart ? 'text.secondary' : 'white',
                 borderRadius: '10px',
