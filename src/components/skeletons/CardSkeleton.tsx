@@ -35,7 +35,7 @@ export default function CardSkeleton({
         sx={{
           position: 'relative',
           width: '100%',
-          paddingTop: 'calc(100% / 0.85)', // enforces 0.85 aspect ratio
+          aspectRatio: '0.85',
           borderRadius: { xs: '14px', sm: '18px' },
           overflow: 'hidden',
           mb: { xs: 1, sm: 1.5 },
