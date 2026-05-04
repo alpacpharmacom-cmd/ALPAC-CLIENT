@@ -60,21 +60,19 @@ export default function CardSkeleton({
         <Skeleton 
           variant="text" 
           width="40%" 
-          height={14} 
-          sx={{ mb: 1, bgcolor: 'rgba(0,0,0,0.03)' }} 
+          sx={{ height: { xs: 12, sm: 14 }, mb: 0.5, bgcolor: 'rgba(0,0,0,0.03)' }} 
           animation="wave"
         />
         <Skeleton 
           variant="text" 
           width="90%" 
-          height={28} 
-          sx={{ mb: 1.5, bgcolor: 'rgba(0,0,0,0.05)' }} 
+          sx={{ height: { xs: 30, sm: 40 }, mb: 0.5, bgcolor: 'rgba(0,0,0,0.05)' }} 
           animation="wave"
         />
         
         <Box sx={{ mt: 'auto', mb: 1.5 }}>
           {hasRating && (
-            <Box sx={{ display: 'flex', gap: 0.8, mb: 1 }}>
+            <Box sx={{ display: 'flex', gap: { xs: 0.4, sm: 0.8 }, mb: 0.5 }}>
               {[1, 2, 3, 4, 5].map((i) => (
                 <Skeleton 
                   key={i} 
@@ -90,8 +88,7 @@ export default function CardSkeleton({
           <Skeleton 
             variant="text" 
             width="35%" 
-            height={32} 
-            sx={{ bgcolor: 'rgba(45, 75, 56, 0.05)' }} 
+            sx={{ height: { xs: 24, sm: 32 }, bgcolor: 'rgba(45, 75, 56, 0.05)' }} 
             animation="wave"
           />
         </Box>
@@ -100,8 +97,9 @@ export default function CardSkeleton({
           <Skeleton 
             variant="rectangular" 
             width="100%" 
-            height={40} 
             sx={{ 
+              height: { xs: 32, sm: 38 },
+              mt: 0.5,
               borderRadius: '10px', 
               bgcolor: 'rgba(45, 75, 56, 0.08)' 
             }} 
