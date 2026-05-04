@@ -138,15 +138,15 @@ export default function ProfilePage() {
   };
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: 'transparent', pt: { xs: 8, md: 12 } }}>
-      <Container maxWidth="lg" sx={{ pb: 12, position: 'relative', zIndex: 2 }}>
+    <Box sx={{ minHeight: '100vh', bgcolor: 'transparent', pt: { xs: 4, md: 12 } }}>
+      <Container maxWidth="lg" sx={{ px: { xs: 2, md: 3 }, pb: { xs: 6, md: 12 }, position: 'relative', zIndex: 2 }}>
         {/* Simple Welcome Section */}
-        <Box sx={{ mb: 4, textAlign: { xs: 'center', md: 'left' } }}>
+        <Box sx={{ mb: { xs: 2, md: 4 }, textAlign: { xs: 'center', md: 'left' } }}>
           <Typography
             variant="h1"
             sx={{ 
               fontWeight: 700, 
-              fontSize: { xs: '2.5rem', md: '3.5rem' }, 
+              fontSize: { xs: '1.8rem', md: '3.5rem' }, 
               color: 'primary.dark',
               fontFamily: '"Playfair Display", serif',
               letterSpacing: '-0.02em'
@@ -161,11 +161,11 @@ export default function ProfilePage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          sx={{ mb: 6 }}
+          sx={{ mb: { xs: 3, md: 6 } }}
         >
           <Card 
             sx={{ 
-              p: { xs: 3, md: 4 }, 
+              p: { xs: 2, md: 4 }, 
               borderRadius: '24px', 
               bgcolor: 'primary.dark',
               color: 'white',
@@ -173,7 +173,7 @@ export default function ProfilePage() {
               display: 'flex',
               flexDirection: { xs: 'column', md: 'row' },
               alignItems: 'center',
-              gap: 4,
+              gap: { xs: 2, md: 4 },
               border: '1px solid rgba(255,255,255,0.1)'
             }}
           >
@@ -226,7 +226,8 @@ export default function ProfilePage() {
                   bgcolor: '#B8956A',
                   color: 'white',
                   borderRadius: '16px',
-                  px: 4, py: 1.5,
+                  px: {xs: 1, md: 4}, 
+                  py: {xs: 1, md: 1.5},
                   fontWeight: 800,
                   fontSize: '0.9rem',
                   letterSpacing: '0.1em',
@@ -242,10 +243,10 @@ export default function ProfilePage() {
         </MotionBox>
 
         <Box sx={{ maxWidth: '100%', mx: 'auto' }}>
-          <Stack spacing={4}>
+          <Stack spacing={{ xs: 2.5, md: 4 }}>
             {/* Account Essentials Card */}
-            <Card sx={{ p: { xs: 3, md: 5 }, borderRadius: '24px', boxShadow: '0 10px 40px rgba(0,0,0,0.03)' }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4 }}>
+            <Card sx={{ p: { xs: 2, md: 5 }, borderRadius: '24px', boxShadow: '0 10px 40px rgba(0,0,0,0.03)' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: { xs: 2.5, md: 4 } }}>
                 <AccountCircle sx={{ color: 'primary.main', opacity: 0.6 }} />
                 <Typography variant="h5" sx={{ fontWeight: 700, fontSize: { xs: '1.25rem', md: '1.5rem' } }}>Personal Identity</Typography>
               </Box>
@@ -275,8 +276,8 @@ export default function ProfilePage() {
             </Card>
 
             {/* Shipping & Delivery Card */}
-            <Card sx={{ p: { xs: 3, md: 5 }, borderRadius: '24px', boxShadow: '0 10px 40px rgba(0,0,0,0.03)' }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4 }}>
+            <Card sx={{ p: { xs: 2, md: 5 }, borderRadius: '24px', boxShadow: '0 10px 40px rgba(0,0,0,0.03)' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: { xs: 2.5, md: 4 } }}>
                 <LocalShipping sx={{ color: 'primary.main', opacity: 0.6 }} />
                 <Typography variant="h5" sx={{ fontWeight: 700, fontSize: { xs: '1.25rem', md: '1.5rem' } }}>Shipping & Delivery</Typography>
               </Box>
@@ -320,13 +321,13 @@ export default function ProfilePage() {
             </Card>
 
             {/* Security Card - Independent Form */}
-            <Card sx={{ p: { xs: 3, md: 5 }, borderRadius: '24px', boxShadow: '0 10px 40px rgba(0,0,0,0.03)' }}>
+            <Card sx={{ p: { xs: 2, md: 5 }, borderRadius: '24px', boxShadow: '0 10px 40px rgba(0,0,0,0.03)' }}>
               <form onSubmit={handleUpdatePassword}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: { xs: 2, md: 3 } }}>
                   <Security sx={{ color: 'primary.main', opacity: 0.6 }} />
                   <Typography variant="h5" sx={{ fontWeight: 700, fontSize: { xs: '1.25rem', md: '1.5rem' } }}>Secure Access</Typography>
                 </Box>
-                <Typography variant="body2" sx={{ mb: 4, color: 'text.secondary', fontSize: '0.85rem' }}>
+                <Typography variant="body2" sx={{ mb: { xs: 2, md: 4 }, color: 'text.secondary', fontSize: '0.85rem' }}>
                   Reset your password by providing your current one for verification.
                 </Typography>
                 <Grid container spacing={2.5}>
@@ -404,7 +405,7 @@ export default function ProfilePage() {
                 </Grid>
               </form>
 
-              <Divider sx={{ my: 4, opacity: 0.5 }}>
+              <Divider sx={{ my: { xs: 2.5, md: 4 }, opacity: 0.5 }}>
                 <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
                   OR
                 </Typography>
@@ -431,14 +432,14 @@ export default function ProfilePage() {
             </Card>
 
             {/* Global Save Button - For Identity & Shipping */}
-            <Box sx={{ mt: 2, pb: 4 }}>
+            <Box sx={{ mt: { xs: 1, md: 2 }, pb: { xs: 2, md: 4 } }}>
               <Button
                 onClick={handleUpdateProfile}
                 variant="contained"
                 disabled={isLoading}
                 fullWidth
                 sx={{ 
-                  height: 64,
+                  height: { xs: 52, md: 64 },
                   bgcolor: 'primary.main', 
                   color: 'white',
                   textTransform: 'uppercase',
