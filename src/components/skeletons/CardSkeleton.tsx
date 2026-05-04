@@ -35,7 +35,7 @@ export default function CardSkeleton({
         sx={{
           position: 'relative',
           width: '100%',
-          aspectRatio: '0.85',
+          paddingTop: 'calc(100% / 0.85)', // enforces 0.85 aspect ratio
           borderRadius: { xs: '14px', sm: '18px' },
           overflow: 'hidden',
           mb: { xs: 1, sm: 1.5 },
@@ -58,15 +58,17 @@ export default function CardSkeleton({
       </Box>
       <CardContent sx={{ p: 0, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
         <Skeleton 
-          variant="text" 
+          variant="rectangular" 
           width="40%" 
-          sx={{ height: { xs: 12, sm: 14 }, mb: 0.5, bgcolor: 'rgba(0,0,0,0.03)' }} 
+          height={14} 
+          sx={{ mb: 0.5, bgcolor: 'rgba(0,0,0,0.03)', borderRadius: '4px' }} 
           animation="wave"
         />
         <Skeleton 
-          variant="text" 
+          variant="rectangular" 
           width="90%" 
-          sx={{ height: { xs: 30, sm: 40 }, mb: 0.5, bgcolor: 'rgba(0,0,0,0.05)' }} 
+          height={32} 
+          sx={{ mb: 1.5, bgcolor: 'rgba(0,0,0,0.05)', borderRadius: '4px' }} 
           animation="wave"
         />
         
@@ -86,9 +88,10 @@ export default function CardSkeleton({
             </Box>
           )}
           <Skeleton 
-            variant="text" 
+            variant="rectangular" 
             width="35%" 
-            sx={{ height: { xs: 24, sm: 32 }, bgcolor: 'rgba(45, 75, 56, 0.05)' }} 
+            height={24} 
+            sx={{ bgcolor: 'rgba(45, 75, 56, 0.05)', borderRadius: '6px' }} 
             animation="wave"
           />
         </Box>

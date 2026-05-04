@@ -22,9 +22,9 @@ export default function StoreShopSkeleton() {
         }}
       >
         <Container maxWidth="md" sx={{ position: 'relative', zIndex: 1 }}>
-          <Skeleton width={120} height={20} sx={{ mx: 'auto', mb: 2, bgcolor: 'rgba(255,255,255,0.1)' }} />
-          <Skeleton width="60%" sx={{ height: { xs: 48, md: 80 }, mx: 'auto', mb: 2, bgcolor: 'rgba(255,255,255,0.1)' }} />
-          <Skeleton width="80%" sx={{ height: { xs: 16, md: 24 }, mx: 'auto', bgcolor: 'rgba(255,255,255,0.05)' }} />
+          <Skeleton variant="rectangular" width={120} height={20} sx={{ mx: 'auto', mb: 2, bgcolor: 'rgba(255,255,255,0.1)', borderRadius: '4px' }} />
+          <Skeleton variant="rectangular" width="60%" sx={{ height: { xs: 48, md: 80 }, mx: 'auto', mb: 2, bgcolor: 'rgba(255,255,255,0.1)', borderRadius: '8px' }} />
+          <Skeleton variant="rectangular" width="80%" sx={{ height: { xs: 16, md: 24 }, mx: 'auto', bgcolor: 'rgba(255,255,255,0.05)', borderRadius: '4px' }} />
         </Container>
       </Box>
 
@@ -37,15 +37,15 @@ export default function StoreShopSkeleton() {
               <Stack spacing={4}>
                 <Skeleton variant="rectangular" height={40} sx={{ borderRadius: '12px' }} />
                 <Box>
-                  <Skeleton width={100} height={20} sx={{ mb: 2 }} />
+                  <Skeleton variant="rectangular" width={100} height={20} sx={{ mb: 2, borderRadius: '4px' }} />
                   <Stack spacing={1}>
                     {[...Array(5)].map((_, i) => (
-                      <Skeleton key={i} height={40} sx={{ borderRadius: '10px' }} />
+                      <Skeleton key={i} variant="rectangular" height={40} sx={{ borderRadius: '10px' }} />
                     ))}
                   </Stack>
                 </Box>
                 <Box>
-                  <Skeleton width={100} height={20} sx={{ mb: 2 }} />
+                  <Skeleton variant="rectangular" width={100} height={20} sx={{ mb: 2, borderRadius: '4px' }} />
                   <Stack spacing={1}>
                     {[...Array(3)].map((_, i) => (
                       <Skeleton key={i} variant="rectangular" height={32} sx={{ borderRadius: '10px' }} />
@@ -78,10 +78,10 @@ export default function StoreShopSkeleton() {
                     <Skeleton variant="rectangular" width={40} height={40} sx={{ borderRadius: '10px' }} />
                   </Stack>
                 </Box>
-                <Skeleton width={120} height={20} sx={{ ml: 0.5 }} />
+                <Skeleton variant="rectangular" width={120} height={20} sx={{ ml: 0.5, borderRadius: '4px' }} />
               </Box>
               <Box sx={{ display: { xs: 'none', sm: 'flex' }, gap: 2, alignItems: 'center' }}>
-                <Skeleton width={60} height={20} />
+                <Skeleton variant="rectangular" width={60} height={20} sx={{ borderRadius: '4px' }} />
                 <Skeleton variant="rectangular" width={180} height={40} sx={{ borderRadius: '12px' }} />
               </Box>
             </Box>

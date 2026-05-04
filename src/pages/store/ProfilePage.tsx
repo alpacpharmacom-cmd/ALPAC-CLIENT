@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import {
   Box, Container, Typography, TextField, Button, Grid, Avatar,
-  IconButton, InputAdornment, Card, Stack
+  IconButton, InputAdornment, Card, Stack, Divider
 } from '@mui/material';
 import { 
  Visibility, VisibilityOff, Security, 
@@ -10,6 +10,7 @@ import {
 import toast from 'react-hot-toast';
 import { useAuthStore } from '../../stores/authStore';
 import { Link } from 'react-router-dom';
+import { authAPI } from '../../api/auth.api';
 import DetailSkeleton from '../../components/skeletons/DetailSkeleton';
 import { motion } from 'framer-motion';
 
@@ -20,6 +21,7 @@ export default function ProfilePage() {
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isResetting, setIsResetting] = useState(false);
 
   const [form, setForm] = useState({
     name: '',
@@ -106,6 +108,19 @@ export default function ProfilePage() {
       setForm(prev => ({ ...prev, oldPassword: '', newPassword: '', confirmPassword: '' }));
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Failed to update password');
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    if (!user?.email) return;
+    setIsResetting(true);
+    try {
+      await authAPI.forgotPassword(user.email);
+      toast.success('Reset link sent to your email');
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || 'Failed to send reset link');
+    } finally {
+      setIsResetting(false);
     }
   };
 
@@ -388,6 +403,31 @@ export default function ProfilePage() {
                   </Grid>
                 </Grid>
               </form>
+
+              <Divider sx={{ my: 4, opacity: 0.5 }}>
+                <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                  OR
+                </Typography>
+              </Divider>
+
+              <Box sx={{ textAlign: 'center' }}>
+                <Typography variant="body2" sx={{ mb: 2, color: 'text.secondary' }}>
+                  Forgot your current password? We can send a secure reset link to your email.
+                </Typography>
+                <Button
+                  onClick={handleForgotPassword}
+                  disabled={isResetting}
+                  variant="text"
+                  sx={{ 
+                    fontWeight: 700, 
+                    color: 'primary.main',
+                    textDecoration: 'underline',
+                    '&:hover': { textDecoration: 'underline', bgcolor: 'transparent', color: 'primary.dark' }
+                  }}
+                >
+                  {isResetting ? 'Sending Link...' : 'Send Password Reset Email'}
+                </Button>
+              </Box>
             </Card>
 
             {/* Global Save Button - For Identity & Shipping */}

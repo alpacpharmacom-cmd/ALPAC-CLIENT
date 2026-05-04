@@ -7,6 +7,7 @@ import { ArrowBack, ReceiptLong,  } from '@mui/icons-material';
 import toast from 'react-hot-toast';
 import { ordersAPI } from '../../api/orders.api';
 import { useAuthStore } from '../../stores/authStore';
+import { useOrderStore } from '../../stores/orderStore';
 import DetailSkeleton from '../../components/skeletons/DetailSkeleton';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -25,6 +26,7 @@ const statusColors: Record<string, string> = {
 export default function OrderDetailPage() {
   const { id } = useParams<{ id: string }>();
   const { isAdmin } = useAuthStore();
+  const { fetchedOrders, fetchMyOrders } = useOrderStore();
   const [order, setOrder] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
@@ -35,8 +37,12 @@ export default function OrderDetailPage() {
           const { data } = await ordersAPI.getById(id!);
           setOrder(data.data);
         } else {
-          const { data } = await ordersAPI.getMyOrders();
-          const targetOrder = data.data.find((o: any) => o._id === id);
+          if (!fetchedOrders) {
+            await fetchMyOrders();
+          }
+          // Get fresh state from store after potential fetch
+          const currentOrders = useOrderStore.getState().myOrders;
+          const targetOrder = currentOrders.find((o: any) => o._id === id);
           if (!targetOrder) throw new Error('Order not found');
           setOrder(targetOrder);
         }
@@ -47,12 +53,15 @@ export default function OrderDetailPage() {
       }
     };
     fetchOrder();
-  }, [id, isAdmin]);
+  }, [id, isAdmin, fetchedOrders, fetchMyOrders]);
 
   const handleCancel = async () => {
     try {
       const { data } = await ordersAPI.cancel(id!);
       setOrder(data.data);
+      if (!isAdmin) {
+        fetchMyOrders(true); // Invalidate cache so OrdersPage shows updated status
+      }
       toast.success('Order cancelled');
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Failed to cancel order');

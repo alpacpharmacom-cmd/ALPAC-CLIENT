@@ -11,6 +11,7 @@ import { productsAPI } from '../../api/products.api';
 import { useCartStore } from '../../stores/cartStore';
 import { useAuthStore } from '../../stores/authStore';
 import { useWishlistStore } from '../../stores/wishlistStore';
+import { useProductStore } from '../../stores/productStore';
 import DetailSkeleton from '../../components/skeletons/DetailSkeleton';
 
 const MotionBox = motion.create(Box);
@@ -19,6 +20,7 @@ export default function ProductPage() {
   const { id } = useParams<{ id: string }>();
   const { isAuthenticated } = useAuthStore();
   const { items: cartItems, addToCart } = useCartStore();
+  const { fetchProductById } = useProductStore();
   const [product, setProduct] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
@@ -30,10 +32,11 @@ export default function ProductPage() {
   
   const isWishlisted = product ? wishlistItems.some((item) => item._id === product._id) : false;
 
-  const fetchProduct = async () => {
+  const fetchProduct = async (force = false) => {
     try {
-      const { data: res } = await productsAPI.getById(id!);
-      setProduct(res.data);
+      setLoading(!force);
+      const data = await fetchProductById(id!, force);
+      setProduct(data);
     } catch {
       toast.error('Product not found');
     } finally {
@@ -42,7 +45,9 @@ export default function ProductPage() {
   };
 
   useEffect(() => {
-    fetchProduct();
+    if (id) {
+      fetchProduct();
+    }
   }, [id]);
 
   const handleAddToCart = async () => {
@@ -86,7 +91,7 @@ export default function ProductPage() {
       toast.success('Review submitted!');
       setReviewComment('');
       setReviewRating(5);
-      fetchProduct();
+      fetchProduct(true);
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Failed to submit review');
     } finally {

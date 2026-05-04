@@ -15,9 +15,9 @@ import {
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 
-import { productsAPI } from '../../api/products.api';
 import { useAuthStore } from '../../stores/authStore';
 import { useWishlistStore } from '../../stores/wishlistStore';
+import { useProductStore } from '../../stores/productStore';
 import toast from 'react-hot-toast';
 import ProductCard from '../../components/store/ProductCard';
 import CardSkeleton from '../../components/skeletons/CardSkeleton';
@@ -30,9 +30,8 @@ export default function HomePage() {
   useMediaQuery(theme.breakpoints.down('sm'));
   useMediaQuery(theme.breakpoints.down('md'));
 
-  const [newArrivals, setNewArrivals] = useState<any[]>([]);
-  const [topRated, setTopRated] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { newArrivals, topRated, fetchedHome, fetchHomeData } = useProductStore();
+  const [loading, setLoading] = useState(!fetchedHome);
 
   const { isAuthenticated } = useAuthStore();
   const wishlistItems = useWishlistStore(state => state.items);
@@ -40,21 +39,19 @@ export default function HomePage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const [newRes, ratedRes] = await Promise.all([
-          productsAPI.getNewArrivals(),
-          productsAPI.getTopRated()
-        ]);
-        setNewArrivals(newRes.data.data);
-        setTopRated(ratedRes.data.data);
-      } catch (error) {
-        console.error('Failed to fetch home page data:', error);
-      } finally {
-        setLoading(false);
+      if (!fetchedHome) {
+        setLoading(true);
+        try {
+          await fetchHomeData();
+        } catch (error) {
+          console.error('Failed to fetch home page data:', error);
+        } finally {
+          setLoading(false);
+        }
       }
     };
     fetchData();
-  }, []);
+  }, [fetchedHome, fetchHomeData]);
 
   const handleToggleWishlist = async (e: React.MouseEvent, productId: string) => {
     e.preventDefault();

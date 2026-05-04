@@ -7,7 +7,7 @@ import {
 import { 
   ShoppingBag, Search, FilterList, Sort, Event, 
 } from '@mui/icons-material';
-import { ordersAPI } from '../../api/orders.api';
+import { useOrderStore } from '../../stores/orderStore';
 import StoreOrdersSkeleton from '../../components/skeletons/StoreOrdersSkeleton';
 import { motion } from 'framer-motion';
 
@@ -24,8 +24,8 @@ const statusColors: Record<string, string> = {
 };
 
 export default function OrdersPage() {
-  const [orders, setOrders] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { myOrders: orders, fetchedOrders, fetchMyOrders } = useOrderStore();
+  const [loading, setLoading] = useState(!fetchedOrders);
 
   // Filters State
   const [showFilters, setShowFilters] = useState(false);
@@ -37,17 +37,19 @@ export default function OrdersPage() {
 
   useEffect(() => {
     const fetchOrders = async () => {
-      try {
-        const { data } = await ordersAPI.getMyOrders();
-        setOrders(data.data || []);
-      } catch {
-        console.error('Failed to fetch orders');
-      } finally {
-        setLoading(false);
+      if (!fetchedOrders) {
+        setLoading(true);
+        try {
+          await fetchMyOrders();
+        } catch {
+          console.error('Failed to fetch orders');
+        } finally {
+          setLoading(false);
+        }
       }
     };
     fetchOrders();
-  }, []);
+  }, [fetchedOrders, fetchMyOrders]);
 
   const summary = useMemo(() => {
     const counts: Record<string, number> = {

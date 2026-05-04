@@ -13,6 +13,7 @@ import { productsAPI } from '../../api/products.api';
 import { useAuthStore } from '../../stores/authStore';
 import { useWishlistStore } from '../../stores/wishlistStore';
 import toast from 'react-hot-toast';
+import { useProductStore } from '../../stores/productStore';
 import StoreShopSkeleton from '../../components/skeletons/StoreShopSkeleton';
 import ProductCard from '../../components/store/ProductCard';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -293,8 +294,8 @@ export default function ShopPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   
   // State
-  const [products, setProducts] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { allProducts, fetchedAll, fetchAllProducts } = useProductStore();
+  const [loading, setLoading] = useState(!fetchedAll);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
   
@@ -310,19 +311,20 @@ export default function ShopPage() {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      setLoading(true);
-      try {
-        const { data: res } = await productsAPI.getAll();
-        setProducts(res.data);
-      } catch (error) {
-        console.error('Failed to fetch products:', error);
-        toast.error('Failed to load products');
-      } finally {
-        setLoading(false);
+      if (!fetchedAll) {
+        setLoading(true);
+        try {
+          await fetchAllProducts();
+        } catch (error) {
+          console.error('Failed to fetch products:', error);
+          toast.error('Failed to load products');
+        } finally {
+          setLoading(false);
+        }
       }
     };
     fetchProducts();
-  }, []);
+  }, [fetchedAll, fetchAllProducts]);
 
   useEffect(() => {
     setSearchQuery(searchParams.get('search') || '');
@@ -372,7 +374,7 @@ export default function ShopPage() {
   };
 
   const filteredProducts = useMemo(() => {
-    let result = [...products];
+    let result = [...allProducts];
 
     // Search
     const search = searchParams.get('search')?.toLowerCase() || '';
@@ -406,7 +408,7 @@ export default function ShopPage() {
     else if (activeSort === 'newest') result.sort((a, b) => new Date(b.createdAt || '').getTime() - new Date(a.createdAt || '').getTime());
 
     return result;
-  }, [products, searchParams, activeCategory, activeSubcategory, activePriceRange, activeSort]);
+  }, [allProducts, searchParams, activeCategory, activeSubcategory, activePriceRange, activeSort]);
 
   if (loading) return <StoreShopSkeleton />;
 
