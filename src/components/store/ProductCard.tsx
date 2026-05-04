@@ -82,9 +82,9 @@ export default function ProductCard({
           flexDirection: 'column',
           bgcolor: '#f5f3ec',
           borderRadius: { xs: '20px', sm: '24px' },
-          px: { xs: 1, sm: 2 },
+          px: { xs: 0.4, sm: 2 },
           pt: { xs: 1, sm: 2 },
-          pb: { xs: 0.6, sm: 1 },
+          pb: { xs: 0, sm: 1 },
           border: '1px solid rgba(0,0,0,0.05)',
           boxShadow: '0 10px 40px rgba(0,0,0,0.03)',
           transition: 'all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1)',
@@ -113,7 +113,7 @@ export default function ProductCard({
             bgcolor: '#f8f7f4',
             aspectRatio: '0.85',
             borderRadius: { xs: '14px', sm: '18px' },
-            mb: { xs: 0.8, sm: 1.5 },
+            mb: { xs: 0.5, sm: 1.5 },
             display: 'block',
             textDecoration: 'none'
           }}
@@ -226,7 +226,7 @@ export default function ProductCard({
               sx={{
                 fontWeight: 600,
                 fontSize: { xs: '0.8rem', sm: '1.05rem' },
-                mb: 0.3,
+                mb: 0.1,
                 lineHeight: 1.2,
                 color: 'primary.dark',
                 display: '-webkit-box',
@@ -240,7 +240,7 @@ export default function ProductCard({
               {product.name}
             </Typography>
             
-            <Box sx={{ mt: 'auto', mb: 1 }}>
+            <Box sx={{ mt: 'auto', mb: { xs: 0, sm: 1 } }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.4, sm: 0.8 }, mb: 0.2 }}>
                 <Rating
                   value={product.rating}
@@ -286,7 +286,8 @@ export default function ProductCard({
               onClick={handleAddToCartInternal}
               startIcon={addingToCart || isInCart ? null : <ShoppingCart sx={{ fontSize: { xs: '0.75rem !important', sm: '0.9rem !important' } }} />}
               sx={{
-                mt: 0.3,
+                mt: { xs: 0, sm: 0.3 },
+                mb: { xs: 6, sm: 6 },
                 bgcolor: isInCart ? 'rgba(0,0,0,0.05)' : 'primary.main',
                 color: isInCart ? 'text.secondary' : 'white',
                 borderRadius: '10px',
