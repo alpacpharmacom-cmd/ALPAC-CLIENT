@@ -9,7 +9,6 @@ import {
   Search, Close, RestartAlt, 
   Tune, ArrowForwardIos, ShoppingBag
 } from '@mui/icons-material';
-import { productsAPI } from '../../api/products.api';
 import { useAuthStore } from '../../stores/authStore';
 import { useWishlistStore } from '../../stores/wishlistStore';
 import toast from 'react-hot-toast';
