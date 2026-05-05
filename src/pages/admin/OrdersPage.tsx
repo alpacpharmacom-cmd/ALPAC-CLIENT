@@ -9,6 +9,7 @@ import {
 } from '@mui/icons-material';
 import toast from 'react-hot-toast';
 import { ordersAPI } from '../../api/orders.api';
+import { useAdminStore } from '../../stores/adminStore';
 import TableSkeleton from '../../components/skeletons/TableSkeleton';
 import { exportToCSV } from '../../utils/export';
 
@@ -25,8 +26,8 @@ const statusColors: Record<string, string> = {
 const statusTabs = ['all', 'pending', 'accepted', 'processing', 'shipped', 'delivered', 'declined', 'cancelled'];
 
 export default function AdminOrdersPage() {
-  const [orders, setOrders] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { orders, fetchOrders, invalidateOrders, fetchedOrders } = useAdminStore();
+  const [loading, setLoading] = useState(!fetchedOrders);
   const [actionDialog, setActionDialog] = useState<{ type: string; orderId: string } | null>(null);
   const [note, setNote] = useState('');
   const [deleteId, setDeleteId] = useState<string | null>(null);
@@ -38,10 +39,9 @@ export default function AdminOrdersPage() {
   const [customDate, setCustomDate] = useState(new Date().toISOString().split('T')[0]);
   const [sortBy, setSortBy] = useState('newest'); // newest, oldest, price-high, price-low
 
-  const fetchOrders = async () => {
+  const loadOrders = async () => {
     try {
-      const { data } = await ordersAPI.getAll();
-      setOrders(data.data || []);
+      await fetchOrders();
     } catch {
       toast.error('Failed to fetch orders');
     } finally {
@@ -50,7 +50,7 @@ export default function AdminOrdersPage() {
   };
 
   useEffect(() => {
-    fetchOrders();
+    loadOrders();
   }, []);
 
   const filtered = orders
@@ -99,7 +99,8 @@ export default function AdminOrdersPage() {
     try {
       await ordersAPI.accept(actionDialog.orderId, note);
       toast.success('Order accepted');
-      fetchOrders();
+      invalidateOrders();
+      await fetchOrders(true);
     } catch (err: any) {
       toast.error(err.response?.data?.message || 'Failed');
     } finally {
@@ -113,7 +114,8 @@ export default function AdminOrdersPage() {
     try {
       await ordersAPI.decline(actionDialog.orderId, note);
       toast.success('Order declined');
-      fetchOrders();
+      invalidateOrders();
+      await fetchOrders(true);
     } catch (err: any) {
       toast.error(err.response?.data?.message || 'Failed');
     } finally {
@@ -126,7 +128,8 @@ export default function AdminOrdersPage() {
     if (!deleteId) return;
     try {
       await ordersAPI.delete(deleteId);
-      setOrders(orders.filter((o) => o._id !== deleteId));
+      invalidateOrders();
+      await fetchOrders(true);
       toast.success('Order deleted');
     } catch {
       toast.error('Failed to delete');

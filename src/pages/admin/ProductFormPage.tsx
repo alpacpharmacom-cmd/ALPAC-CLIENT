@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowBack, Save, CloudUpload } from '@mui/icons-material';
 import toast from 'react-hot-toast';
 import { productsAPI } from '../../api/products.api';
+import { useAdminStore } from '../../stores/adminStore';
 
 const subcategoryMap: Record<string, { value: string; label: string }[]> = {
   cosmetics: [
@@ -27,6 +28,7 @@ const subcategoryMap: Record<string, { value: string; label: string }[]> = {
 };
 
 export default function ProductFormPage() {
+  const { invalidateProducts } = useAdminStore();
   const { id } = useParams();
   const navigate = useNavigate();
   const isEdit = Boolean(id);
@@ -158,6 +160,7 @@ export default function ProductFormPage() {
         await productsAPI.create(data);
         toast.success('Product created!');
       }
+      invalidateProducts();
       navigate('/admin/products');
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Failed to save product');

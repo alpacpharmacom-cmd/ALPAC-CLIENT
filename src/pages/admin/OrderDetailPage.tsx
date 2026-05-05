@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowBack, ShoppingBag, LocalShipping, Person, Payment } from '@mui/icons-material';
 import toast from 'react-hot-toast';
 import { ordersAPI } from '../../api/orders.api';
+import { useAdminStore } from '../../stores/adminStore';
 
 const statusColors: Record<string, string> = {
   pending: '#d4a03c',
@@ -22,6 +23,7 @@ const statusColors: Record<string, string> = {
 const allStatuses = ['pending', 'accepted', 'processing', 'shipped', 'delivered', 'declined', 'cancelled'];
 
 export default function AdminOrderDetailPage() {
+  const { invalidateOrders } = useAdminStore();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [order, setOrder] = useState<any>(null);
@@ -49,6 +51,7 @@ export default function AdminOrderDetailPage() {
     try {
       const { data } = await ordersAPI.updateStatus(id!, newStatus);
       setOrder(data.data);
+      invalidateOrders();
       toast.success('Status updated');
     } catch (err: any) {
       toast.error(err.response?.data?.message || 'Failed to update');
@@ -60,6 +63,7 @@ export default function AdminOrderDetailPage() {
       const { data } = await ordersAPI.accept(id!, note);
       setOrder(data.data);
       setNote('');
+      invalidateOrders();
       toast.success('Order accepted');
     } catch (err: any) {
       toast.error(err.response?.data?.message || 'Failed');
@@ -71,6 +75,7 @@ export default function AdminOrderDetailPage() {
       const { data } = await ordersAPI.decline(id!, note);
       setOrder(data.data);
       setNote('');
+      invalidateOrders();
       toast.success('Order declined');
     } catch (err: any) {
       toast.error(err.response?.data?.message || 'Failed');

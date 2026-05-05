@@ -7,6 +7,7 @@ import {
 import { Add, Edit, Delete, Search, FilterList, Sort, Download } from '@mui/icons-material';
 import toast from 'react-hot-toast';
 import { productsAPI } from '../../api/products.api';
+import { useAdminStore } from '../../stores/adminStore';
 import TableSkeleton from '../../components/skeletons/TableSkeleton';
 import { exportToCSV } from '../../utils/export';
 
@@ -30,8 +31,8 @@ const subcategoryMap: Record<string, { value: string; label: string }[]> = {
 
 export default function AdminProductsPage() {
   const navigate = useNavigate();
-  const [products, setProducts] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { products, fetchProducts, invalidateProducts, fetchedProducts } = useAdminStore();
+  const [loading, setLoading] = useState(!fetchedProducts);
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
   // Filters State
@@ -41,10 +42,9 @@ export default function AdminProductsPage() {
   const [subcategoryFilter, setSubcategoryFilter] = useState('All');
   const [sortBy, setSortBy] = useState('newest'); // newest, price-low, price-high
 
-  const fetchProducts = async () => {
+  const loadProducts = async () => {
     try {
-      const { data: res } = await productsAPI.getAdminAll();
-      setProducts(res.data);
+      await fetchProducts();
     } catch {
       toast.error('Failed to fetch products');
     } finally {
@@ -53,14 +53,15 @@ export default function AdminProductsPage() {
   };
 
   useEffect(() => {
-    fetchProducts();
+    loadProducts();
   }, []);
 
   const handleDelete = async () => {
     if (!deleteId) return;
     try {
       await productsAPI.delete(deleteId);
-      setProducts(products.filter((p) => p._id !== deleteId));
+      invalidateProducts();
+      await fetchProducts(true);
       toast.success('Product deleted');
     } catch {
       toast.error('Failed to delete product');

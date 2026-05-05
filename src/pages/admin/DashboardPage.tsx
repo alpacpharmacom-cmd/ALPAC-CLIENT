@@ -12,7 +12,7 @@ import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   BarChart, Bar, Cell,
 } from 'recharts';
-import { adminAPI } from '../../api/admin.api';
+import { useAdminStore } from '../../stores/adminStore';
 import DashboardSkeleton from '../../components/skeletons/DashboardSkeleton';
 import { Avatar } from '@mui/material';
 
@@ -55,8 +55,8 @@ const SectionFrame = ({ children, title, icon, subtitle }: any) => (
 );
 
 export default function AdminDashboard() {
-  const [stats, setStats] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const { stats, fetchStats, fetchedStats } = useAdminStore();
+  const [loading, setLoading] = useState(!fetchedStats);
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
@@ -72,17 +72,16 @@ export default function AdminDashboard() {
   };
 
   useEffect(() => {
-    const fetchStats = async () => {
+    const loadStats = async () => {
       try {
-        const { data } = await adminAPI.getStats();
-        setStats(data.data);
+        await fetchStats();
       } catch (error) {
         console.error('Failed to fetch stats:', error);
       } finally {
         setLoading(false);
       }
     };
-    fetchStats();
+    loadStats();
   }, []);
 
   if (loading) return <DashboardSkeleton />;

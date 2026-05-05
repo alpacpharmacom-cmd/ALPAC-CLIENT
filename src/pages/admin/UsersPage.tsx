@@ -8,37 +8,39 @@ import {
 import { Delete, Search, Sort, Download } from '@mui/icons-material';
 import toast from 'react-hot-toast';
 import { usersAPI } from '../../api/users.api';
+import { useAdminStore } from '../../stores/adminStore';
 import TableSkeleton from '../../components/skeletons/TableSkeleton';
 import { exportToCSV } from '../../utils/export';
 
 export default function AdminUsersPage() {
-  const [users, setUsers] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { users, fetchUsers, invalidateUsers, fetchedUsers } = useAdminStore();
+  const [loading, setLoading] = useState(!fetchedUsers);
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
   // Filters State
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('newest'); // newest, oldest, name-asc, name-desc
 
+  const loadUsers = async () => {
+    try {
+      await fetchUsers();
+    } catch {
+      toast.error('Failed to fetch users');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const { data: res } = await usersAPI.getAll();
-        setUsers(res.data);
-      } catch {
-        toast.error('Failed to fetch users');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchUsers();
+    loadUsers();
   }, []);
 
   const handleDelete = async () => {
     if (!deleteId) return;
     try {
       await usersAPI.delete(deleteId);
-      setUsers(users.filter((u) => u._id !== deleteId));
+      invalidateUsers();
+      await fetchUsers(true);
       toast.success('User deleted');
     } catch {
       toast.error('Failed to delete user');

@@ -7,8 +7,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowBack, Save, Person, Email, Phone, LocationOn, CalendarToday, Fingerprint } from '@mui/icons-material';
 import toast from 'react-hot-toast';
 import { usersAPI } from '../../api/users.api';
+import { useAdminStore } from '../../stores/adminStore';
 
 export default function AdminUserDetailPage() {
+  const { invalidateUsers } = useAdminStore();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [user, setUser] = useState<any>(null);
@@ -68,6 +70,7 @@ export default function AdminUserDetailPage() {
     setSaving(true);
     try {
       await usersAPI.update(id!, form);
+      invalidateUsers();
       toast.success('Profile preferences preserved');
     } catch (err: any) {
       toast.error(err.response?.data?.message || 'Failed to update user');
