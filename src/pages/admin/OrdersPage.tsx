@@ -388,7 +388,7 @@ export default function AdminOrdersPage() {
             {/* Header */}
             <Box sx={{ display: 'flex', px: 3, py: 1.5, bgcolor: 'rgba(0,0,0,0.01)', borderBottom: '1px solid rgba(0,0,0,0.06)', minWidth: 900 }}>
               <Typography variant="caption"  sx={{ fontWeight: 800,  flex: 1.5, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.7rem' }}>Order</Typography>
-              <Typography variant="caption"  sx={{ fontWeight: 800,  flex: 1.5, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.7rem', textAlign: 'center' }}>Customer</Typography>
+              <Typography variant="caption"  sx={{ fontWeight: 800,  flex: 1.5, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.7rem', textAlign: 'left' }}>Customer</Typography>
               <Typography variant="caption"  sx={{ fontWeight: 800,  flex: 1, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.7rem', textAlign: 'center' }}>Date</Typography>
               <Typography variant="caption"  sx={{ fontWeight: 800,  flex: 1.5, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.7rem', textAlign: 'center' }}>Status</Typography>
               <Typography variant="caption"  sx={{ fontWeight: 800,  flex: 1, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.7rem', textAlign: 'center' }}>Total</Typography>
@@ -424,7 +424,7 @@ export default function AdminOrdersPage() {
                   <Typography variant="body2" className="order-id" sx={{ fontWeight: 800,  flex: 1.5, transition: 'color 0.2s' }}>
                     #{order._id.slice(-8).toUpperCase()}
                   </Typography>
-                  <Typography variant="body2" sx={{ flex: 1.5, fontWeight: 500, textAlign: 'center' }}>
+                  <Typography variant="body2" sx={{ flex: 1.5, fontWeight: 500, textAlign: 'left' }}>
                     {order.user?.name || 'Unknown'}
                   </Typography>
                   <Typography variant="body2" color="text.secondary" sx={{ flex: 1, fontWeight: 500, textAlign: 'center' }}>

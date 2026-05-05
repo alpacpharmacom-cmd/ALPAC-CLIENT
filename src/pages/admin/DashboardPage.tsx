@@ -457,7 +457,7 @@ export default function AdminDashboard() {
                 <Box sx={{ minWidth: 600 }}>
                   <Box sx={{ display: 'flex', px: 1, py: 2, bgcolor: 'rgba(0,0,0,0.02)', borderRadius: '12px', mb: 1 }}>
                     <Typography variant="overline" sx={{ flex: 1, px: 2, fontWeight: 800 }}>Order ID</Typography>
-                    <Typography variant="overline" sx={{ flex: 1, px: 2, fontWeight: 800, textAlign: 'center' }}>Customer</Typography>
+                    <Typography variant="overline" sx={{ flex: 1.5, px: 2, fontWeight: 800, textAlign: 'left' }}>Customer</Typography>
                     <Typography variant="overline" sx={{ flex: 1, fontWeight: 800, textAlign: 'center' }}>Status</Typography>
                     <Typography variant="overline" sx={{ flex: 1, textAlign: 'right', px: 2, fontWeight: 800 }}>Total</Typography>
                   </Box>
@@ -491,7 +491,7 @@ export default function AdminDashboard() {
                           {new Date(order.createdAt).toLocaleDateString()}
                         </Typography>
                       </Box>
-                      <Box sx={{ flex: 1, px: 2, display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'center' }}>
+                      <Box sx={{ flex: 1.5, px: 2, display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'flex-start' }}>
                         <Avatar 
                           sx={{ 
                             width: 32, 

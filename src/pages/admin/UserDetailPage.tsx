@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate} from 'react-router-dom';
 import {
-  Box, Typography, Grid, TextField, Button, Avatar, Stack, Divider, Chip, LinearProgress
+  Box, Typography, Grid, TextField, Button, Avatar, Stack, Divider, Chip
 } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowBack, Save, Person, Email, Phone, LocationOn, CalendarToday, Fingerprint } from '@mui/icons-material';
 import toast from 'react-hot-toast';
 import { usersAPI } from '../../api/users.api';
 import { useAdminStore } from '../../stores/adminStore';
+import DetailSkeleton from '../../components/skeletons/DetailSkeleton';
 
 export default function AdminUserDetailPage() {
   const { invalidateUsers } = useAdminStore();
@@ -79,30 +80,17 @@ export default function AdminUserDetailPage() {
     }
   };
 
+  if (loading) return <DetailSkeleton type="product" isAdmin />;
   if (!user) return null;
 
   return (
     <AnimatePresence mode="wait">
       <motion.div
-        initial={{ opacity: 0, y: 10, filter: 'blur(10px)' }}
-        animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
       >
         <Box sx={{ pb: 8, position: 'relative' }}>
-          {loading && (
-            <LinearProgress 
-              sx={{ 
-                position: 'fixed', 
-                top: 0, 
-                left: 0, 
-                right: 0, 
-                zIndex: 2000,
-                height: 3,
-                bgcolor: 'rgba(45, 75, 56, 0.1)',
-                '& .MuiLinearProgress-bar': { bgcolor: 'primary.main' }
-              }} 
-            />
-          )}
       <Box sx={{ mb: 6, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 3 }}>
         <Box>
           <Button 
