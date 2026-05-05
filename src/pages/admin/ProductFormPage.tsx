@@ -3,12 +3,11 @@ import { useParams, useNavigate } from 'react-router-dom';
 import {
   Box, Typography, TextField, Button, Grid, MenuItem
 } from '@mui/material';
-import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowBack, Save, CloudUpload } from '@mui/icons-material';
 import toast from 'react-hot-toast';
 import { productsAPI } from '../../api/products.api';
 import { useAdminStore } from '../../stores/adminStore';
-import FormSkeleton from '../../components/skeletons/FormSkeleton';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
 
 const subcategoryMap: Record<string, { value: string; label: string }[]> = {
   cosmetics: [
@@ -171,16 +170,10 @@ export default function ProductFormPage() {
   };
 
 
-  if (loading) return <FormSkeleton fields={6} maxWidth="lg" titleWidth="300px" />;
+  if (loading) return <LoadingSpinner fullScreen />;
   
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
-      >
-        <Box sx={{ pb: 8, minHeight: '100vh', mt: -2, position: 'relative' }}>
+    <Box sx={{ pb: 8, minHeight: '100vh', mt: -2, position: 'relative' }}>
       <Box sx={{ mb: 6, display: 'flex', alignItems: 'center', justifyContent: 'space-between', maxWidth: 1200, mx: 'auto' }}>
         <Box>
           <Button
@@ -523,7 +516,5 @@ export default function ProductFormPage() {
         </Grid>
       </Grid>
     </Box>
-    </motion.div>
-    </AnimatePresence>
   );
 }

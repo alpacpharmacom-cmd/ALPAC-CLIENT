@@ -3,12 +3,11 @@ import { useParams, useNavigate} from 'react-router-dom';
 import {
   Box, Typography, Grid, TextField, Button, Avatar, Stack, Divider, Chip
 } from '@mui/material';
-import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowBack, Save, Person, Email, Phone, LocationOn, CalendarToday, Fingerprint } from '@mui/icons-material';
 import toast from 'react-hot-toast';
 import { usersAPI } from '../../api/users.api';
 import { useAdminStore } from '../../stores/adminStore';
-import DetailSkeleton from '../../components/skeletons/DetailSkeleton';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
 
 export default function AdminUserDetailPage() {
   const { invalidateUsers } = useAdminStore();
@@ -80,17 +79,11 @@ export default function AdminUserDetailPage() {
     }
   };
 
-  if (loading) return <DetailSkeleton type="product" isAdmin />;
+  if (loading) return <LoadingSpinner fullScreen />;
   if (!user) return null;
 
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
-      >
-        <Box sx={{ pb: 8, position: 'relative' }}>
+    <Box sx={{ pb: 8, position: 'relative' }}>
       <Box sx={{ mb: 6, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 3 }}>
         <Box>
           <Button 
@@ -395,7 +388,5 @@ export default function AdminUserDetailPage() {
         </Grid>
       </Grid>
     </Box>
-    </motion.div>
-    </AnimatePresence>
   );
 }

@@ -4,12 +4,11 @@ import {
   Box, Typography, Grid, Chip, Divider, Button, TextField,
   MenuItem, Select, FormControl, InputLabel, Avatar, Stack
 } from '@mui/material';
-import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowBack, ShoppingBag, LocalShipping, Person, Payment } from '@mui/icons-material';
 import toast from 'react-hot-toast';
 import { ordersAPI } from '../../api/orders.api';
 import { useAdminStore } from '../../stores/adminStore';
-import DetailSkeleton from '../../components/skeletons/DetailSkeleton';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
 
 const statusColors: Record<string, string> = {
   pending: '#d4a03c',
@@ -83,17 +82,11 @@ export default function AdminOrderDetailPage() {
     }
   };
 
-  if (loading) return <DetailSkeleton type="order" isAdmin />;
+  if (loading) return <LoadingSpinner fullScreen />;
   if (!order) return null;
 
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
-      >
-        <Box sx={{ position: 'relative' }}>
+    <Box sx={{ position: 'relative' }}>
 
           <Button onClick={() => navigate('/admin/orders')} startIcon={<ArrowBack />} sx={{ mb: 3, color: 'text.secondary', fontWeight: 600 }}>
         Back to Orders
@@ -343,7 +336,5 @@ export default function AdminOrderDetailPage() {
         </Grid>
       </Grid>
     </Box>
-    </motion.div>
-    </AnimatePresence>
   );
 }

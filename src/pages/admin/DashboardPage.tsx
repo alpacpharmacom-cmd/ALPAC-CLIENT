@@ -13,7 +13,7 @@ import {
   BarChart, Bar, Cell,
 } from 'recharts';
 import { useAdminStore } from '../../stores/adminStore';
-import DashboardSkeleton from '../../components/skeletons/DashboardSkeleton';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
 import { Avatar } from '@mui/material';
 
 const MotionCard = motion.create(Card);
@@ -84,7 +84,7 @@ export default function AdminDashboard() {
     loadStats();
   }, []);
 
-  if (loading) return <DashboardSkeleton />;
+  if (loading) return <LoadingSpinner fullScreen />;
   if (!stats) return null;
 
   const statCards = [
