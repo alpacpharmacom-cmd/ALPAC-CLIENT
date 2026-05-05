@@ -16,6 +16,7 @@ interface CartItem {
 interface CartState {
   items: CartItem[];
   isLoading: boolean;
+  initialized: boolean;
   totalItems: number;
   totalPrice: number;
 
@@ -35,21 +36,23 @@ const calculateTotals = (items: CartItem[]) => {
   };
 };
 
-export const useCartStore = create<CartState>((set) => ({
+export const useCartStore = create<CartState>((set, get) => ({
   items: [],
   isLoading: false,
+  initialized: false,
   totalItems: 0,
   totalPrice: 0,
 
   fetchCart: async () => {
+    if (get().isLoading) return;
     set({ isLoading: true });
     try {
       const { data } = await cartAPI.get();
       const rawItems = data.data?.items || [];
       const items = rawItems.filter((item: any) => item.product !== null);
-      set({ items, ...calculateTotals(items), isLoading: false });
+      set({ items, ...calculateTotals(items), isLoading: false, initialized: true });
     } catch {
-      set({ isLoading: false });
+      set({ isLoading: false, initialized: true });
     }
   },
 

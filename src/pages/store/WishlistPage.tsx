@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Box, Container, Typography, Grid, Button, Skeleton
@@ -8,16 +8,20 @@ import toast from 'react-hot-toast';
 import { useWishlistStore } from '../../stores/wishlistStore';
 import CardSkeleton from '../../components/skeletons/CardSkeleton';
 import ProductCard from '../../components/store/ProductCard';
+import ConfirmDialog from '../../components/common/ConfirmDialog';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const MotionBox = motion.create(Box);
 
 export default function WishlistPage() {
-  const { items, loading, fetchWishlist, toggleWishlistProduct, clearWishlist } = useWishlistStore();
+  const { items, loading, initialized, fetchWishlist, toggleWishlistProduct, clearWishlist } = useWishlistStore();
+  const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
-    fetchWishlist();
-  }, [fetchWishlist]);
+    if (!initialized) {
+      fetchWishlist();
+    }
+  }, [fetchWishlist, initialized]);
 
   const handleRemove = async (e: React.MouseEvent, productId: string) => {
     e.preventDefault();
@@ -30,18 +34,17 @@ export default function WishlistPage() {
   };
 
   const handleClear = async () => {
-    if (window.confirm('Are you sure you want to clear your wishlist?')) {
-      try {
-        await clearWishlist();
-        toast.success('Wishlist cleared');
-      } catch {
-        toast.error('Failed to clear wishlist');
-      }
+    try {
+      await clearWishlist();
+      toast.success('Wishlist cleared');
+      setShowConfirm(false);
+    } catch {
+      toast.error('Failed to clear wishlist');
     }
   };
 
 
-  if (loading && items.length === 0) {
+  if (loading && !initialized) {
     return (
       <Container maxWidth="xl" sx={{ py: { xs: 2, md: 8 }, px: { xs: 1.5, md: 6 } }}>
         <Box sx={{ mb: { xs: 4, md: 6 }, textAlign: 'center' }}>
@@ -166,7 +169,7 @@ export default function WishlistPage() {
                 variant="outlined"
                 color="error"
                 startIcon={<Delete />}
-                onClick={handleClear}
+                onClick={() => setShowConfirm(true)}
                 size="small"
                 sx={{ 
                   borderRadius: '50px',
@@ -209,6 +212,15 @@ export default function WishlistPage() {
           </Box>
         )}
       </Container>
+      <ConfirmDialog
+        open={showConfirm}
+        onClose={() => setShowConfirm(false)}
+        onConfirm={handleClear}
+        title="Clear Wishlist"
+        message="Are you sure you want to remove all items from your wishlist? This will permanently delete your curated collection."
+        confirmText="Clear Everything"
+        loading={loading}
+      />
     </Box>
   );
 }

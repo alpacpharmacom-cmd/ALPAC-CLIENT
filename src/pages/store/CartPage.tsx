@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Box, Container, Typography, Button, IconButton, Divider, Grid, Card, Stack
@@ -10,15 +10,19 @@ const MotionBox = motion.create(Box);
 import toast from 'react-hot-toast';
 import { useCartStore } from '../../stores/cartStore';
 import DetailSkeleton from '../../components/skeletons/DetailSkeleton';
+import ConfirmDialog from '../../components/common/ConfirmDialog';
 import { AnimatePresence } from 'framer-motion';
 
 export default function CartPage() {
   const navigate = useNavigate();
-  const { items, totalItems, totalPrice, isLoading, fetchCart, updateQuantity, removeItem, clearCart } = useCartStore();
+  const { items, totalItems, totalPrice, isLoading, initialized, fetchCart, updateQuantity, removeItem, clearCart } = useCartStore();
+  const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
-    fetchCart();
-  }, []);
+    if (!initialized) {
+      fetchCart();
+    }
+  }, [fetchCart, initialized]);
 
   const handleUpdateQuantity = async (productId: string, newQty: number) => {
     try {
@@ -41,12 +45,13 @@ export default function CartPage() {
     try {
       await clearCart();
       toast.success('Cart cleared');
+      setShowConfirm(false);
     } catch {
       toast.error('Failed to clear cart');
     }
   };
 
-  if (isLoading && items.length === 0) return <DetailSkeleton type="order" />;
+  if (isLoading && !initialized) return <DetailSkeleton type="order" />;
 
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'transparent' }}>
@@ -159,7 +164,7 @@ export default function CartPage() {
                       </Typography>
                       <Button
                         size="small"
-                        onClick={handleClearCart}
+                        onClick={() => setShowConfirm(true)}
                         sx={{
                           color: 'error.main',
                           fontSize: '0.75rem',
@@ -427,6 +432,16 @@ export default function CartPage() {
           </Grid>
         )}
       </Container>
+      <ConfirmDialog
+        open={showConfirm}
+        onClose={() => setShowConfirm(false)}
+        onConfirm={handleClearCart}
+        title="Clear Cart"
+        message="Are you sure you want to remove all items from your cart? This action cannot be undone."
+        confirmText="Clear Everything"
+        loading={isLoading}
+      />
     </Box>
   );
 }
+

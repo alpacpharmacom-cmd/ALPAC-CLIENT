@@ -17,6 +17,7 @@ export const useWishlistStore = create<WishlistState>((set, get) => ({
   initialized: false,
 
   fetchWishlist: async () => {
+    if (get().loading) return;
     try {
       set({ loading: true });
       const { data } = await wishlistAPI.getWishlist();
