@@ -66,10 +66,13 @@ export default function ProductPage() {
 
     setAddingToCart(true);
     try {
+      console.log('Adding to cart:', { productId: product._id, quantity });
       await addToCart(product._id, quantity);
       toast.success('Added to cart!');
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Failed to add to cart');
+      console.error('Add to Cart Error:', error);
+      const message = error.response?.data?.message || error.message || 'Failed to add to cart';
+      toast.error(message);
     } finally {
       setAddingToCart(false);
     }

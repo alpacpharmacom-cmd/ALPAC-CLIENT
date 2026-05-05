@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { 
   Box, 
   Typography, 
@@ -36,6 +36,7 @@ export default function ProductCard({
   onAddToCart,
   showAddToCart = true
 }: ProductCardProps) {
+  const navigate = useNavigate();
   const { isAuthenticated } = useAuthStore();
   const { items: cartItems, addToCart } = useCartStore();
   const [addingToCart, setAddingToCart] = useState(false);
@@ -56,14 +57,20 @@ export default function ProductCard({
       return;
     }
 
-    if (isInCart) return;
+    if (isInCart) {
+      navigate('/cart');
+      return;
+    }
 
     setAddingToCart(true);
     try {
+      console.log('Adding to cart:', { productId: product._id, quantity: 1 });
       await addToCart(product._id, 1);
       toast.success('Added to cart!');
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Failed to add to cart');
+      console.error('Add to Cart Error:', error);
+      const message = error.response?.data?.message || error.message || 'Failed to add to cart';
+      toast.error(message);
     } finally {
       setAddingToCart(false);
     }
