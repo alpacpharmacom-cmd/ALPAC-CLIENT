@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import {
   Box, Typography, Grid, Chip, Divider, Button, Rating,
-  Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, IconButton, LinearProgress
+  Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, IconButton
 } from '@mui/material';
 import { Avatar, Stack } from '@mui/material';
-import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowBack, Edit, Delete } from '@mui/icons-material';
 import toast from 'react-hot-toast';
 import { productsAPI } from '../../api/products.api';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
 
 /**
  * Premium Admin Product Detail Page
@@ -75,30 +75,11 @@ export default function AdminProductDetailPage() {
     }
   };
 
+  if (loading) return <LoadingSpinner fullScreen />;
   if (!product) return null;
 
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        initial={{ opacity: 0, y: 10, filter: 'blur(10px)' }}
-        animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
-      >
-        <Box sx={{ position: 'relative' }}>
-          {loading && (
-            <LinearProgress 
-              sx={{ 
-                position: 'fixed', 
-                top: 0, 
-                left: 0, 
-                right: 0, 
-                zIndex: 2000,
-                height: 3,
-                bgcolor: 'rgba(45, 75, 56, 0.1)',
-                '& .MuiLinearProgress-bar': { bgcolor: 'primary.main' }
-              }} 
-            />
-          )}
+    <Box sx={{ position: 'relative' }}>
       {/* Navigation & Actions */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 5, flexWrap: 'wrap', gap: 2 }}>
         <Button 
@@ -389,7 +370,5 @@ export default function AdminProductDetailPage() {
         </DialogActions>
       </Dialog>
     </Box>
-    </motion.div>
-    </AnimatePresence>
   );
 }
