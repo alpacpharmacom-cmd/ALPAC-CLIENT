@@ -3,12 +3,11 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import {
   Box, Container, Typography, Grid, Button, Rating, Divider,
   TextField, Breadcrumbs, Chip, IconButton, Link as MuiLink, Stack, CircularProgress,
-  Accordion, AccordionSummary, AccordionDetails, LinearProgress
+  LinearProgress
 } from '@mui/material';
-import { 
-  Add, Remove, ShoppingCart, FavoriteBorder, Favorite, 
-  ExpandMore, LocalShipping, VerifiedUser, Yard,
-  Star
+import {
+  Add, Remove, ShoppingCart, FavoriteBorder, Favorite,
+  LocalShipping, VerifiedUser, Yard, Star
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
@@ -526,105 +525,8 @@ export default function ProductPage() {
                     </Box>
                   ))}
                 </Stack>
-
-
-                {/* Product Details Accordion */}
-                <Box sx={{ mt: 6 }}>
-                  {[
-                    { 
-                      title: 'The Ritual (How to Use)', 
-                      content: 'Gently massage a small amount into clean skin using circular upward motions. For optimal results, use twice daily as part of your morning and evening skincare ceremony.' 
-                    },
-                    { 
-                      title: 'Key Ingredients', 
-                      content: 'Botanical Hyaluronic Acid, Organic Aloe Vera, Cold-Pressed Jojoba Oil, and our proprietary Alpine Herbal Complex. No synthetic fragrances or parabens.' 
-                    },
-                    { 
-                      title: 'Technical Specifications', 
-                      content: `Weight: ${product.weight || '100ml'} | Shelf Life: 12 Months | pH Balanced: 5.5 | Made in Switzerland` 
-                    },
-                    { 
-                      title: 'Shipping & Sustainability', 
-                      content: 'Carbon-neutral shipping in 100% biodegradable packaging. We partner with local farmers to ensure ethical sourcing of all active botanicals.' 
-                    },
-                  ].map((item, idx) => (
-                    <Accordion 
-                      key={idx}
-                      elevation={0}
-                      sx={{ 
-                        bgcolor: 'transparent',
-                        '&:before': { display: 'none' },
-                        borderBottom: '1px solid rgba(0,0,0,0.08)',
-                        '&.Mui-expanded': { mb: 0 }
-                      }}
-                    >
-                      <AccordionSummary 
-                        expandIcon={<ExpandMore sx={{ color: 'primary.main' }} />}
-                        sx={{ px: 0, py: 2 }}
-                      >
-                        <Typography sx={{ fontWeight: 700, fontSize: '1rem', color: 'text.primary' }}>{item.title}</Typography>
-                      </AccordionSummary>
-                      <AccordionDetails sx={{ px: 0, pb: 3 }}>
-                        <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.8, fontSize: '0.95rem' }}>
-                          {item.content}
-                        </Typography>
-                      </AccordionDetails>
-                    </Accordion>
-                  ))}
-                </Box>
               </MotionBox>
             </Grid>
-          </Grid>
-        </Box>
-
-        {/* Our Botanical Promise Section */}
-        <Box sx={{ mb: { xs: 8, md: 16 }, textAlign: 'center' }}>
-          <Typography variant="overline" sx={{ color: 'primary.main', fontWeight: 800, letterSpacing: '0.2em' }}>
-            ALPAC Standards
-          </Typography>
-          <Typography variant="h2" sx={{ fontWeight: 600, mt: 1, mb: 8 }}>Our Botanical Promise</Typography>
-          
-          <Grid container spacing={4}>
-            {[
-              { 
-                title: 'Wild-Harvested', 
-                desc: 'All our active botanicals are wild-harvested from the Swiss Alps to ensure maximum potency.',
-                icon: <Yard sx={{ fontSize: 40 }} />
-              },
-              { 
-                title: 'Ethical Sourcing', 
-                desc: 'We work directly with small-scale farmers who prioritize biodiversity and soil health.',
-                icon: <VerifiedUser sx={{ fontSize: 40 }} />
-              },
-              { 
-                title: 'Conscious Luxury', 
-                desc: 'Our formulations are 100% biodegradable, vegan, and never tested on animals.',
-                icon: <Yard sx={{ fontSize: 40 }} />
-              },
-              { 
-                title: 'Freshly Compounded', 
-                desc: 'We produce in small batches to guarantee the vitality of every single ingredient.',
-                icon: <LocalShipping sx={{ fontSize: 40 }} />
-              }
-            ].map((feature, idx) => (
-              <Grid size={{ xs: 12, sm: 6, md: 3 }} key={idx}>
-                <Box sx={{ 
-                  p: 4, 
-                  height: '100%',
-                  bgcolor: 'rgba(255,255,255,0.4)', 
-                  borderRadius: '24px', 
-                  border: '1px solid rgba(0,0,0,0.03)',
-                  transition: 'all 0.3s ease',
-                  '&:hover': { bgcolor: 'white', transform: 'translateY(-8px)', boxShadow: '0 20px 40px rgba(0,0,0,0.04)' }
-                }}>
-                  <Box sx={{ color: 'primary.main', mb: 3 }}>{feature.icon}</Box>
-                  <Typography variant="h5" sx={{ fontWeight: 700, mb: 2 }}>{feature.title}</Typography>
-                  <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
-                    {feature.desc}
-                  </Typography>
-                </Box>
-              </Grid>
-            ))}
           </Grid>
         </Box>
 
