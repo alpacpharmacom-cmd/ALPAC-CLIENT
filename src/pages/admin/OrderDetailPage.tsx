@@ -293,7 +293,6 @@ export default function AdminOrderDetailPage() {
                     Decline
                   </Button>
                 </Stack>
-                <Divider sx={{ my: 3 }} />
               </Box>
             )}
 

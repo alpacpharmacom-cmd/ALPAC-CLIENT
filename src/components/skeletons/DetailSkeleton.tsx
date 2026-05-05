@@ -5,10 +5,7 @@ interface DetailSkeletonProps {
   isAdmin?: boolean;
 }
 
-/**
- * Premium Generic Detail Skeleton
- * Aligned with the ALPAC Management Console and Storefront Product pages
- */
+
 export default function DetailSkeleton({ 
   type = 'product', 
   isAdmin = false 
