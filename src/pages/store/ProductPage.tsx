@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import {
   Add, Remove, ShoppingCart, FavoriteBorder, Favorite,
-  LocalShipping, VerifiedUser, Yard, Star, GppGood, WorkspacePremium
+  LocalShipping, Star, GppGood, WorkspacePremium
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
@@ -534,24 +534,11 @@ export default function ProductPage() {
         </Box>
 
                 
-                  <Box>
-                    <Typography variant="h4" sx={{ fontWeight: 600, mb: 3 }}>Our Botanical Promise</Typography>
-                    <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.8, mb: 6, fontSize: '1.1rem' }}>
+                  <Box sx={{ py: { xs: 6, md: 10 }, textAlign: 'center' }}>
+                    <Typography variant="h3" sx={{ fontWeight: 600, mb: 3 }}>Our Botanical Promise</Typography>
+                    <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.8, mb: 6, fontSize: '1.1rem', maxWidth: 800, mx: 'auto' }}>
                       Integrity in every bottle. We stand by our commitment to ethical sourcing, sustainable production, and uncompromising quality.
                     </Typography>
-                    <Stack direction="row" spacing={{ xs: 2, md: 6 }} sx={{ justifyContent: 'center', flexWrap: 'wrap', gap: 4 }}>
-                      {[
-                        { icon: <LocalShipping sx={{ fontSize: 32 }} />, label: 'Free Express Shipping', desc: 'Complimentary on all orders' },
-                        { icon: <Yard sx={{ fontSize: 32 }} />, label: '100% Organic', desc: 'Pure plant-based extracts' },
-                        { icon: <VerifiedUser sx={{ fontSize: 32 }} />, label: 'Dermatologist Tested', desc: 'Safe for all skin types' },
-                      ].map((item, i) => (
-                        <Box key={i} sx={{ maxWidth: 200 }}>
-                          <Box sx={{ color: 'primary.main', mb: 2 }}>{item.icon}</Box>
-                          <Typography variant="subtitle2" sx={{ fontWeight: 800, mb: 1 }}>{item.label}</Typography>
-                          <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 500 }}>{item.desc}</Typography>
-                        </Box>
-                      ))}
-                    </Stack>
                   </Box>
 
 
