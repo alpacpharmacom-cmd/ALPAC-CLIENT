@@ -92,18 +92,27 @@ export default function HomePage() {
         }}
       >
         <Box
+          component="img"
+          src="/images/hero/hero_banner.png"
+          alt="Alpac Hero"
           sx={{
             position: 'absolute',
             inset: 0,
-            backgroundImage: 'url(/images/hero/hero_banner.png)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            '&::after': {
-              content: '""',
-              position: 'absolute',
-              inset: 0,
-              background: 'linear-gradient(90deg, rgba(45,75,56,0.7) 0%, rgba(45,75,56,0.2) 100%)',
-            }
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'center',
+            zIndex: 0,
+          }}
+          loading="eager"
+          decoding="async"
+        />
+        <Box
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(90deg, rgba(45,75,56,0.7) 0%, rgba(45,75,56,0.2) 100%)',
+            zIndex: 1,
           }}
         />
 
@@ -289,19 +298,23 @@ export default function HomePage() {
                     cursor: 'pointer',
                   }}
                 >
-                  <MotionBox
-                    variants={{
-                      initial: { scale: 1 },
-                      hover: { scale: 1.1 }
-                    }}
-                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                  <Box
+                    component="img"
+                    src="/images/nature/botanical_cosmetics.png"
                     sx={{
                       position: 'absolute',
                       inset: 0,
-                      backgroundImage: 'url(/images/nature/botanical_cosmetics.png)',
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      transform: 'scale(1)',
+                      transition: 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                      '.MuiBox-root:hover &': {
+                        transform: 'scale(1.1)'
+                      }
                     }}
+                    loading="lazy"
+                    decoding="async"
                   />
                   <Box
                     sx={{
@@ -364,19 +377,23 @@ export default function HomePage() {
                       cursor: 'pointer',
                     }}
                   >
-                    <MotionBox
-                      variants={{
-                        initial: { scale: 1 },
-                        hover: { scale: 1.1 }
-                      }}
-                      transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                    <Box
+                      component="img"
+                      src="/images/nature/misty_vitality.png"
                       sx={{
                         position: 'absolute',
                         inset: 0,
-                        backgroundImage: 'url(/images/nature/misty_vitality.png)',
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        transform: 'scale(1)',
+                        transition: 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                        '.MuiBox-root:hover &': {
+                          transform: 'scale(1.1)'
+                        }
                       }}
+                      loading="lazy"
+                      decoding="async"
                     />
                     <Box
                       sx={{
@@ -408,19 +425,23 @@ export default function HomePage() {
                       cursor: 'pointer',
                     }}
                   >
-                    <MotionBox
-                      variants={{
-                        initial: { scale: 1 },
-                        hover: { scale: 1.1 }
-                      }}
-                      transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                    <Box
+                      component="img"
+                      src="/images/nature/organic_story.png"
                       sx={{
                         position: 'absolute',
                         inset: 0,
-                        backgroundImage: 'url(/images/nature/organic_story.png)',
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        transform: 'scale(1)',
+                        transition: 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                        '.MuiBox-root:hover &': {
+                          transform: 'scale(1.1)'
+                        }
                       }}
+                      loading="lazy"
+                      decoding="async"
                     />
                     <Box
                       sx={{

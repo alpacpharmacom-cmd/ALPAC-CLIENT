@@ -168,10 +168,10 @@ export default function ProductPage() {
         </Breadcrumbs>
 
         <Box sx={{ 
-          bgcolor: 'rgba(255, 255, 255, 0.7)', 
-          backdropFilter: 'blur(20px)',
+          bgcolor: { xs: 'rgba(255, 255, 255, 0.9)', md: 'rgba(255, 255, 255, 0.7)' }, 
+          backdropFilter: { xs: 'blur(10px)', md: 'blur(20px)' },
           borderRadius: { xs: '32px', md: '48px' }, 
-          p: { xs: 2, md: 10 }, 
+          p: { xs: 2.5, md: 10 }, 
           border: '1px solid rgba(255, 255, 255, 0.6)',
           boxShadow: '0 40px 120px rgba(0,0,0,0.06)',
           mb: { xs: 6, md: 12 },
@@ -196,7 +196,7 @@ export default function ProductPage() {
               <MotionBox
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.5 }}
               >
                 <Box
                   sx={{
@@ -238,6 +238,8 @@ export default function ProductPage() {
                       src={product.image}
                       alt={product.name}
                       sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      loading="eager"
+                      decoding="async"
                     />
                   ) : (
                     <Typography
@@ -258,7 +260,7 @@ export default function ProductPage() {
               <MotionBox
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.15 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
               >
                 <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
                   <Chip
@@ -734,8 +736,8 @@ export default function ProductPage() {
                 mx: 'auto',
                 mb: 10,
                 p: { xs: 3, md: 6 }, // More efficient spacing
-                bgcolor: 'rgba(255,255,255,0.8)',
-                backdropFilter: 'blur(12px)',
+                bgcolor: 'rgba(255,255,255,0.9)',
+                backdropFilter: { xs: 'blur(8px)', md: 'blur(12px)' },
                 borderRadius: '24px',
                 border: '1px solid rgba(0,0,0,0.06)',
                 boxShadow: '0 8px 32px rgba(0,0,0,0.03)'

@@ -78,10 +78,10 @@ export default function ProductCard({
 
   return (
     <MotionBox
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 15 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.05 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.4, delay: index * 0.02 }}
     >
       <Card
         sx={{
@@ -180,6 +180,8 @@ export default function ProductCard({
                 objectFit: 'cover',
                 transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
               }}
+              loading="lazy"
+              decoding="async"
             />
           ) : (
             <Box sx={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -199,7 +201,7 @@ export default function ProductCard({
               top: 12,
               right: 12,
               bgcolor: 'rgba(255,255,255,0.95)',
-              backdropFilter: 'blur(8px)',
+              backdropFilter: { xs: 'none', sm: 'blur(8px)' },
               '&:hover': { 
                 bgcolor: 'white',
                 transform: 'scale(1.1)',

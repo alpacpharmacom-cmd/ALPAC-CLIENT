@@ -7,12 +7,12 @@ export default function AmbientBackground() {
   return (
     <MotionBox 
       animate={{ 
-        backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+        opacity: [0.3, 0.4, 0.3],
       }}
       transition={{ 
-        duration: 20, 
+        duration: 10, 
         repeat: Infinity, 
-        ease: 'linear' 
+        ease: 'easeInOut' 
       }}
       sx={{
         position: 'fixed',
@@ -22,10 +22,10 @@ export default function AmbientBackground() {
         bottom: 0,
         zIndex: -1,
         pointerEvents: 'none',
-        background: 'linear-gradient(-45deg, #8ba895, #cabaa6, #7d9e87, #eedfcd, #8ba895)',
+        background: 'linear-gradient(-45deg, #f9f7f2, #f5f3ec, #fdfcf9, #f9f7f2)',
         backgroundSize: '400% 400%',
-        opacity: 0.4, // User requested 0.4
-        willChange: 'background-position',
+        willChange: 'opacity',
+        display: { xs: 'none', md: 'block' } // Hide it on mobile for maximum performance
       }}
     />
   );

@@ -781,22 +781,18 @@ export default function ShopPage() {
                 </Box>
               </Fade>
             ) : (
-              <motion.div layout>
                 <Grid container spacing={{ xs: 2, sm: 4 }}>
-                  <AnimatePresence mode="popLayout">
-                    {filteredProducts.map((product, index) => (
-                      <Grid component="div" size={{ xs: 6, sm: 4 }} key={product._id}>
-                        <ProductCard 
-                          product={product} 
-                          index={index} 
-                          handleToggleWishlist={handleToggleWishlist}
-                          isWishlisted={wishlistItems.some(item => item._id === product._id)}
-                        />
-                      </Grid>
-                    ))}
-                  </AnimatePresence>
+                  {filteredProducts.map((product, index) => (
+                    <Grid component="div" size={{ xs: 6, sm: 4 }} key={product._id}>
+                      <ProductCard 
+                        product={product} 
+                        index={index} 
+                        handleToggleWishlist={handleToggleWishlist}
+                        isWishlisted={wishlistItems.some(item => item._id === product._id)}
+                      />
+                    </Grid>
+                  ))}
                 </Grid>
-              </motion.div>
             )}
           </Grid>
         </Grid>
