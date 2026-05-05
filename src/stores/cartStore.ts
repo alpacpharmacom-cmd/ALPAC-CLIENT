@@ -27,10 +27,13 @@ interface CartState {
   resetCart: () => void;
 }
 
-const calculateTotals = (items: CartItem[]) => ({
-  totalItems: items.reduce((sum, item) => sum + item.quantity, 0),
-  totalPrice: items.reduce((sum, item) => sum + item.product.price * item.quantity, 0),
-});
+const calculateTotals = (items: CartItem[]) => {
+  const validItems = items.filter(item => item.product !== null);
+  return {
+    totalItems: validItems.reduce((sum, item) => sum + item.quantity, 0),
+    totalPrice: validItems.reduce((sum, item) => sum + item.product.price * item.quantity, 0),
+  };
+};
 
 export const useCartStore = create<CartState>((set) => ({
   items: [],
@@ -42,7 +45,8 @@ export const useCartStore = create<CartState>((set) => ({
     set({ isLoading: true });
     try {
       const { data } = await cartAPI.get();
-      const items = data.data?.items || [];
+      const rawItems = data.data?.items || [];
+      const items = rawItems.filter((item: any) => item.product !== null);
       set({ items, ...calculateTotals(items), isLoading: false });
     } catch {
       set({ isLoading: false });
@@ -53,7 +57,8 @@ export const useCartStore = create<CartState>((set) => ({
     set({ isLoading: true });
     try {
       const { data } = await cartAPI.addItem(productId, quantity);
-      const items = data.data?.items || [];
+      const rawItems = data.data?.items || [];
+      const items = rawItems.filter((item: any) => item.product !== null);
       set({ items, ...calculateTotals(items), isLoading: false });
     } catch (error) {
       set({ isLoading: false });
@@ -65,7 +70,8 @@ export const useCartStore = create<CartState>((set) => ({
     set({ isLoading: true });
     try {
       const { data } = await cartAPI.updateQuantity(productId, quantity);
-      const items = data.data?.items || [];
+      const rawItems = data.data?.items || [];
+      const items = rawItems.filter((item: any) => item.product !== null);
       set({ items, ...calculateTotals(items), isLoading: false });
     } catch (error) {
       set({ isLoading: false });
@@ -77,7 +83,8 @@ export const useCartStore = create<CartState>((set) => ({
     set({ isLoading: true });
     try {
       const { data } = await cartAPI.removeItem(productId);
-      const items = data.data?.items || [];
+      const rawItems = data.data?.items || [];
+      const items = rawItems.filter((item: any) => item.product !== null);
       set({ items, ...calculateTotals(items), isLoading: false });
     } catch (error) {
       set({ isLoading: false });

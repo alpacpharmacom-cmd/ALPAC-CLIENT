@@ -20,7 +20,10 @@ export const useWishlistStore = create<WishlistState>((set, get) => ({
     try {
       set({ loading: true });
       const { data } = await wishlistAPI.getWishlist();
-      set({ items: data.data || [], initialized: true });
+      const rawItems = data.data || [];
+      // Filter out any null products (orphaned wishlist items)
+      const items = rawItems.filter((item: any) => item !== null);
+      set({ items, initialized: true });
     } catch (error) {
       console.error('Failed to fetch wishlist', error);
       set({ items: [], initialized: true });
