@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import { 
   Add, Remove, ShoppingCart, FavoriteBorder, Favorite, 
-  ExpandMore, LocalShipping, VerifiedUser, Yard, AssignmentReturn,
+  ExpandMore, LocalShipping, VerifiedUser, Yard,
   Star
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
@@ -153,7 +153,7 @@ export default function ProductPage() {
 
   return (
     <Box>
-      <Container maxWidth="lg" sx={{ py: { xs: 2, md: 5 } }}>
+      <Container maxWidth="xl" sx={{ py: { xs: 2, md: 8 } }}>
         {/* Breadcrumbs */}
         <Breadcrumbs sx={{ mb: 4 }}>
           <MuiLink component={Link} to="/" color="text.secondary" sx={{ textDecoration: 'none', fontSize: '0.85rem', '&:hover': { color: 'primary.main' } }}>
@@ -170,11 +170,11 @@ export default function ProductPage() {
         <Box sx={{ 
           bgcolor: 'rgba(255, 255, 255, 0.7)', 
           backdropFilter: 'blur(20px)',
-          borderRadius: '40px', 
-          p: { xs: 2, md: 8 }, 
-          border: '1px solid rgba(255, 255, 255, 0.5)',
-          boxShadow: '0 20px 80px rgba(0,0,0,0.04)',
-          mb: { xs: 4, md: 8 },
+          borderRadius: { xs: '32px', md: '48px' }, 
+          p: { xs: 2, md: 10 }, 
+          border: '1px solid rgba(255, 255, 255, 0.6)',
+          boxShadow: '0 40px 120px rgba(0,0,0,0.06)',
+          mb: { xs: 6, md: 12 },
           overflow: 'hidden',
           position: 'relative'
         }}>
@@ -190,9 +190,9 @@ export default function ProductPage() {
             filter: 'blur(60px)',
             zIndex: 0
           }} />
-          <Grid container spacing={{ xs: 3, md: 10 }} sx={{ position: 'relative', zIndex: 1 }}>
-            {/* Product Image */}
-            <Grid size={{ xs: 12, md: 6 }}>
+          <Grid container spacing={{ xs: 4, md: 12 }} sx={{ position: 'relative', zIndex: 1 }}>
+            {/* Product Image Section */}
+            <Grid size={{ xs: 12, md: 6.5 }}>
               <MotionBox
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -253,8 +253,8 @@ export default function ProductPage() {
               </MotionBox>
             </Grid>
 
-            {/* Product Info */}
-            <Grid size={{ xs: 12, md: 6 }}>
+            {/* Product Info Section */}
+            <Grid size={{ xs: 12, md: 5.5 }}>
               <MotionBox
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -349,6 +349,54 @@ export default function ProductPage() {
                 >
                   {product.description}
                 </Typography>
+
+                {/* Why You'll Love It Section */}
+                <Box sx={{ mb: 4 }}>
+                  <Typography variant="subtitle2" sx={{ fontWeight: 800, color: 'primary.main', mb: 2, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                    Why You'll Love It
+                  </Typography>
+                  <Grid container spacing={1.5}>
+                    {[
+                      'Clinically proven botanical formula',
+                      'Absorbs instantly without residue',
+                      'Sustainably sourced Alpine ingredients',
+                      'Suitable for all sensitive skin types'
+                    ].map((text, i) => (
+                      <Grid size={{ xs: 12, sm: 6 }} key={i}>
+                        <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                          <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: 'primary.main' }} />
+                          <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 500 }}>{text}</Typography>
+                        </Stack>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Box>
+
+                {/* Quick Specs Grid */}
+                <Box sx={{ 
+                  mb: 4, 
+                  p: 3, 
+                  bgcolor: 'rgba(0,0,0,0.02)', 
+                  borderRadius: '20px',
+                  border: '1px solid rgba(0,0,0,0.03)'
+                }}>
+                  <Grid container spacing={3}>
+                    {[
+                      { label: 'Formulation', value: 'Cream-Gel' },
+                      { label: 'Size', value: product.weight || '100ml' },
+                      { label: 'Skin Type', value: 'All Types' }
+                    ].map((spec, i) => (
+                      <Grid size={{ xs: 4 }} key={i}>
+                        <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', mb: 0.5, fontWeight: 700, textTransform: 'uppercase' }}>
+                          {spec.label}
+                        </Typography>
+                        <Typography variant="body2" sx={{ fontWeight: 700, color: 'text.primary' }}>
+                          {spec.value}
+                        </Typography>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Box>
 
                 {/* Stock status */}
                 <Box sx={{ mb: 4 }}>
@@ -451,39 +499,52 @@ export default function ProductPage() {
                     </Stack>
                   </Stack>
                 )}
-                {/* Benefits Section */}
-                <Grid container spacing={2} sx={{ mt: 2, mb: 4 }}>
+
+                {/* Benefits Badges Row */}
+                <Stack direction="row" spacing={2} sx={{ mt: 6, mb: 4, flexWrap: 'wrap', gap: 2 }}>
                   {[
-                    { icon: <LocalShipping sx={{ fontSize: 20 }} />, text: 'Free Delivery' },
-                    { icon: <VerifiedUser sx={{ fontSize: 20 }} />, text: '2 Year Warranty' },
-                    { icon: <Yard sx={{ fontSize: 20 }} />, text: 'Eco-Friendly' },
-                    { icon: <AssignmentReturn sx={{ fontSize: 20 }} />, text: '30-Day Returns' },
-                  ].map((benefit, idx) => (
-                    <Grid size={{ xs: 6, sm: 3 }} key={idx}>
-                      <Stack direction="column" spacing={1} sx={{ alignItems: 'center', textAlign: 'center' }}>
-                        <Box sx={{ 
-                          p: 1.5, 
-                          borderRadius: '12px', 
-                          bgcolor: 'rgba(45,75,56,0.05)', 
-                          color: 'primary.main',
-                          display: 'flex'
-                        }}>
-                          {benefit.icon}
-                        </Box>
-                        <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary', fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                          {benefit.text}
-                        </Typography>
-                      </Stack>
-                    </Grid>
+                    { icon: <LocalShipping sx={{ fontSize: 18 }} />, label: 'Free Shipping' },
+                    { icon: <Yard sx={{ fontSize: 18 }} />, label: '100% Organic' },
+                    { icon: <VerifiedUser sx={{ fontSize: 18 }} />, label: 'Dermatologist Tested' },
+                  ].map((item, i) => (
+                    <Box key={i} sx={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: 1, 
+                      bgcolor: 'rgba(45,75,56,0.04)', 
+                      px: 2, 
+                      py: 1, 
+                      borderRadius: '100px',
+                      border: '1px solid rgba(45,75,56,0.08)'
+                    }}>
+                      <Box sx={{ color: 'primary.main', display: 'flex' }}>{item.icon}</Box>
+                      <Typography variant="caption" sx={{ fontWeight: 700, letterSpacing: '0.02em', color: 'primary.dark' }}>
+                        {item.label}
+                      </Typography>
+                    </Box>
                   ))}
-                </Grid>
+                </Stack>
+
 
                 {/* Product Details Accordion */}
-                <Box sx={{ mt: 4 }}>
+                <Box sx={{ mt: 6 }}>
                   {[
-                    { title: 'Product Details', content: product.description },
-                    { title: 'Sustainability', content: 'Our commitment to the environment means using 100% recyclable packaging and ethically sourced ingredients.' },
-                    { title: 'Shipping & Returns', content: 'Free standard shipping on all orders over $100. Returns accepted within 30 days of purchase.' },
+                    { 
+                      title: 'The Ritual (How to Use)', 
+                      content: 'Gently massage a small amount into clean skin using circular upward motions. For optimal results, use twice daily as part of your morning and evening skincare ceremony.' 
+                    },
+                    { 
+                      title: 'Key Ingredients', 
+                      content: 'Botanical Hyaluronic Acid, Organic Aloe Vera, Cold-Pressed Jojoba Oil, and our proprietary Alpine Herbal Complex. No synthetic fragrances or parabens.' 
+                    },
+                    { 
+                      title: 'Technical Specifications', 
+                      content: `Weight: ${product.weight || '100ml'} | Shelf Life: 12 Months | pH Balanced: 5.5 | Made in Switzerland` 
+                    },
+                    { 
+                      title: 'Shipping & Sustainability', 
+                      content: 'Carbon-neutral shipping in 100% biodegradable packaging. We partner with local farmers to ensure ethical sourcing of all active botanicals.' 
+                    },
                   ].map((item, idx) => (
                     <Accordion 
                       key={idx}
@@ -491,18 +552,18 @@ export default function ProductPage() {
                       sx={{ 
                         bgcolor: 'transparent',
                         '&:before': { display: 'none' },
-                        borderBottom: '1px solid rgba(0,0,0,0.06)',
+                        borderBottom: '1px solid rgba(0,0,0,0.08)',
                         '&.Mui-expanded': { mb: 0 }
                       }}
                     >
                       <AccordionSummary 
-                        expandIcon={<ExpandMore />}
-                        sx={{ px: 0, py: 1 }}
+                        expandIcon={<ExpandMore sx={{ color: 'primary.main' }} />}
+                        sx={{ px: 0, py: 2 }}
                       >
-                        <Typography sx={{ fontWeight: 600, fontSize: '0.95rem' }}>{item.title}</Typography>
+                        <Typography sx={{ fontWeight: 700, fontSize: '1rem', color: 'text.primary' }}>{item.title}</Typography>
                       </AccordionSummary>
-                      <AccordionDetails sx={{ px: 0, pb: 2 }}>
-                        <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
+                      <AccordionDetails sx={{ px: 0, pb: 3 }}>
+                        <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.8, fontSize: '0.95rem' }}>
                           {item.content}
                         </Typography>
                       </AccordionDetails>
@@ -511,6 +572,57 @@ export default function ProductPage() {
                 </Box>
               </MotionBox>
             </Grid>
+          </Grid>
+        </Box>
+
+        {/* Our Botanical Promise Section */}
+        <Box sx={{ mb: { xs: 8, md: 16 }, textAlign: 'center' }}>
+          <Typography variant="overline" sx={{ color: 'primary.main', fontWeight: 800, letterSpacing: '0.2em' }}>
+            ALPAC Standards
+          </Typography>
+          <Typography variant="h2" sx={{ fontWeight: 600, mt: 1, mb: 8 }}>Our Botanical Promise</Typography>
+          
+          <Grid container spacing={4}>
+            {[
+              { 
+                title: 'Wild-Harvested', 
+                desc: 'All our active botanicals are wild-harvested from the Swiss Alps to ensure maximum potency.',
+                icon: <Yard sx={{ fontSize: 40 }} />
+              },
+              { 
+                title: 'Ethical Sourcing', 
+                desc: 'We work directly with small-scale farmers who prioritize biodiversity and soil health.',
+                icon: <VerifiedUser sx={{ fontSize: 40 }} />
+              },
+              { 
+                title: 'Conscious Luxury', 
+                desc: 'Our formulations are 100% biodegradable, vegan, and never tested on animals.',
+                icon: <Yard sx={{ fontSize: 40 }} />
+              },
+              { 
+                title: 'Freshly Compounded', 
+                desc: 'We produce in small batches to guarantee the vitality of every single ingredient.',
+                icon: <LocalShipping sx={{ fontSize: 40 }} />
+              }
+            ].map((feature, idx) => (
+              <Grid size={{ xs: 12, sm: 6, md: 3 }} key={idx}>
+                <Box sx={{ 
+                  p: 4, 
+                  height: '100%',
+                  bgcolor: 'rgba(255,255,255,0.4)', 
+                  borderRadius: '24px', 
+                  border: '1px solid rgba(0,0,0,0.03)',
+                  transition: 'all 0.3s ease',
+                  '&:hover': { bgcolor: 'white', transform: 'translateY(-8px)', boxShadow: '0 20px 40px rgba(0,0,0,0.04)' }
+                }}>
+                  <Box sx={{ color: 'primary.main', mb: 3 }}>{feature.icon}</Box>
+                  <Typography variant="h5" sx={{ fontWeight: 700, mb: 2 }}>{feature.title}</Typography>
+                  <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
+                    {feature.desc}
+                  </Typography>
+                </Box>
+              </Grid>
+            ))}
           </Grid>
         </Box>
 
