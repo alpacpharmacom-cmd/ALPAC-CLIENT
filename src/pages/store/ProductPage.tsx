@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import {
   Add, Remove, ShoppingCart, FavoriteBorder, Favorite,
-  LocalShipping, VerifiedUser, Yard, Star
+  LocalShipping, VerifiedUser, Yard, Star, GppGood, WorkspacePremium
 } from '@mui/icons-material';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
@@ -308,12 +308,48 @@ export default function ProductPage() {
                   {product.name}
                 </Typography>
 
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: { xs: 2, md: 4 } }}>
-                  <Rating value={product.rating} readOnly precision={0.5} size="small" />
-                  <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 500 }}>
+                {/* Rating and Review Link */}
+                <Stack direction="row" spacing={2} sx={{ alignItems: 'center', mb: 3 }}>
+                  <Rating value={product.rating} readOnly precision={0.5} />
+                  <Typography 
+                    component="a" 
+                    href="#reviews"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.getElementById('reviews')?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    sx={{ 
+                      color: 'text.secondary', 
+                      fontWeight: 600, 
+                      fontSize: '0.85rem',
+                      textDecoration: 'underline',
+                      cursor: 'pointer',
+                      '&:hover': { color: 'primary.main' }
+                    }}
+                  >
                     {product.numReviews} Trusted Reviews
                   </Typography>
-                </Box>
+                  <Divider orientation="vertical" flexItem sx={{ height: 16, my: 'auto' }} />
+                  <Typography 
+                    component="a" 
+                    href="#write-review"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.getElementById('write-review')?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    sx={{ 
+                      color: 'primary.main', 
+                      fontWeight: 800, 
+                      fontSize: '0.75rem',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.1em',
+                      cursor: 'pointer',
+                      '&:hover': { textDecoration: 'underline' }
+                    }}
+                  >
+                    Write a Review
+                  </Typography>
+                </Stack>
 
                 <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 2, mb: { xs: 2, md: 4 } }}>
                   <Typography
@@ -459,6 +495,42 @@ export default function ProductPage() {
                     </Stack>
                   </Stack>
                 )}
+                
+                {/* Trust & Service Highlights */}
+                <Box sx={{ 
+                  mt: 6, 
+                  pt: 4, 
+                  borderTop: '1px dashed rgba(0,0,0,0.1)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 2.5
+                }}>
+                  {[
+                    { icon: <WorkspacePremium />, title: 'Premium Quality', desc: '100% Authentic botanical formula' },
+                    { icon: <GppGood />, title: 'Secure Transaction', desc: 'Encrypted and protected payment' },
+                    { icon: <LocalShipping />, title: 'Carbon-Neutral Delivery', desc: 'Sustainable logistics for all orders' }
+                  ].map((item, i) => (
+                    <Stack key={i} direction="row" spacing={2} sx={{ alignItems: 'center' }}>
+                      <Box sx={{ 
+                        color: 'primary.main', 
+                        display: 'flex', 
+                        p: 1, 
+                        borderRadius: '12px', 
+                        bgcolor: 'rgba(45,75,56,0.05)' 
+                      }}>
+                        {item.icon}
+                      </Box>
+                      <Box>
+                        <Typography variant="caption" sx={{ fontWeight: 800, color: 'primary.dark', display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                          {item.title}
+                        </Typography>
+                        <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 500 }}>
+                          {item.desc}
+                        </Typography>
+                      </Box>
+                    </Stack>
+                  ))}
+                </Box>
 
 
               </MotionBox>
@@ -635,7 +707,7 @@ export default function ProductPage() {
         )}
 
         {/* Reviews Section - Boxed Container */}
-        <Box sx={{ 
+        <Box id="reviews" sx={{ 
           mt: { xs: 6, md: 16 }, 
           bgcolor: 'rgba(244, 242, 238, 0.4)', 
           borderRadius: { xs: '32px', md: '40px' }, 
@@ -700,56 +772,76 @@ export default function ProductPage() {
             </Grid>
           </Box>
 
-          {/* Submit Review - Glassmorphic Box */}
-          {isAuthenticated && (
-            <Box
-              sx={{
-                maxWidth: 1000, // Significantly wider
-                mx: 'auto',
-                mb: 10,
-                p: { xs: 3, md: 6 }, // More efficient spacing
-                bgcolor: 'rgba(255,255,255,0.9)',
-                backdropFilter: { xs: 'blur(8px)', md: 'blur(12px)' },
-                borderRadius: '24px',
-                border: '1px solid rgba(0,0,0,0.06)',
-                boxShadow: '0 8px 32px rgba(0,0,0,0.03)'
-              }}
-            >
-              <Typography variant="h5" sx={{ mb: 3, fontWeight: 700 }}>
-                Share Your Ritual
-              </Typography>
-              <Box sx={{ mb: 3 }}>
-                <Typography variant="subtitle2" sx={{ mb: 1, color: 'text.secondary' }}>How was your experience?</Typography>
-                <Rating
-                  value={reviewRating}
-                  onChange={(_, value) => setReviewRating(value)}
-                  size="large"
+          {/* Submit Review Section */}
+          <Box
+            id="write-review"
+            sx={{
+              maxWidth: 1000,
+              mx: 'auto',
+              mb: 10,
+              p: { xs: 3, md: 6 },
+              bgcolor: 'rgba(255,255,255,0.9)',
+              backdropFilter: { xs: 'blur(8px)', md: 'blur(12px)' },
+              borderRadius: '24px',
+              border: '1px solid rgba(0,0,0,0.06)',
+              boxShadow: '0 8px 32px rgba(0,0,0,0.03)',
+              textAlign: 'center'
+            }}
+          >
+            {isAuthenticated ? (
+              <>
+                <Typography variant="h5" sx={{ mb: 3, fontWeight: 700 }}>
+                  Share Your Ritual
+                </Typography>
+                <Box sx={{ mb: 3 }}>
+                  <Typography variant="subtitle2" sx={{ mb: 1, color: 'text.secondary' }}>How was your experience?</Typography>
+                  <Rating
+                    value={reviewRating}
+                    onChange={(_, value) => setReviewRating(value)}
+                    size="large"
+                  />
+                </Box>
+                <TextField
+                  fullWidth
+                  multiline
+                  rows={4}
+                  placeholder="We value your feedback on our botanical formulations..."
+                  value={reviewComment}
+                  onChange={(e) => setReviewComment(e.target.value)}
+                  sx={{ mb: 3 }}
                 />
+                <Button
+                  variant="contained"
+                  onClick={handleSubmitReview}
+                  disabled={submittingReview}
+                  size="large"
+                  fullWidth
+                  sx={{
+                    height: 56,
+                    borderRadius: '12px'
+                  }}
+                >
+                  {submittingReview ? 'Publishing...' : 'Publish Review'}
+                </Button>
+              </>
+            ) : (
+              <Box sx={{ py: 4 }}>
+                <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+                  Joined the Alpac Collective?
+                </Typography>
+                <Typography variant="body2" sx={{ color: 'text.secondary', mb: 4, maxWidth: 400, mx: 'auto' }}>
+                  Please sign in to share your experience with our botanical formulations. Your feedback helps our community grow.
+                </Typography>
+                <Button 
+                  variant="outlined" 
+                  onClick={() => navigate('/login')}
+                  sx={{ borderRadius: '50px', px: 4, py: 1 }}
+                >
+                  Sign In to Review
+                </Button>
               </Box>
-              <TextField
-                fullWidth
-                multiline
-                rows={4}
-                placeholder="We value your feedback on our botanical formulations..."
-                value={reviewComment}
-                onChange={(e) => setReviewComment(e.target.value)}
-                sx={{ mb: 3 }}
-              />
-              <Button
-                variant="contained"
-                onClick={handleSubmitReview}
-                disabled={submittingReview}
-                size="large"
-                fullWidth
-                sx={{
-                  height: 56,
-                  borderRadius: '12px'
-                }}
-              >
-                {submittingReview ? 'Publishing...' : 'Publish Review'}
-              </Button>
-            </Box>
-          )}
+            )}
+          </Box>
 
           {/* Review list */}
           <Box sx={{ maxWidth: 1150, mx: 'auto' }}>
