@@ -161,7 +161,7 @@ export default function AdminOrderDetailPage() {
                   <Box>
                     <Typography variant="body1" sx={{ fontWeight: 700, mb: 0.5 }}>{item.name}</Typography>
                     <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 600 }}>
-                      ${item.price?.toFixed(2)} <Box component="span" sx={{ color: 'rgba(0,0,0,0.2)', mx: 1 }}>|</Box> Qty: {item.quantity}
+                      ${item.price?.toFixed(2)} <Box component="span" sx={{ color: 'rgba(0,0,0,0.2)', mx: 1 }}>|</Box> Quantity: {item.quantity}
                     </Typography>
                   </Box>
                 </Box>
@@ -280,7 +280,7 @@ export default function AdminOrderDetailPage() {
                     fullWidth
                     variant="contained"
                     onClick={handleAccept}
-                    sx={{ bgcolor: '#2D4B38', borderRadius: '12px', py: 1.2, fontWeight: 800, '&:hover': { bgcolor: '#22382a' } }}
+                    sx={{ bgcolor: '#2D4B38', borderRadius: '12px', py: 0, fontWeight: 800, '&:hover': { bgcolor: '#22382a' } }}
                   >
                     Accept
                   </Button>
@@ -288,7 +288,7 @@ export default function AdminOrderDetailPage() {
                     fullWidth
                     variant="outlined"
                     onClick={handleDecline}
-                    sx={{ color: '#aa392b', borderColor: '#aa392b', borderRadius: '12px', py: 1.2, fontWeight: 800, '&:hover': { bgcolor: 'rgba(170, 57, 43, 0.05)', borderColor: '#aa392b' } }}
+                    sx={{ color: '#aa392b', borderColor: '#aa392b', borderRadius: '12px', py: 0, fontWeight: 800, '&:hover': { bgcolor: 'rgba(170, 57, 43, 0.05)', borderColor: '#aa392b' } }}
                   >
                     Decline
                   </Button>
