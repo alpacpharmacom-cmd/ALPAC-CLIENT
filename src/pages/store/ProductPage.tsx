@@ -3,13 +3,13 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import {
   Box, Container, Typography, Grid, Button, Rating, Divider,
   TextField, Breadcrumbs, Chip, IconButton, Link as MuiLink, Stack, CircularProgress,
-  LinearProgress, Tabs, Tab
+  LinearProgress
 } from '@mui/material';
 import {
   Add, Remove, ShoppingCart, FavoriteBorder, Favorite,
   LocalShipping, VerifiedUser, Yard, Star, GppGood, WorkspacePremium
 } from '@mui/icons-material';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { productsAPI } from '../../api/products.api';
 import { useCartStore } from '../../stores/cartStore';
@@ -140,12 +140,6 @@ export default function ProductPage() {
       setSubmittingReview(false);
     }
   };
-  const [tabValue, setTabValue] = useState(0);
-
-  const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
-    setTabValue(newValue);
-  };
-
 
 
   if (loading) return <DetailSkeleton type="product" />;
@@ -539,115 +533,7 @@ export default function ProductPage() {
           </Grid>
         </Box>
 
-          {/* New Premium Detail Tabs Section */}
-          <Box sx={{ mt: { xs: 6, md: 12 }, borderTop: '1px solid rgba(0,0,0,0.05)', pt: { xs: 4, md: 8 } }}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 6 }}>
-              <Tabs 
-                value={tabValue} 
-                onChange={handleTabChange} 
-                aria-label="product detail tabs"
-                centered
-                sx={{
-                  '& .MuiTabs-indicator': { bgcolor: 'primary.main', height: 3 },
-                  '& .MuiTab-root': { 
-                    fontWeight: 800, 
-                    fontSize: { xs: '0.75rem', md: '0.9rem' }, 
-                    textTransform: 'uppercase', 
-                    letterSpacing: '0.15em',
-                    px: { xs: 2, md: 4 },
-                    color: 'text.secondary',
-                    '&.Mui-selected': { color: 'primary.main' }
-                  }
-                }}
-              >
-                <Tab label="Ritual" />
-                <Tab label="Ingredients" />
-                <Tab label="Specifications" />
-                <Tab label="Botanical Promise" />
-              </Tabs>
-            </Box>
-
-            <AnimatePresence mode="wait">
-              <MotionBox
-                key={tabValue}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3 }}
-                sx={{ maxWidth: 900, mx: 'auto', textAlign: 'center' }}
-              >
-                {tabValue === 0 && (
-                  <Box>
-                    <Typography variant="h4" sx={{ fontWeight: 600, mb: 3 }}>The Alpac Ritual</Typography>
-                    <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.8, mb: 4, fontSize: '1.1rem' }}>
-                      Apply a small amount to clean, dry skin. Massage in circular motions until fully absorbed. For optimal results, incorporate into your morning and evening skincare ritual. Our botanical formula is designed to synchronize with your skin's natural rhythm.
-                    </Typography>
-                    <Grid container spacing={3} sx={{ justifyContent: 'center' }}>
-                      {[
-                        'Gentle circular application',
-                        'Morning & Evening use',
-                        'Suitable for layering',
-                        'Fast absorption'
-                      ].map((step, i) => (
-                        <Grid size={{ xs: 12, sm: 6 }} key={i}>
-                          <Stack direction="row" spacing={2} sx={{ alignItems: 'center', justifyContent: 'center' }}>
-                            <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: 'secondary.main' }} />
-                            <Typography variant="body2" sx={{ fontWeight: 700 }}>{step}</Typography>
-                          </Stack>
-                        </Grid>
-                      ))}
-                    </Grid>
-                  </Box>
-                )}
-
-                {tabValue === 1 && (
-                  <Box>
-                    <Typography variant="h4" sx={{ fontWeight: 600, mb: 3 }}>Pure Botanical Ingredients</Typography>
-                    <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.8, mb: 4, fontSize: '1.1rem' }}>
-                      We believe in the power of transparency. Every ingredient is selected for its purity and potency. Our formulations are free from synthetic fragrances, parabens, and harsh sulfates.
-                    </Typography>
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, justifyContent: 'center' }}>
-                      {['Organic Aloe Vera', 'Alpine Water', 'Shea Butter', 'Botanical Extracts', 'Vitamin E', 'Hyaluronic Acid'].map((ing) => (
-                        <Chip 
-                          key={ing} 
-                          label={ing} 
-                          sx={{ 
-                            bgcolor: 'rgba(45,75,56,0.05)', 
-                            fontWeight: 700, 
-                            border: '1px solid rgba(45,75,56,0.1)' 
-                          }} 
-                        />
-                      ))}
-                    </Box>
-                  </Box>
-                )}
-
-                {tabValue === 2 && (
-                  <Box>
-                    <Typography variant="h4" sx={{ fontWeight: 600, mb: 4 }}>Detailed Specifications</Typography>
-                    <Grid container spacing={4} sx={{ maxWidth: 600, mx: 'auto' }}>
-                      {[
-                        { label: 'Formulation', value: 'Cream-Gel' },
-                        { label: 'Net Weight', value: product.weight || '100ml' },
-                        { label: 'Skin Type', value: 'All Sensitive Types' },
-                        { label: 'Fragrance', value: 'Naturally Derived' },
-                        { label: 'pH Level', value: '5.5 Balanced' },
-                        { label: 'Shelf Life', value: '24 Months' }
-                      ].map((spec, i) => (
-                        <Grid size={{ xs: 6 }} key={i} sx={{ textAlign: 'left', borderBottom: '1px solid rgba(0,0,0,0.05)', pb: 1 }}>
-                          <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 800, textTransform: 'uppercase' }}>
-                            {spec.label}
-                          </Typography>
-                          <Typography variant="body1" sx={{ fontWeight: 700 }}>
-                            {spec.value}
-                          </Typography>
-                        </Grid>
-                      ))}
-                    </Grid>
-                  </Box>
-                )}
-
-                {tabValue === 3 && (
+                
                   <Box>
                     <Typography variant="h4" sx={{ fontWeight: 600, mb: 3 }}>Our Botanical Promise</Typography>
                     <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.8, mb: 6, fontSize: '1.1rem' }}>
@@ -667,10 +553,7 @@ export default function ProductPage() {
                       ))}
                     </Stack>
                   </Box>
-                )}
-              </MotionBox>
-            </AnimatePresence>
-          </Box>
+
 
 
         {/* Related Products Section */}
