@@ -137,9 +137,9 @@ export default function AdminOrderDetailPage() {
 
       <Grid container spacing={4}>
         {/* Left Column */}
-        <Grid size={{ xs: 12, lg: 8 }}>
+        <Grid size={{ xs: 12, lg: 8 }} sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
           {/* Order Items */}
-          <Box sx={{ bgcolor: 'white', border: '1px solid rgba(0,0,0,0.06)', borderRadius: '24px', p: 4, mb: 4, boxShadow: '0 10px 40px rgba(0,0,0,0.03)' }}>
+          <Box sx={{ bgcolor: 'white', border: '1px solid rgba(0,0,0,0.06)', borderRadius: '24px', p: 4, boxShadow: '0 10px 40px rgba(0,0,0,0.03)', flexGrow: 1 }}>
             <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center', mb: 3 }}>
               <Box sx={{ p: 1, borderRadius: '10px', bgcolor: 'rgba(45, 75, 56, 0.05)', color: 'primary.main' }}>
                 <ShoppingBag fontSize="small" />
@@ -175,7 +175,7 @@ export default function AdminOrderDetailPage() {
           {/* Customer & Shipping Info */}
           <Grid container spacing={3}>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <Box sx={{ bgcolor: 'white', border: '1px solid rgba(0,0,0,0.06)', borderRadius: '24px', p: 4, height: '100%', boxShadow: '0 10px 40px rgba(0,0,0,0.03)' }}>
+              <Box sx={{ bgcolor: 'white', border: '1px solid rgba(0,0,0,0.06)', borderRadius: '24px', p: 4, height: '100%', boxShadow: '0 10px 40px rgba(0,0,0,0.03)', display: 'flex', flexDirection: 'column' }}>
                 <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center', mb: 3 }}>
                   <Box sx={{ p: 1, borderRadius: '10px', bgcolor: 'rgba(108, 92, 231, 0.05)', color: '#6c5ce7' }}>
                     <Person fontSize="small" />
@@ -200,7 +200,9 @@ export default function AdminOrderDetailPage() {
                     <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>{order.user?.email}</Typography>
                   </Box>
                 </Box>
-                <Button component={Link} to={`/admin/users/${order.user?._id}`} variant="outlined" size="small" sx={{ borderRadius: '12px', color: 'text.secondary', borderColor: 'rgba(0,0,0,0.1)' }}>View Profile</Button>
+                <Box sx={{ mt: 'auto' }}>
+                  <Button component={Link} to={`/admin/users/${order.user?._id}`} variant="outlined" size="small" sx={{ borderRadius: '12px', color: 'text.secondary', borderColor: 'rgba(0,0,0,0.1)' }}>View Profile</Button>
+                </Box>
               </Box>
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
@@ -223,9 +225,9 @@ export default function AdminOrderDetailPage() {
         </Grid>
 
         {/* Right Column */}
-        <Grid size={{ xs: 12, lg: 4 }}>
+        <Grid size={{ xs: 12, lg: 4 }} sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
           {/* Payment Summary */}
-          <Box sx={{ bgcolor: 'white', border: '1px solid rgba(0,0,0,0.06)', borderRadius: '24px', p: 4, mb: 4, boxShadow: '0 10px 40px rgba(0,0,0,0.03)' }}>
+          <Box sx={{ bgcolor: 'white', border: '1px solid rgba(0,0,0,0.06)', borderRadius: '24px', p: 4, boxShadow: '0 10px 40px rgba(0,0,0,0.03)' }}>
             <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center', mb: 3 }}>
               <Box sx={{ p: 1, borderRadius: '10px', bgcolor: 'rgba(45, 75, 56, 0.05)', color: 'primary.main' }}>
                 <Payment fontSize="small" />
@@ -253,7 +255,7 @@ export default function AdminOrderDetailPage() {
           </Box>
 
           {/* Management Console */}
-          <Box sx={{ bgcolor: 'white', border: '1px solid rgba(0,0,0,0.06)', borderRadius: '24px', p: 4, boxShadow: '0 10px 40px rgba(0,0,0,0.03)' }}>
+          <Box sx={{ bgcolor: 'white', border: '1px solid rgba(0,0,0,0.06)', borderRadius: '24px', p: 4, boxShadow: '0 10px 40px rgba(0,0,0,0.03)', flexGrow: 1 }}>
             <Typography variant="h6" sx={{ fontWeight: 800, mb: 3 }}>Management Console</Typography>
             
             {order.status === 'pending' && (

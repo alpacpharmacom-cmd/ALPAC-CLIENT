@@ -135,7 +135,7 @@ export default function AdminUserDetailPage() {
 
       <Grid container spacing={4}>
         {/* Left Column: Avatar & Quick Info */}
-        <Grid size={{ xs: 12, lg: 4 }}>
+        <Grid size={{ xs: 12, lg: 4 }} sx={{ display: 'flex', flexDirection: 'column' }}>
           <Box 
             sx={{ 
               bgcolor: 'white', 
@@ -143,7 +143,10 @@ export default function AdminUserDetailPage() {
               borderRadius: '24px', 
               p: 5, 
               textAlign: 'center',
-              boxShadow: '0 10px 40px rgba(0,0,0,0.03)'
+              boxShadow: '0 10px 40px rgba(0,0,0,0.03)',
+              flexGrow: 1,
+              display: 'flex',
+              flexDirection: 'column'
             }}
           >
             <Avatar 
@@ -179,7 +182,7 @@ export default function AdminUserDetailPage() {
             
             <Divider sx={{ mb: 4 }} />
             
-            <Stack spacing={2.5} sx={{ textAlign: 'left' }}>
+            <Stack spacing={2.5} sx={{ textAlign: 'left', mt: 'auto' }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                 <Box sx={{ p: 1, borderRadius: '8px', bgcolor: 'rgba(0,0,0,0.03)', color: 'text.secondary' }}>
                   <Email fontSize="small" />
@@ -221,14 +224,15 @@ export default function AdminUserDetailPage() {
         </Grid>
 
         {/* Right Column: Edit Form */}
-        <Grid size={{ xs: 12, lg: 8 }}>
+        <Grid size={{ xs: 12, lg: 8 }} sx={{ display: 'flex' }}>
           <Box 
             sx={{ 
                 bgcolor: 'white', 
                 border: '1px solid rgba(0,0,0,0.06)', 
                 borderRadius: '24px',
                 p: 5,
-                boxShadow: '0 10px 40px rgba(0,0,0,0.03)'
+                boxShadow: '0 10px 40px rgba(0,0,0,0.03)',
+                flexGrow: 1
             }}
           >
             <Box sx={{ mb:  5}}>
