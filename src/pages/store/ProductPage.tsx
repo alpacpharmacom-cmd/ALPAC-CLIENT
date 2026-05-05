@@ -175,10 +175,10 @@ export default function ProductPage() {
           bgcolor: { xs: 'rgba(255, 255, 255, 0.9)', md: 'rgba(255, 255, 255, 0.7)' }, 
           backdropFilter: { xs: 'blur(10px)', md: 'blur(20px)' },
           borderRadius: { xs: '32px', md: '48px' }, 
-          p: { xs: 2.5, md: 10 }, 
+          p: { xs: 2.5, md: 6 }, 
           border: '1px solid rgba(255, 255, 255, 0.6)',
           boxShadow: '0 40px 120px rgba(0,0,0,0.06)',
-          mb: { xs: 6, md: 12 },
+          mb: { xs: 4, md: 8 },
           overflow: 'hidden',
           position: 'relative'
         }}>
@@ -194,9 +194,9 @@ export default function ProductPage() {
             filter: 'blur(60px)',
             zIndex: 0
           }} />
-          <Grid container spacing={{ xs: 4, md: 12 }} sx={{ position: 'relative', zIndex: 1 }}>
+          <Grid container spacing={{ xs: 4, md: 8 }} sx={{ position: 'relative', zIndex: 1 }}>
             {/* Product Image Section */}
-            <Grid size={{ xs: 12, md: 6.5 }}>
+            <Grid size={{ xs: 12, md: 5 }}>
               <MotionBox
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -205,7 +205,7 @@ export default function ProductPage() {
                 <Box
                   sx={{
                     bgcolor: '#f5f4f0',
-                    aspectRatio: '4/5',
+                    aspectRatio: '0.9',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -260,11 +260,12 @@ export default function ProductPage() {
             </Grid>
 
             {/* Product Info Section */}
-            <Grid size={{ xs: 12, md: 5.5 }}>
+            <Grid size={{ xs: 12, md: 7 }}>
               <MotionBox
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
+                sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
               >
                 <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
                   <Chip
@@ -300,8 +301,8 @@ export default function ProductPage() {
                   variant="h1"
                   sx={{
                     fontWeight: 600,
-                    fontSize: { xs: '2rem', md: '3.2rem' },
-                    mb: { xs: 1.5, md: 3 },
+                    fontSize: { xs: '1.8rem', md: '2.5rem' },
+                    mb: { xs: 1, md: 2 },
                     color: 'text.primary'
                   }}
                 >
@@ -498,12 +499,12 @@ export default function ProductPage() {
                 
                 {/* Trust & Service Highlights */}
                 <Box sx={{ 
-                  mt: 6, 
+                  mt: 'auto', 
                   pt: 4, 
                   borderTop: '1px dashed rgba(0,0,0,0.1)',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: 2.5
+                  gap: 2
                 }}>
                   {[
                     { icon: <WorkspacePremium />, title: 'Premium Quality', desc: '100% Authentic botanical formula' },
