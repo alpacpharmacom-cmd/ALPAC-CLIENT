@@ -56,6 +56,8 @@ export default function ProductCard({
       return;
     }
 
+    if (isInCart) return;
+
     setAddingToCart(true);
     try {
       await addToCart(product._id, 1);
@@ -85,7 +87,6 @@ export default function ProductCard({
           px: 0,
           pt: { xs: 1, sm: 2 },
           pb: 0,
-
           border: '1px solid rgba(0,0,0,0.05)',
           boxShadow: '0 10px 40px rgba(0,0,0,0.03)',
           transition: 'all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1)',
@@ -93,12 +94,12 @@ export default function ProductCard({
           height: '100%',
           position: 'relative',
           '&:hover': {
-            transform: 'translateY(-10px)',
-            boxShadow: '0 30px 60px rgba(0,0,0,0.08)',
-            borderColor: 'primary.main',
+            transform: 'translateY(-8px)',
+            boxShadow: '0 30px 60px rgba(45,75,56,0.12)',
+            borderColor: 'rgba(45,75,56,0.15)',
           },
           '&:hover .product-img': {
-            transform: 'scale(1.1)',
+            transform: 'scale(1.08)',
           },
           '&:hover .product-name': {
             color: 'primary.main',
@@ -190,13 +191,19 @@ export default function ProductCard({
               position: 'absolute',
               top: 12,
               right: 12,
-              bgcolor: 'rgba(255,255,255,0.9)',
+              bgcolor: 'rgba(255,255,255,0.95)',
               backdropFilter: 'blur(8px)',
-              '&:hover': { bgcolor: 'white' },
+              '&:hover': { 
+                bgcolor: 'white',
+                transform: 'scale(1.1)',
+                color: 'error.main'
+              },
               color: isWishlisted ? 'error.main' : 'text.primary',
               zIndex: 10,
-              width: { xs: 28, sm: 38 },
-              height: { xs: 28, sm: 38 },
+              width: { xs: 32, sm: 38 },
+              height: { xs: 32, sm: 38 },
+              transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
             }}
           >
             {isWishlisted ? <Favorite sx={{ fontSize: { xs: 18, sm: 20 } }} /> : <FavoriteBorder sx={{ fontSize: { xs: 18, sm: 20 } }} />}
@@ -284,33 +291,44 @@ export default function ProductCard({
               variant="contained"
               fullWidth
               size="small"
-              disabled={product.stockStatus === 'Out of Stock' || addingToCart || isInCart}
+              disabled={product.stockStatus === 'Out of Stock' || addingToCart}
               onClick={handleAddToCartInternal}
               startIcon={addingToCart || isInCart ? null : <ShoppingCart sx={{ fontSize: { xs: '0.75rem !important', sm: '0.9rem !important' } }} />}
               sx={{
                 mt: 'auto',
                 mb: {xs: -2, sm: -1.5},
-                bgcolor: isInCart ? 'rgba(0,0,0,0.05)' : 'primary.main',
-                color: isInCart ? 'text.secondary' : 'white',
+                bgcolor: isInCart ? 'rgba(45,75,56,0.1)' : 'primary.main',
+                color: isInCart ? 'primary.main' : 'white',
                 borderRadius: 0,
                 borderBottomLeftRadius: { xs: '16px', sm: '20px' },
                 borderBottomRightRadius: { xs: '16px', sm: '20px' },
                 fontSize: { xs: '0.65rem', sm: '0.75rem' },
-                fontWeight: 700,
-                py: { xs: 1, sm: 1.4 },
+                fontWeight: 800,
+                py: { xs: 1.2, sm: 1.6 },
                 whiteSpace: 'nowrap',
-                transition: 'all 0.2s ease',
-                '&:hover': { bgcolor: isInCart ? 'rgba(0,0,0,0.05)' : 'primary.dark' },
-                '&:active': { transform: isInCart ? 'none' : 'scale(0.98)' },
-                border: isInCart ? '1px solid rgba(0,0,0,0.1)' : 'none',
-                mx: -0,
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                boxShadow: 'none',
+                '&:hover': { 
+                  bgcolor: isInCart ? 'rgba(45,75,56,0.15)' : 'primary.dark',
+                  boxShadow: 'none',
+                },
+                '&:active': { 
+                  transform: 'scale(0.98)',
+                },
+                '&.Mui-disabled': {
+                  bgcolor: product.stockStatus === 'Out of Stock' ? 'rgba(0,0,0,0.1)' : (isInCart ? 'rgba(45,75,56,0.1)' : 'primary.main'),
+                  color: product.stockStatus === 'Out of Stock' ? 'text.disabled' : (isInCart ? 'primary.main' : 'white'),
+                  opacity: product.stockStatus === 'Out of Stock' ? 0.6 : 1,
+                },
+                borderTop: '1px solid rgba(0,0,0,0.03)',
+                mx: 0,
                 width: '100%',
               }}
             >
               {addingToCart ? (
                 <CircularProgress size={16} color="inherit" />
               ) : (
-                product.stockStatus === 'Out of Stock' ? 'Sold Out' : (isInCart ? 'In Cart' : 'Add to Cart')
+                product.stockStatus === 'Out of Stock' ? 'Sold Out' : (isInCart ? 'View in Cart' : 'Add to Cart')
               )}
             </Button>
           )}
@@ -318,4 +336,5 @@ export default function ProductCard({
       </Card>
     </MotionBox>
   );
+
 }

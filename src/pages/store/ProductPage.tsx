@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import {
   Box, Container, Typography, Grid, Button, Rating, Divider,
-  TextField, Breadcrumbs, Chip, IconButton, Link as MuiLink, Stack
+  TextField, Breadcrumbs, Chip, IconButton, Link as MuiLink, Stack, CircularProgress
 } from '@mui/material';
 import { Add, Remove, ShoppingCart, FavoriteBorder, Favorite } from '@mui/icons-material';
 import { motion } from 'framer-motion';
@@ -18,6 +18,7 @@ const MotionBox = motion.create(Box);
 
 export default function ProductPage() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const { isAuthenticated } = useAuthStore();
   const { items: cartItems, addToCart } = useCartStore();
   const { fetchProductById } = useProductStore();
@@ -50,16 +51,27 @@ export default function ProductPage() {
     }
   }, [id]);
 
+  const [addingToCart, setAddingToCart] = useState(false);
+
   const handleAddToCart = async () => {
     if (!isAuthenticated) {
       toast.error('Please login to add items to cart');
       return;
     }
+    
+    if (isInCart) {
+      navigate('/cart');
+      return;
+    }
+
+    setAddingToCart(true);
     try {
       await addToCart(product._id, quantity);
       toast.success('Added to cart!');
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Failed to add to cart');
+    } finally {
+      setAddingToCart(false);
     }
   };
 
@@ -343,24 +355,31 @@ export default function ProductPage() {
                       <Button
                         variant="contained"
                         size="large"
+                        disabled={addingToCart}
                         onClick={handleAddToCart}
-                        disabled={isInCart}
-                        startIcon={isInCart ? null : <ShoppingCart />}
+                        startIcon={addingToCart || isInCart ? null : <ShoppingCart />}
                         sx={{
                           flex: 1,
-                          height: { xs: 48, sm: 64 },
+                          height: { xs: 56, sm: 64 },
                           borderRadius: '16px',
-                          fontSize: { xs: '1rem', sm: '1.1rem' },
-                          fontWeight: 700,
+                          fontSize: { xs: '0.9rem', sm: '1.05rem' },
+                          fontWeight: 800,
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.05em',
                           boxShadow: isInCart ? 'none' : '0 10px 30px rgba(45,75,56,0.15)',
                           whiteSpace: 'nowrap',
-                          bgcolor: isInCart ? 'rgba(0,0,0,0.05)' : 'primary.main',
-                          color: isInCart ? 'text.secondary' : 'white',
-                          border: isInCart ? '1px solid rgba(0,0,0,0.1)' : 'none',
-                          '&:hover': { bgcolor: isInCart ? 'rgba(0,0,0,0.05)' : 'primary.dark' }
+                          bgcolor: isInCart ? 'rgba(45,75,56,0.1)' : 'primary.main',
+                          color: isInCart ? 'primary.main' : 'white',
+                          border: isInCart ? '1px solid rgba(45,75,56,0.2)' : 'none',
+                          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                          '&:hover': { 
+                            bgcolor: isInCart ? 'rgba(45,75,56,0.15)' : 'primary.dark',
+                            boxShadow: isInCart ? 'none' : '0 15px 40px rgba(45,75,56,0.25)',
+                            transform: 'translateY(-2px)'
+                          }
                         }}
                       >
-                        {isInCart ? 'In Cart' : 'Add to Cart'}
+                        {addingToCart ? <CircularProgress size={24} color="inherit" /> : (isInCart ? 'View in Cart' : 'Add to Cart')}
                       </Button>
 
                       <IconButton
@@ -369,11 +388,16 @@ export default function ProductPage() {
                           border: '2px solid',
                           borderColor: 'rgba(0,0,0,0.05)',
                           borderRadius: '16px',
-                          width: { xs: 48, sm: 64 },
-                          height: { xs: 48, sm: 64 },
+                          width: { xs: 56, sm: 64 },
+                          height: { xs: 56, sm: 64 },
                           color: isWishlisted ? 'error.main' : 'text.primary',
                           bgcolor: 'white',
-                          '&:hover': { bgcolor: '#f8f7f4' }
+                          transition: 'all 0.3s ease',
+                          '&:hover': { 
+                            bgcolor: isWishlisted ? 'rgba(211,47,47,0.04)' : '#f8f7f4',
+                            transform: 'scale(1.05)',
+                            borderColor: isWishlisted ? 'error.main' : 'rgba(0,0,0,0.1)'
+                          }
                         }}
                       >
                         {isWishlisted ? <Favorite /> : <FavoriteBorder />}
@@ -383,6 +407,7 @@ export default function ProductPage() {
                 )}
               </MotionBox>
             </Grid>
+
           </Grid>
         </Box>
 

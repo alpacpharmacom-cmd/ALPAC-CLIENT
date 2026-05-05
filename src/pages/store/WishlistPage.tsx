@@ -3,11 +3,14 @@ import { Link } from 'react-router-dom';
 import {
   Box, Container, Typography, Grid, Button, Skeleton
 } from '@mui/material';
-import { Delete, ArrowBack } from '@mui/icons-material';
+import { Delete, ArrowBack, Favorite } from '@mui/icons-material';
 import toast from 'react-hot-toast';
 import { useWishlistStore } from '../../stores/wishlistStore';
 import CardSkeleton from '../../components/skeletons/CardSkeleton';
 import ProductCard from '../../components/store/ProductCard';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const MotionBox = motion.create(Box);
 
 export default function WishlistPage() {
   const { items, loading, fetchWishlist, toggleWishlistProduct, clearWishlist } = useWishlistStore();
@@ -57,12 +60,12 @@ export default function WishlistPage() {
   }
 
   return (
-    <Box>
+    <Box sx={{ minHeight: '100vh', bgcolor: 'transparent' }}>
       <Box 
         sx={{ 
           bgcolor: 'primary.dark', 
-          pt: { xs: 4, md: 12 }, 
-          pb: { xs: 4, md: 12 }, 
+          pt: { xs: 6, md: 12 }, 
+          pb: { xs: 6, md: 12 }, 
           textAlign: 'center', 
           color: 'white', 
           position: 'relative', 
@@ -75,7 +78,7 @@ export default function WishlistPage() {
             variant="h1"
             sx={{ 
               fontWeight: 700, 
-              fontSize: { xs: '2rem', md: '4rem' }, 
+              fontSize: { xs: '2.5rem', md: '4rem' }, 
               fontFamily: '"Playfair Display", serif',
               letterSpacing: '-0.02em',
               mb: 1
@@ -84,7 +87,7 @@ export default function WishlistPage() {
             My Wishlist
           </Typography>
           <Typography variant="subtitle1" sx={{ opacity: 0.8, fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', fontSize: '0.8rem' }}>
-            A curated collection of desired Products
+            Your Curated Collection of Excellence
           </Typography>
         </Box>
         <Box 
@@ -98,11 +101,28 @@ export default function WishlistPage() {
         />
       </Box>
 
-      <Container maxWidth={false} sx={{ px: { xs: 1.5, md: 6, lg: 10 }, py: { xs: 3, md: 10 } }}>
+      <Container maxWidth={false} sx={{ px: { xs: 1.5, md: 6, lg: 10 }, py: { xs: 4, md: 10 } }}>
         {items.length === 0 ? (
-          <Box sx={{ textAlign: 'center', py: 8 }}>
-            <Typography variant="h5" sx={{ mb: 3, fontWeight: 300, color: 'text.secondary' }}>
-              Your wishlist is currently empty.
+          <MotionBox 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            sx={{ 
+              textAlign: 'center', 
+              py: 12, 
+              px: 4,
+              bgcolor: 'white',
+              borderRadius: '32px',
+              boxShadow: '0 40px 80px rgba(0,0,0,0.04)',
+              maxWidth: 600,
+              mx: 'auto'
+            }}
+          >
+            <Favorite sx={{ fontSize: 64, color: 'primary.main', opacity: 0.1, mb: 3 }} />
+            <Typography variant="h4" sx={{ mb: 2, fontWeight: 700, fontFamily: '"Playfair Display", serif', color: 'primary.dark' }}>
+              Your Registry is Empty
+            </Typography>
+            <Typography variant="body1" sx={{ color: 'text.secondary', mb: 4, lineHeight: 1.8 }}>
+              Begin your journey by discovering botanical formulations and wellness selections to add to your personal curated collection.
             </Typography>
             <Button
               component={Link}
@@ -110,11 +130,23 @@ export default function WishlistPage() {
               variant="contained"
               size="large"
               startIcon={<ArrowBack />}
-              sx={{ bgcolor: '#4a6741', '&:hover': { bgcolor: '#3a5331' } }}
+              sx={{ 
+                bgcolor: 'primary.main', 
+                color: 'white',
+                px: 5,
+                py: 1.5,
+                borderRadius: '50px',
+                fontWeight: 800,
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                boxShadow: '0 8px 25px rgba(45,75,56,0.25)',
+                '&:hover': { bgcolor: 'primary.dark', transform: 'translateY(-2px)' },
+                transition: 'all 0.3s ease'
+              }}
             >
-              Continue Shopping
+              Discover Shop
             </Button>
-          </Box>
+          </MotionBox>
         ) : (
           <Box>
             <Box 
@@ -124,11 +156,11 @@ export default function WishlistPage() {
                 justifyContent: 'space-between', 
                 alignItems: { xs: 'flex-start', sm: 'center' }, 
                 gap: 2,
-                mb: 4 
+                mb: { xs: 4, md: 6 }
               }}
             >
-              <Typography variant="body1" sx={{ color: 'text.secondary', fontWeight: 500 }}>
-                {items.length} item{items.length !== 1 ? 's' : ''} saved
+              <Typography variant="h5" sx={{ fontWeight: 800, fontFamily: '"Playfair Display", serif', color: 'primary.dark' }}>
+                Saved Selections <Typography component="span" sx={{ color: 'text.secondary', fontSize: '1rem', ml: 1 }}>({items.length})</Typography>
               </Typography>
               <Button
                 variant="outlined"
@@ -136,23 +168,43 @@ export default function WishlistPage() {
                 startIcon={<Delete />}
                 onClick={handleClear}
                 size="small"
-                sx={{ borderRadius: '10px' }}
+                sx={{ 
+                  borderRadius: '50px',
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                  px: 2,
+                  py: 1,
+                  borderColor: 'rgba(170,57,43,0.2)',
+                  '&:hover': { bgcolor: 'rgba(170,57,43,0.05)', borderColor: 'error.main' }
+                }}
               >
-                Clear Wishlist
+                Clear All
               </Button>
             </Box>
 
-            <Grid container spacing={{ xs: 2, sm: 4.5 }}>
-              {items.map((item, index) => (
-                <Grid size={{ xs: 6, sm: 4, md: 3 }} key={item._id}>
-                  <ProductCard
-                    product={item}
-                    index={index}
-                    handleToggleWishlist={handleRemove}
-                    isWishlisted={true}
-                  />
-                </Grid>
-              ))}
+            <Grid container spacing={{ xs: 2, sm: 4, md: 5 }}>
+              <AnimatePresence mode="popLayout">
+                {items.map((item, index) => (
+                  <Grid 
+                    component={motion.div} 
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8, filter: 'blur(10px)' }}
+                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                    size={{ xs: 6, sm: 4, md: 3 }} 
+                    key={item._id}
+                  >
+                    <ProductCard
+                      product={item}
+                      index={index}
+                      handleToggleWishlist={handleRemove}
+                      isWishlisted={true}
+                    />
+                  </Grid>
+                ))}
+              </AnimatePresence>
             </Grid>
           </Box>
         )}
@@ -160,3 +212,4 @@ export default function WishlistPage() {
     </Box>
   );
 }
+
