@@ -271,7 +271,7 @@ export default function AdminOrderDetailPage() {
                   multiline
                   rows={2}
                   sx={{ 
-                    mb: 2,
+                    mb: 0 ,
                     '& .MuiOutlinedInput-root': { borderRadius: '12px' }
                   }}
                 />
@@ -280,7 +280,7 @@ export default function AdminOrderDetailPage() {
                     fullWidth
                     variant="contained"
                     onClick={handleAccept}
-                    sx={{ bgcolor: '#2D4B38', borderRadius: '12px', py: 0, fontWeight: 800, '&:hover': { bgcolor: '#22382a' } }}
+                    sx={{ bgcolor: '#2D4B38', borderRadius: '12px', py: 1.2, fontWeight: 800, '&:hover': { bgcolor: '#22382a' } }}
                   >
                     Accept
                   </Button>
@@ -288,7 +288,7 @@ export default function AdminOrderDetailPage() {
                     fullWidth
                     variant="outlined"
                     onClick={handleDecline}
-                    sx={{ color: '#aa392b', borderColor: '#aa392b', borderRadius: '12px', py: 0, fontWeight: 800, '&:hover': { bgcolor: 'rgba(170, 57, 43, 0.05)', borderColor: '#aa392b' } }}
+                    sx={{ color: '#aa392b', borderColor: '#aa392b', borderRadius: '12px', py: 1.2, fontWeight: 800, '&:hover': { bgcolor: 'rgba(170, 57, 43, 0.05)', borderColor: '#aa392b' } }}
                   >
                     Decline
                   </Button>
