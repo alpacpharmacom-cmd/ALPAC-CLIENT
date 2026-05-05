@@ -2,9 +2,14 @@ import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import {
   Box, Container, Typography, Grid, Button, Rating, Divider,
-  TextField, Breadcrumbs, Chip, IconButton, Link as MuiLink, Stack, CircularProgress
+  TextField, Breadcrumbs, Chip, IconButton, Link as MuiLink, Stack, CircularProgress,
+  Accordion, AccordionSummary, AccordionDetails, LinearProgress
 } from '@mui/material';
-import { Add, Remove, ShoppingCart, FavoriteBorder, Favorite } from '@mui/icons-material';
+import { 
+  Add, Remove, ShoppingCart, FavoriteBorder, Favorite, 
+  ExpandMore, LocalShipping, VerifiedUser, Yard, AssignmentReturn,
+  Star
+} from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { productsAPI } from '../../api/products.api';
@@ -13,6 +18,8 @@ import { useAuthStore } from '../../stores/authStore';
 import { useWishlistStore } from '../../stores/wishlistStore';
 import { useProductStore } from '../../stores/productStore';
 import DetailSkeleton from '../../components/skeletons/DetailSkeleton';
+import ProductCard from '../../components/store/ProductCard';
+import AmbientBackground from '../../components/common/AmbientBackground';
 
 const MotionBox = motion.create(Box);
 
@@ -30,6 +37,8 @@ export default function ProductPage() {
   const [reviewComment, setReviewComment] = useState('');
   const [submittingReview, setSubmittingReview] = useState(false);
   const { items: wishlistItems, toggleWishlistProduct } = useWishlistStore();
+  const { fetchAllProducts } = useProductStore();
+  const [relatedProducts, setRelatedProducts] = useState<any[]>([]);
   
   const isWishlisted = product ? wishlistItems.some((item) => item._id === product._id) : false;
 
@@ -38,17 +47,29 @@ export default function ProductPage() {
       setLoading(!force);
       const data = await fetchProductById(id!, force);
       setProduct(data);
+      return data;
     } catch {
       toast.error('Product not found');
+      return null;
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (id) {
-      fetchProduct();
-    }
+    const loadData = async () => {
+      if (id) {
+        const data = await fetchProduct(false);
+        if (data) {
+          await fetchAllProducts();
+          const related = useProductStore.getState().allProducts
+            .filter((p: any) => p.category === data.category && p._id !== data._id)
+            .slice(0, 4);
+          setRelatedProducts(related);
+        }
+      }
+    };
+    loadData();
   }, [id]);
 
   const [addingToCart, setAddingToCart] = useState(false);
@@ -78,14 +99,21 @@ export default function ProductPage() {
     }
   };
 
-  const handleToggleWishlist = async () => {
+  const handleToggleWishlist = async (e?: React.MouseEvent, productId?: string) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     if (!isAuthenticated) {
       toast.error('Please login to use wishlist');
       return;
     }
+    const targetId = productId || product._id;
+    const isTargetWishlisted = wishlistItems.some((item) => item._id === targetId);
+    
     try {
-      await toggleWishlistProduct(product._id);
-      if (isWishlisted) {
+      await toggleWishlistProduct(targetId);
+      if (isTargetWishlisted) {
         toast.success('Removed from wishlist');
       } else {
         toast.success('Added to wishlist!');
@@ -140,14 +168,29 @@ export default function ProductPage() {
         </Breadcrumbs>
 
         <Box sx={{ 
-          bgcolor: 'white', 
-          borderRadius: '32px', 
+          bgcolor: 'rgba(255, 255, 255, 0.7)', 
+          backdropFilter: 'blur(20px)',
+          borderRadius: '40px', 
           p: { xs: 2, md: 8 }, 
-          border: '1px solid rgba(0,0,0,0.06)',
-          boxShadow: '0 12px 60px rgba(0,0,0,0.03)',
-          mb: { xs: 4, md: 8 }
+          border: '1px solid rgba(255, 255, 255, 0.5)',
+          boxShadow: '0 20px 80px rgba(0,0,0,0.04)',
+          mb: { xs: 4, md: 8 },
+          overflow: 'hidden',
+          position: 'relative'
         }}>
-          <Grid container spacing={{ xs: 3, md: 10 }}>
+          {/* Subtle Accent Gradient */}
+          <Box sx={{ 
+            position: 'absolute', 
+            top: -200, 
+            right: -200, 
+            width: 400, 
+            height: 400, 
+            borderRadius: '50%', 
+            bgcolor: 'rgba(45,75,56,0.03)',
+            filter: 'blur(60px)',
+            zIndex: 0
+          }} />
+          <Grid container spacing={{ xs: 3, md: 10 }} sx={{ position: 'relative', zIndex: 1 }}>
             {/* Product Image */}
             <Grid size={{ xs: 12, md: 6 }}>
               <MotionBox
@@ -386,7 +429,7 @@ export default function ProductPage() {
                       </Button>
 
                       <IconButton
-                        onClick={handleToggleWishlist}
+                        onClick={(e) => handleToggleWishlist(e)}
                         sx={{
                           border: '2px solid',
                           borderColor: 'rgba(0,0,0,0.05)',
@@ -408,11 +451,102 @@ export default function ProductPage() {
                     </Stack>
                   </Stack>
                 )}
+                {/* Benefits Section */}
+                <Grid container spacing={2} sx={{ mt: 2, mb: 4 }}>
+                  {[
+                    { icon: <LocalShipping sx={{ fontSize: 20 }} />, text: 'Free Delivery' },
+                    { icon: <VerifiedUser sx={{ fontSize: 20 }} />, text: '2 Year Warranty' },
+                    { icon: <Yard sx={{ fontSize: 20 }} />, text: 'Eco-Friendly' },
+                    { icon: <AssignmentReturn sx={{ fontSize: 20 }} />, text: '30-Day Returns' },
+                  ].map((benefit, idx) => (
+                    <Grid size={{ xs: 6, sm: 3 }} key={idx}>
+                      <Stack direction="column" spacing={1} sx={{ alignItems: 'center', textAlign: 'center' }}>
+                        <Box sx={{ 
+                          p: 1.5, 
+                          borderRadius: '12px', 
+                          bgcolor: 'rgba(45,75,56,0.05)', 
+                          color: 'primary.main',
+                          display: 'flex'
+                        }}>
+                          {benefit.icon}
+                        </Box>
+                        <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary', fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                          {benefit.text}
+                        </Typography>
+                      </Stack>
+                    </Grid>
+                  ))}
+                </Grid>
+
+                {/* Product Details Accordion */}
+                <Box sx={{ mt: 4 }}>
+                  {[
+                    { title: 'Product Details', content: product.description },
+                    { title: 'Sustainability', content: 'Our commitment to the environment means using 100% recyclable packaging and ethically sourced ingredients.' },
+                    { title: 'Shipping & Returns', content: 'Free standard shipping on all orders over $100. Returns accepted within 30 days of purchase.' },
+                  ].map((item, idx) => (
+                    <Accordion 
+                      key={idx}
+                      elevation={0}
+                      sx={{ 
+                        bgcolor: 'transparent',
+                        '&:before': { display: 'none' },
+                        borderBottom: '1px solid rgba(0,0,0,0.06)',
+                        '&.Mui-expanded': { mb: 0 }
+                      }}
+                    >
+                      <AccordionSummary 
+                        expandIcon={<ExpandMore />}
+                        sx={{ px: 0, py: 1 }}
+                      >
+                        <Typography sx={{ fontWeight: 600, fontSize: '0.95rem' }}>{item.title}</Typography>
+                      </AccordionSummary>
+                      <AccordionDetails sx={{ px: 0, pb: 2 }}>
+                        <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
+                          {item.content}
+                        </Typography>
+                      </AccordionDetails>
+                    </Accordion>
+                  ))}
+                </Box>
               </MotionBox>
             </Grid>
-
           </Grid>
         </Box>
+
+        {/* Related Products Section */}
+        {relatedProducts.length > 0 && (
+          <Box sx={{ mb: { xs: 8, md: 16 } }}>
+            <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'flex-end', mb: 6 }}>
+              <Box>
+                <Typography variant="overline" sx={{ color: 'primary.main', fontWeight: 800, letterSpacing: '0.2em' }}>
+                  Complete the set
+                </Typography>
+                <Typography variant="h3" sx={{ fontWeight: 600, mt: 1 }}>Related Products</Typography>
+              </Box>
+              <Button 
+                component={Link} 
+                to="/shop" 
+                color="primary" 
+                sx={{ fontWeight: 700, textTransform: 'none' }}
+              >
+                View All Collection
+              </Button>
+            </Stack>
+            <Grid container spacing={3}>
+              {relatedProducts.map((p, index) => (
+                <Grid size={{ xs: 12, sm: 6, md: 3 }} key={p._id}>
+                  <ProductCard 
+                    product={p} 
+                    index={index}
+                    isWishlisted={wishlistItems.some(item => item._id === p._id)}
+                    handleToggleWishlist={(e) => handleToggleWishlist(e, p._id)}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        )}
 
         {/* Reviews Section - Boxed Container */}
         <Box sx={{ 
@@ -426,13 +560,59 @@ export default function ProductPage() {
             variant="h2"
             sx={{
               fontWeight: 600,
-              mb: 8,
+              mb: 6,
               textAlign: 'center',
               fontSize: { xs: '1.8rem', md: '3rem' }
             }}
           >
-            Customer Reviews ({product.numReviews})
+            Customer Reviews
           </Typography>
+
+          {/* Rating Summary */}
+          <Box sx={{ maxWidth: 900, mx: 'auto', mb: 10 }}>
+            <Grid container spacing={6} sx={{ alignItems: 'center' }}>
+              <Grid size={{ xs: 12, md: 4 }}>
+                <Box sx={{ textAlign: 'center', p: 4, bgcolor: 'white', borderRadius: '24px', border: '1px solid rgba(0,0,0,0.06)' }}>
+                  <Typography variant="h1" sx={{ fontWeight: 700, color: 'primary.main', mb: 1 }}>
+                    {product.rating?.toFixed(1) || '0.0'}
+                  </Typography>
+                  <Rating value={product.rating} readOnly precision={0.5} sx={{ mb: 1 }} />
+                  <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 500 }}>
+                    Based on {product.numReviews} reviews
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid size={{ xs: 12, md: 8 }}>
+                <Stack spacing={1.5}>
+                  {[5, 4, 3, 2, 1].map((star) => {
+                    const count = product.reviews?.filter((r: any) => Math.round(r.rating) === star).length || 0;
+                    const percent = product.numReviews > 0 ? (count / product.numReviews) * 100 : 0;
+                    return (
+                      <Stack key={star} direction="row" spacing={2} sx={{ alignItems: 'center' }}>
+                        <Typography variant="body2" sx={{ minWidth: 60, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                          {star} <Star sx={{ fontSize: 16, color: '#faaf00' }} />
+                        </Typography>
+                        <LinearProgress 
+                          variant="determinate" 
+                          value={percent} 
+                          sx={{ 
+                            flex: 1, 
+                            height: 8, 
+                            borderRadius: 4, 
+                            bgcolor: 'rgba(0,0,0,0.04)',
+                            '& .MuiLinearProgress-bar': { borderRadius: 4, bgcolor: 'primary.main' }
+                          }} 
+                        />
+                        <Typography variant="body2" sx={{ minWidth: 40, color: 'text.secondary', fontWeight: 600, textAlign: 'right' }}>
+                          {count}
+                        </Typography>
+                      </Stack>
+                    );
+                  })}
+                </Stack>
+              </Grid>
+            </Grid>
+          </Box>
 
           {/* Submit Review - Glassmorphic Box */}
           {isAuthenticated && (
@@ -536,6 +716,7 @@ export default function ProductPage() {
           </Box>
         </Box>
       </Container>
+      <AmbientBackground />
     </Box>
   );
 }

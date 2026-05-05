@@ -261,7 +261,7 @@ export default function AdminOrderDetailPage() {
             <Typography variant="h6" sx={{ fontWeight: 800, mb: 3 }}>Management Console</Typography>
             
             {order.status === 'pending' && (
-              <Box sx={{ mb: 4 }}>
+              <Box sx={{ mb: 2 }}>
                 <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 800, textTransform: 'uppercase', display: 'block', mb: 1.5 }}>Quick Approval</Typography>
                 <TextField
                   fullWidth
@@ -271,7 +271,7 @@ export default function AdminOrderDetailPage() {
                   multiline
                   rows={2}
                   sx={{ 
-                    mb: 0 ,
+                    mb: 1,
                     '& .MuiOutlinedInput-root': { borderRadius: '12px' }
                   }}
                 />
