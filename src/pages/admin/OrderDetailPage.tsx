@@ -135,11 +135,11 @@ export default function AdminOrderDetailPage() {
         />
       </Box>
 
-      <Grid container spacing={4}>
+      <Grid container spacing={4} sx={{ alignItems: 'stretch' }}>
         {/* Left Column */}
-        <Grid size={{ xs: 12, lg: 8 }} sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        <Grid size={{ xs: 12, lg: 8 }} sx={{ display: 'flex', flexDirection: 'column', gap: 4, height: '100%' }}>
           {/* Order Items */}
-          <Box sx={{ bgcolor: 'white', border: '1px solid rgba(0,0,0,0.06)', borderRadius: '24px', p: 4, boxShadow: '0 10px 40px rgba(0,0,0,0.03)', flexGrow: 1 }}>
+          <Box sx={{ bgcolor: 'white', border: '1px solid rgba(0,0,0,0.06)', borderRadius: '24px', p: 4, boxShadow: '0 10px 40px rgba(0,0,0,0.03)' }}>
             <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center', mb: 3 }}>
               <Box sx={{ p: 1, borderRadius: '10px', bgcolor: 'rgba(45, 75, 56, 0.05)', color: 'primary.main' }}>
                 <ShoppingBag fontSize="small" />
@@ -173,7 +173,8 @@ export default function AdminOrderDetailPage() {
           </Box>
 
           {/* Customer & Shipping Info */}
-          <Grid container spacing={3}>
+          <Box sx={{ mt: 'auto' }}>
+            <Grid container spacing={3}>
             <Grid size={{ xs: 12, sm: 6 }}>
               <Box sx={{ bgcolor: 'white', border: '1px solid rgba(0,0,0,0.06)', borderRadius: '24px', p: 4, height: '100%', boxShadow: '0 10px 40px rgba(0,0,0,0.03)', display: 'flex', flexDirection: 'column' }}>
                 <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center', mb: 3 }}>
@@ -222,10 +223,11 @@ export default function AdminOrderDetailPage() {
               </Box>
             </Grid>
           </Grid>
+          </Box>
         </Grid>
 
         {/* Right Column */}
-        <Grid size={{ xs: 12, lg: 4 }} sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        <Grid size={{ xs: 12, lg: 4 }} sx={{ display: 'flex', flexDirection: 'column', gap: 4, height: '100%' }}>
           {/* Payment Summary */}
           <Box sx={{ bgcolor: 'white', border: '1px solid rgba(0,0,0,0.06)', borderRadius: '24px', p: 4, boxShadow: '0 10px 40px rgba(0,0,0,0.03)' }}>
             <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center', mb: 3 }}>
