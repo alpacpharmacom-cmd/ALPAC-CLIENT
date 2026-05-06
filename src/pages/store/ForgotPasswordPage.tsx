@@ -13,7 +13,7 @@ import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { authAPI } from '../../api/auth.api';
 import authBg from '../../assets/auth-bg.png';
-import FormSkeleton from '../../components/skeletons/FormSkeleton';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
 
 const MotionBox = motion.create(Box);
 
@@ -36,7 +36,7 @@ export default function ForgotPasswordPage() {
     }
   };
 
-  if (isLoading) return <FormSkeleton fields={1} titleWidth="60%" hasFooter={false} />;
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <Box sx={{ minHeight: '100vh', display: 'flex', bgcolor: 'white' }}>

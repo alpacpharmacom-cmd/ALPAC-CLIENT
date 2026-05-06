@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 import { ordersAPI } from '../../api/orders.api';
 import { useAuthStore } from '../../stores/authStore';
 import { useOrderStore } from '../../stores/orderStore';
-import DetailSkeleton from '../../components/skeletons/DetailSkeleton';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const MotionBox = motion.create(Box);
@@ -68,7 +68,7 @@ export default function OrderDetailPage() {
     }
   };
 
-  if (loading) return <DetailSkeleton type="order" />;
+  if (loading) return <LoadingSpinner />;
   if (!order) return (
     <Container sx={{ py: 15, textAlign: 'center' }}>
       <Typography variant="h3" sx={{ fontFamily: '"Playfair Display", serif', mb: 3 }}>Archive Record Not Found</Typography>

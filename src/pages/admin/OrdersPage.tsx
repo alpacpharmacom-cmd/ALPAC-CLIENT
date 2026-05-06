@@ -367,12 +367,12 @@ export default function AdminOrdersPage() {
       {loading ? (
         <TableSkeleton 
           columns={[
-            { flex: 1.5, align: 'left', variant: 'text' },
-            { flex: 1.5, align: 'center', variant: 'text' },
-            { flex: 1, align: 'center', variant: 'text' },
-            { flex: 1.5, align: 'center', variant: 'rectangular' },
-            { flex: 1, align: 'center', variant: 'text' },
-            { flex: 1, align: 'right', variant: 'circular' },
+            { flex: 1.5, align: 'left',   variant: 'text'    },  // Order ID
+            { flex: 1.5, align: 'left',   variant: 'text'    },  // Customer name
+            { flex: 1,   align: 'center', variant: 'text'    },  // Date
+            { flex: 1.5, align: 'center', variant: 'chip'    },  // Status badge
+            { flex: 1,   align: 'center', variant: 'text'    },  // Total
+            { flex: 1,   align: 'right',  variant: 'actions' },  // Action buttons
           ]} 
         />
       ) : (

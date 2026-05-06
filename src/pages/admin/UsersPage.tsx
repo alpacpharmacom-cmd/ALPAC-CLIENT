@@ -183,10 +183,10 @@ export default function AdminUsersPage() {
       {loading ? (
         <TableSkeleton 
           columns={[
-            { flex: 3, align: 'left', variant: 'circular' },
-            { flex: 2.5, align: 'left', variant: 'text' },
-            { flex: 1.5, align: 'center', variant: 'text' },
-            { flex: 1, align: 'right', variant: 'circular' },
+            { flex: 3,   align: 'left',   variant: 'image'   },  // Avatar + name (image variant for left-aligned avatar+text)
+            { flex: 2.5, align: 'left',   variant: 'text'    },  // Email
+            { flex: 1.5, align: 'center', variant: 'text'    },  // Member since
+            { flex: 1,   align: 'right',  variant: 'actions' },  // Delete button
           ]} 
         />
       ) : (

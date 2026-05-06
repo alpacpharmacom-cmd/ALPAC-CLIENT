@@ -2,94 +2,134 @@ import { Box, Container, Grid, Skeleton, Stack } from '@mui/material';
 import CardSkeleton from './CardSkeleton';
 
 /**
- * Store Shop Skeleton
- * High-fidelity representation of the ShopPage.tsx
+ * StoreShopSkeleton — mirrors ShopPage.tsx precisely.
+ *
+ * Layout:
+ *  1. Dark green header (title, subtitle)
+ *  2. Main content:
+ *     – Desktop sidebar (lg:3): search, categories, price ranges, sort chips, reset btn
+ *     – Product grid area (lg:9):
+ *       · Toolbar: [Filter btn (mobile) | results count] [Sort select (desktop)]
+ *       · Product card grid (xs:6 / sm:4)
  */
 export default function StoreShopSkeleton() {
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'transparent' }}>
-      {/* Immersive Shop Header Skeleton */}
+      {/* ── Header ──────────────────────────────────────────────── */}
       <Box
         sx={{
           bgcolor: 'primary.dark',
-          pt: { xs: 3, md: 10 },
-          pb: { xs: 3, md: 10 },
+          pt: { xs: 2, md: 10 },
+          pb: { xs: 2, md: 10 },
           textAlign: 'center',
-          color: 'white',
-          position: 'relative',
-          overflow: 'hidden',
           backgroundImage: 'linear-gradient(180deg, rgba(26,46,31,1) 0%, rgba(45,75,56,0.95) 100%)',
         }}
       >
         <Container maxWidth="md" sx={{ position: 'relative', zIndex: 1 }}>
-          <Skeleton variant="rectangular" width={120} height={20} sx={{ mx: 'auto', mb: 2, bgcolor: 'rgba(255,255,255,0.1)', borderRadius: '4px' }} />
-          <Skeleton variant="rectangular" width="60%" sx={{ height: { xs: 48, md: 80 }, mx: 'auto', mb: 2, bgcolor: 'rgba(255,255,255,0.1)', borderRadius: '8px' }} />
-          <Skeleton variant="rectangular" width="80%" sx={{ height: { xs: 16, md: 24 }, mx: 'auto', bgcolor: 'rgba(255,255,255,0.05)', borderRadius: '4px' }} />
+          {/* h1 title */}
+          <Skeleton
+            variant="rounded"
+            width="55%"
+            sx={{ height: { xs: 48, md: 80 }, mx: 'auto', mb: 2, bgcolor: 'rgba(255,255,255,0.1)', borderRadius: '8px' }}
+            animation="wave"
+          />
+          {/* subtitle */}
+          <Skeleton
+            variant="rounded"
+            width="75%"
+            sx={{ height: { xs: 20, md: 28 }, mx: 'auto', bgcolor: 'rgba(255,255,255,0.06)', borderRadius: '4px' }}
+            animation="wave"
+          />
         </Container>
       </Box>
 
-      {/* Main Content Area Skeleton */}
-      <Container maxWidth={false} sx={{ px: { xs: 2, md: 6, lg: 8 }, py: { xs: 3, md: 6 } }}>
-        <Grid container spacing={{ xs: 3, md: 6 }}>
-          {/* Sidebar Skeleton */}
+      {/* ── Main Content ─────────────────────────────────────────── */}
+      <Container maxWidth={false} sx={{ px: { xs: 1.5, md: 6, lg: 8 }, py: { xs: 2, md: 6 } }}>
+        <Grid container spacing={{ xs: 2, md: 6 }}>
+
+          {/* ── Sidebar (desktop only) ──────────────────────────── */}
           <Grid component="div" size={{ lg: 3, xl: 2.5 }}>
             <Box sx={{ display: { xs: 'none', lg: 'block' }, position: 'sticky', top: 100 }}>
               <Stack spacing={4}>
-                <Skeleton variant="rectangular" height={40} sx={{ borderRadius: '12px' }} />
+                {/* Search field */}
+                <Skeleton variant="rounded" height={40} sx={{ borderRadius: '12px' }} animation="wave" />
+
+                {/* Categories */}
                 <Box>
-                  <Skeleton variant="rectangular" width={100} height={20} sx={{ mb: 2, borderRadius: '4px' }} />
+                  <Skeleton variant="text" width={90} height={20} sx={{ mb: 1.5 }} animation="wave" />
+                  <Stack spacing={0.5}>
+                    {[...Array(5)].map((_, i) => (
+                      <Skeleton key={i} variant="rounded" height={40} sx={{ borderRadius: '10px' }} animation="wave" />
+                    ))}
+                  </Stack>
+                </Box>
+
+                {/* Price range */}
+                <Box>
+                  <Skeleton variant="text" width={90} height={20} sx={{ mb: 1.5 }} animation="wave" />
+                  <Stack spacing={1}>
+                    {[...Array(4)].map((_, i) => (
+                      <Skeleton key={i} variant="rounded" height={36} sx={{ borderRadius: '10px' }} animation="wave" />
+                    ))}
+                  </Stack>
+                </Box>
+
+                {/* Sort by */}
+                <Box>
+                  <Skeleton variant="text" width={65} height={20} sx={{ mb: 1.5 }} animation="wave" />
                   <Stack spacing={1}>
                     {[...Array(5)].map((_, i) => (
-                      <Skeleton key={i} variant="rectangular" height={40} sx={{ borderRadius: '10px' }} />
+                      <Skeleton key={i} variant="rounded" height={36} sx={{ borderRadius: '10px' }} animation="wave" />
                     ))}
                   </Stack>
                 </Box>
-                <Box>
-                  <Skeleton variant="rectangular" width={100} height={20} sx={{ mb: 2, borderRadius: '4px' }} />
-                  <Stack spacing={1}>
-                    {[...Array(3)].map((_, i) => (
-                      <Skeleton key={i} variant="rectangular" height={32} sx={{ borderRadius: '10px' }} />
-                    ))}
-                  </Stack>
-                </Box>
+
+                {/* Reset btn */}
+                <Skeleton variant="rounded" height={48} sx={{ borderRadius: '12px' }} animation="wave" />
               </Stack>
             </Box>
           </Grid>
 
-          {/* Product Grid Area Skeleton */}
+          {/* ── Product Grid Area ───────────────────────────────── */}
           <Grid component="div" size={{ xs: 12, lg: 9, xl: 9.5 }}>
-            <Box 
-              sx={{ 
-                display: 'flex', 
-                alignItems: 'center', 
+            {/* Toolbar */}
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
                 justifyContent: 'space-between',
-                mb: 4,
+                mb: { xs: 2.5, md: 4 },
                 gap: 2,
-                flexWrap: 'wrap'
+                flexWrap: 'wrap',
               }}
             >
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, width: { xs: '100%', lg: 'auto' } }}>
+              {/* Left: mobile filter btn + results count */}
+              <Stack direction="column" spacing={1} sx={{ width: { xs: '100%', lg: 'auto' } }}>
+                {/* "Filter & Sort" button — visible on mobile only */}
                 <Box sx={{ display: { xs: 'flex', lg: 'none' }, gap: 1 }}>
-                  <Skeleton variant="rectangular" height={38} sx={{ borderRadius: '10px', flex: 1 }} />
+                  <Skeleton variant="rounded" height={38} sx={{ borderRadius: '10px', flex: 1 }} animation="wave" />
                 </Box>
-                <Box sx={{ display: { xs: 'block', lg: 'none' }, width: '100%', mt: 1 }}>
-                  <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                    <Skeleton variant="rectangular" height={40} sx={{ borderRadius: '10px', flex: 1 }} />
-                    <Skeleton variant="rectangular" width={40} height={40} sx={{ borderRadius: '10px' }} />
-                  </Stack>
+                {/* Mobile search bar */}
+                <Box sx={{ display: { xs: 'flex', lg: 'none' }, gap: 1 }}>
+                  <Skeleton variant="rounded" height={40} sx={{ borderRadius: '10px', flex: 1 }} animation="wave" />
+                  <Skeleton variant="rounded" width={40} height={40} sx={{ borderRadius: '10px', flexShrink: 0 }} animation="wave" />
                 </Box>
-                <Skeleton variant="rectangular" width={120} height={20} sx={{ ml: 0.5, borderRadius: '4px' }} />
-              </Box>
+                {/* Results count caption */}
+                <Skeleton variant="text" width={90} height={18} sx={{ ml: 0.5 }} animation="wave" />
+              </Stack>
+
+              {/* Right: sort select (desktop) */}
               <Box sx={{ display: { xs: 'none', sm: 'flex' }, gap: 2, alignItems: 'center' }}>
-                <Skeleton variant="rectangular" width={60} height={20} sx={{ borderRadius: '4px' }} />
-                <Skeleton variant="rectangular" width={180} height={40} sx={{ borderRadius: '12px' }} />
+                <Skeleton variant="text" width={55} height={18} animation="wave" />
+                <Skeleton variant="rounded" width={180} height={40} sx={{ borderRadius: '12px' }} animation="wave" />
               </Box>
             </Box>
 
-            <Grid container spacing={{ xs: 2.5, sm: 4 }}>
-              {[...Array(8)].map((_, i) => (
+            {/* Product cards */}
+            <Grid container spacing={{ xs: 2, sm: 4 }}>
+              {[...Array(9)].map((_, i) => (
                 <Grid component="div" size={{ xs: 6, sm: 4 }} key={i}>
-                   <CardSkeleton />
+                  <CardSkeleton />
                 </Grid>
               ))}
             </Grid>

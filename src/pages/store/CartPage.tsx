@@ -6,7 +6,7 @@ import {
 import { Add, Remove, Delete, ArrowForward, ShoppingCart } from '@mui/icons-material';
 import toast from 'react-hot-toast';
 import { useCartStore } from '../../stores/cartStore';
-import DetailSkeleton from '../../components/skeletons/DetailSkeleton';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
 import ConfirmDialog from '../../components/common/ConfirmDialog';
 
 export default function CartPage() {
@@ -47,7 +47,7 @@ export default function CartPage() {
     }
   };
 
-  if (isLoading && !initialized) return <DetailSkeleton type="order" />;
+  if (isLoading && !initialized) return <LoadingSpinner />;
 
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'transparent' }}>

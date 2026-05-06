@@ -355,12 +355,13 @@ export default function AdminProductsPage() {
       {loading ? (
         <TableSkeleton 
           columns={[
-            { flex: 3, align: 'left', variant: 'circular' },
-            { flex: 1, align: 'center', variant: 'rectangular' },
-            { flex: 1, align: 'center', variant: 'rectangular' },
-            { flex: 1, align: 'center', variant: 'text' },
-            { flex: 1.2, align: 'center', variant: 'rectangular' },
-            { flex: 1, align: 'right', variant: 'circular' },
+            { flex: 3, align: 'left',   variant: 'image'   },  // Product thumbnail + name
+            { flex: 1, align: 'center', variant: 'chip'    },  // Category
+            { flex: 1, align: 'center', variant: 'chip'    },  // Subcategory
+            { flex: 1, align: 'center', variant: 'text'    },  // Price
+            { flex: 1.2, align: 'center', variant: 'chip'  },  // Stock
+            { flex: 0.8, align: 'center', variant: 'chip'  },  // Status
+            { flex: 1, align: 'right',  variant: 'actions' },  // Edit + Delete
           ]} 
         />
       ) : (

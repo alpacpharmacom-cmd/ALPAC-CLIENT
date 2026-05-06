@@ -19,7 +19,7 @@ import {
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { useAuthStore } from '../../stores/authStore';
-import FormSkeleton from '../../components/skeletons/FormSkeleton';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
 
 const MotionBox = motion.create(Box);
 const MotionForm = motion.create('form');
@@ -87,7 +87,7 @@ export default function RegisterPage() {
     }
   };
 
-  if (isLoading) return <FormSkeleton fields={5} titleWidth="60%" />;
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <Box sx={{ minHeight: 'calc(100vh - 68px)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', bgcolor: 'transparent', position: 'relative', overflow: 'hidden', pt: { xs: 2, md: 6 }, pb: 8 }}>

@@ -11,7 +11,7 @@ import toast from 'react-hot-toast';
 import { useAuthStore } from '../../stores/authStore';
 import { Link } from 'react-router-dom';
 import { authAPI } from '../../api/auth.api';
-import DetailSkeleton from '../../components/skeletons/DetailSkeleton';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
 import { motion } from 'framer-motion';
 
 const MotionBox = motion.create(Box);
@@ -124,7 +124,7 @@ export default function ProfilePage() {
     }
   };
 
-  if (isLoading && !user) return <DetailSkeleton type="order" />;
+  if (isLoading && !user) return <LoadingSpinner />;
   if (!user) return null;
 
   const labelStyle = {

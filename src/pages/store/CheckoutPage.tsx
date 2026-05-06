@@ -12,7 +12,7 @@ import toast from 'react-hot-toast';
 import { ordersAPI } from '../../api/orders.api';
 import { useCartStore } from '../../stores/cartStore';
 import { useAuthStore } from '../../stores/authStore';
-import DetailSkeleton from '../../components/skeletons/DetailSkeleton';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
@@ -125,7 +125,7 @@ export default function CheckoutPage() {
 
   const fieldSx = { borderRadius: '12px', bgcolor: '#fbfaf8' };
 
-  if (isLoading) return <DetailSkeleton type="order" />;
+  if (isLoading) return <LoadingSpinner />;
 
   if (items.length === 0 && !loading) {
     return (

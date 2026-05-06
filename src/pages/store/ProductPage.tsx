@@ -15,7 +15,7 @@ import { useCartStore } from '../../stores/cartStore';
 import { useAuthStore } from '../../stores/authStore';
 import { useWishlistStore } from '../../stores/wishlistStore';
 import { useProductStore } from '../../stores/productStore';
-import DetailSkeleton from '../../components/skeletons/DetailSkeleton';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
 import ProductCard from '../../components/store/ProductCard';
 import AmbientBackground from '../../components/common/AmbientBackground';
 
@@ -139,7 +139,7 @@ export default function ProductPage() {
   };
 
 
-  if (loading) return <DetailSkeleton type="product" />;
+  if (loading) return <LoadingSpinner />;
   if (!product) return (
     <Container sx={{ py: 10, textAlign: 'center' }}>
       <Typography variant="h3" sx={{ }}>Product not found</Typography>

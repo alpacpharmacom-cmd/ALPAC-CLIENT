@@ -1,116 +1,159 @@
 import { Box, Skeleton } from '@mui/material';
 
 interface ColumnConfig {
-  label?: string;
+  /** Label used only as semantic key */
   flex: number;
   align?: 'left' | 'center' | 'right';
-  variant?: 'text' | 'circular' | 'rectangular';
+  /** 'image' = small rect thumbnail; 'chip' = pill badge; 'text' = plain text; 'actions' = icon buttons */
+  variant?: 'text' | 'image' | 'chip' | 'actions';
 }
 
 interface TableSkeletonProps {
   rows?: number;
   columns?: ColumnConfig[];
-  hasHeader?: boolean;
 }
 
 /**
- * Premium Configurable Table Skeleton
- * Aligned with the ALPAC Eco-Luxury 24px radius design system
+ * TableSkeleton — mirrors the custom flex-row table used in
+ * ProductsPage, OrdersPage and UsersPage.
+ *
+ * Each page passes its own `columns` config to match the real header exactly.
+ * The skeleton renders ONE unified scrollable box with the header inside it,
+ * matching how the actual pages render (header + rows all inside the same
+ * overflow:auto / minWidth box).
  */
-export default function TableSkeleton({ 
-  rows = 6, 
+export default function TableSkeleton({
+  rows = 7,
   columns = [
-    { flex: 3, align: 'left', variant: 'circular' }, // Identity/Image + Text
-    { flex: 2, align: 'left', variant: 'text' },
-    { flex: 1.2, align: 'center', variant: 'rectangular' },
-    { flex: 1.2, align: 'center', variant: 'text' },
-    { flex: 1, align: 'right', variant: 'circular' }, // Actions
+    { flex: 3, align: 'left',   variant: 'image'   },
+    { flex: 1, align: 'center', variant: 'chip'    },
+    { flex: 1, align: 'center', variant: 'text'    },
+    { flex: 1.2, align: 'center', variant: 'chip'  },
+    { flex: 0.8, align: 'center', variant: 'chip'  },
+    { flex: 1, align: 'right',  variant: 'actions' },
   ],
-  hasHeader = true
 }: TableSkeletonProps) {
   return (
-    <Box 
-      sx={{ 
-        width: '100%', 
-        bgcolor: 'white', 
-        borderRadius: '24px', 
+    <Box
+      sx={{
+        width: '100%',
+        bgcolor: 'white',
+        borderRadius: '24px',
         overflow: 'hidden',
         border: '1px solid rgba(0,0,0,0.06)',
-        boxShadow: '0 10px 40px rgba(0,0,0,0.03)'
+        boxShadow: '0 4px 20px rgba(0,0,0,0.02)',
       }}
     >
-      {/* Header Skeleton */}
-      {hasHeader && (
-        <Box 
-          sx={{ 
-            display: 'flex', 
-            px: 3, 
-            py: 1.5, 
-            bgcolor: 'rgba(45, 75, 56, 0.02)', 
-            borderBottom: '1px solid rgba(0,0,0,0.06)',
-            minWidth: 900 
-          }}
-        >
-          {columns.map((col, idx) => (
-            <Box 
-              key={`header-${idx}`} 
-              sx={{ 
-                flex: col.flex, 
-                display: 'flex', 
-                justifyContent: col.align === 'center' ? 'center' : col.align === 'right' ? 'flex-end' : 'flex-start',
-                mx: col.align === 'center' ? 1 : 0
-              }}
-            >
-              <Skeleton 
-                variant="text" 
-                width="60%" 
-                height={20} 
-                sx={{ bgcolor: 'rgba(0,0,0,0.04)' }} 
-              />
-            </Box>
-          ))}
-        </Box>
-      )}
-
-      {/* Row List Skeleton */}
-      <Box sx={{ minWidth: 900 }}>
-        {[...Array(rows)].map((_, i) => (
-          <Box 
-            key={i} 
-            sx={{ 
-              px: 3, 
-              py: 1.5, 
-              display: 'flex', 
-              alignItems: 'center',
-              borderBottom: i === rows - 1 ? 'none' : '1px solid rgba(0,0,0,0.04)' 
+      <Box sx={{ overflow: 'auto' }}>
+        <Box sx={{ minWidth: 800 }}>
+          {/* ── Header ── */}
+          <Box
+            sx={{
+              display: 'flex',
+              px: 3,
+              py: 1.5,
+              bgcolor: 'rgba(0,0,0,0.01)',
+              borderBottom: '1px solid rgba(0,0,0,0.06)',
             }}
           >
             {columns.map((col, idx) => (
-              <Box 
-                key={`row-${idx}`} 
-                sx={{ 
-                  flex: col.flex, 
-                  display: 'flex', 
-                  alignItems: 'center',
-                  justifyContent: col.align === 'center' ? 'center' : col.align === 'right' ? 'flex-end' : 'flex-start',
-                  gap: 2,
-                  mx: col.align === 'center' ? 1 : 0
+              <Box
+                key={`hdr-${idx}`}
+                sx={{
+                  flex: col.flex,
+                  display: 'flex',
+                  justifyContent:
+                    col.align === 'right'
+                      ? 'flex-end'
+                      : col.align === 'center'
+                      ? 'center'
+                      : 'flex-start',
                 }}
               >
-                {col.variant === 'circular' ? (
-                  <>
-                    <Skeleton variant="circular" width={40} height={40} sx={{ bgcolor: 'rgba(0,0,0,0.02)' }} />
-                    {idx === 0 && <Skeleton variant="text" width="60%" height={24} sx={{ bgcolor: 'rgba(0,0,0,0.02)' }} />}
-                  </>
-                ) : col.variant === 'rectangular' ? (
-                  <Skeleton variant="rectangular" width="80%" height={28} sx={{ borderRadius: '12px', bgcolor: 'rgba(0,0,0,0.02)' }} />
-                ) : (
-                  <Skeleton variant="text" width="70%" height={20} sx={{ bgcolor: 'rgba(0,0,0,0.02)' }} />
-                )}
+                <Skeleton
+                  variant="text"
+                  width="55%"
+                  height={16}
+                  sx={{ bgcolor: 'rgba(0,0,0,0.04)' }}
+                  animation="wave"
+                />
               </Box>
             ))}
           </Box>
-        ))}
+
+          {/* ── Rows ── */}
+          {[...Array(rows)].map((_, rowIdx) => (
+            <Box
+              key={rowIdx}
+              sx={{
+                display: 'flex',
+                px: 3,
+                py: 1.5,
+                alignItems: 'center',
+                borderBottom: rowIdx < rows - 1 ? '1px solid rgba(0,0,0,0.04)' : 'none',
+              }}
+            >
+              {columns.map((col, colIdx) => (
+                <Box
+                  key={`cell-${colIdx}`}
+                  sx={{
+                    flex: col.flex,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent:
+                      col.align === 'right'
+                        ? 'flex-end'
+                        : col.align === 'center'
+                        ? 'center'
+                        : 'flex-start',
+                    gap: 1.5,
+                  }}
+                >
+                  {col.variant === 'image' ? (
+                    /* Product / user image + text (left-aligned col) */
+                    <>
+                      <Skeleton
+                        variant="rounded"
+                        width={50}
+                        height={64}
+                        sx={{ borderRadius: '10px', bgcolor: 'rgba(0,0,0,0.04)', flexShrink: 0 }}
+                        animation="wave"
+                      />
+                      <Box>
+                        <Skeleton variant="text" width={120} height={20} sx={{ bgcolor: 'rgba(0,0,0,0.04)' }} animation="wave" />
+                        <Skeleton variant="text" width={80} height={14} sx={{ bgcolor: 'rgba(0,0,0,0.02)' }} animation="wave" />
+                      </Box>
+                    </>
+                  ) : col.variant === 'chip' ? (
+                    /* Coloured badge / status chip */
+                    <Skeleton
+                      variant="rounded"
+                      width="75%"
+                      height={32}
+                      sx={{ borderRadius: '8px', bgcolor: 'rgba(0,0,0,0.04)' }}
+                      animation="wave"
+                    />
+                  ) : col.variant === 'actions' ? (
+                    /* Icon-button group */
+                    <Box sx={{ display: 'flex', gap: 0.5 }}>
+                      <Skeleton variant="rounded" width={30} height={30} sx={{ borderRadius: '8px', bgcolor: 'rgba(0,0,0,0.03)' }} animation="wave" />
+                      <Skeleton variant="rounded" width={30} height={30} sx={{ borderRadius: '8px', bgcolor: 'rgba(0,0,0,0.03)' }} animation="wave" />
+                    </Box>
+                  ) : (
+                    /* Plain text */
+                    <Skeleton
+                      variant="text"
+                      width="70%"
+                      height={20}
+                      sx={{ bgcolor: 'rgba(0,0,0,0.03)' }}
+                      animation="wave"
+                    />
+                  )}
+                </Box>
+              ))}
+            </Box>
+          ))}
+        </Box>
       </Box>
     </Box>
   );
