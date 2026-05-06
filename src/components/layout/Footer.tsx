@@ -112,8 +112,8 @@ export default function Footer() {
                     fontSize: '0.84rem',
                     mb: 1.5,
                     textDecoration: 'none',
-                    transition: 'all 0.3s ease',
-                    '&:hover': { color: '#d4b896', paddingLeft: '4px' },
+                    transition: 'none',
+                    '&:hover': { color: '#d4b896' },
                   }}
                 >
                   {item.label}
@@ -159,7 +159,6 @@ export default function Footer() {
                     border: '1px solid rgba(255,255,255,0.08)',
                     width: 36,
                     height: 36,
-                    transition: 'all 0.3s ease',
                     '&:hover': {
                       color: '#b8956a',
                       borderColor: 'rgba(184,149,106,0.35)',
@@ -205,7 +204,6 @@ export default function Footer() {
                     fontSize: '0.72rem',
                     cursor: 'pointer',
                     whiteSpace: 'nowrap',
-                    transition: 'color 0.3s',
                     '&:hover': { color: 'rgba(255,255,255,0.5)' },
                   }}
                 >

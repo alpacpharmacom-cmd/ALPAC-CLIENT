@@ -1,17 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import {
-  Box, Container, Typography, Button, IconButton, Divider, Grid, Card, Stack
+import { 
+  Box, Container, Typography, Button, IconButton, Divider, Grid, Card, Stack 
 } from '@mui/material';
 import { Add, Remove, Delete, ArrowForward, ShoppingCart } from '@mui/icons-material';
-import { motion } from 'framer-motion';
-
-const MotionBox = motion.create(Box);
 import toast from 'react-hot-toast';
 import { useCartStore } from '../../stores/cartStore';
 import DetailSkeleton from '../../components/skeletons/DetailSkeleton';
 import ConfirmDialog from '../../components/common/ConfirmDialog';
-import { AnimatePresence } from 'framer-motion';
 
 export default function CartPage() {
   const navigate = useNavigate();
@@ -98,9 +94,7 @@ export default function CartPage() {
 
       <Container maxWidth="lg" sx={{ py: { xs: 2, md: 6 }, mt: { xs: -2.5, md: -6 }, position: 'relative', zIndex: 3 }}>
         {items.length === 0 ? (
-          <MotionBox 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+          <Box 
             sx={{ 
               textAlign: 'center', 
               py: { xs: 8, md: 12 }, 
@@ -135,18 +129,17 @@ export default function CartPage() {
                 letterSpacing: '0.1em',
                 textTransform: 'uppercase',
                 boxShadow: '0 8px 25px rgba(45,75,56,0.3)',
-                '&:hover': { bgcolor: 'primary.dark', transform: 'translateY(-2px)' },
-                transition: 'all 0.3s ease'
+                '&:hover': { bgcolor: 'primary.dark' },
               }}
             >
               Explore Apothecary
             </Button>
-          </MotionBox>
+          </Box>
         ) : (
           <Grid container spacing={{ xs: 2.5, lg: 6 }}>
             {/* Cart Ledger */}
             <Grid size={{ xs: 12, md: 8 }}>
-              <MotionBox initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
+              <Box>
                 <Card sx={{ borderRadius: '32px', boxShadow: '0 40px 80px rgba(0,0,0,0.06)', border: '1px solid rgba(0,0,0,0.04)', overflow: 'hidden' }}>
                   <Box sx={{ p: { xs: 2, md: 5 } }}>
                     <Box 
@@ -183,160 +176,151 @@ export default function CartPage() {
                     </Box>
 
                     <Stack spacing={0} divider={<Divider sx={{ opacity: 0.5 }} />}>
-                      <AnimatePresence mode="popLayout">
-                        {items.map((item) => (
-                          <MotionBox
-                            key={item._id}
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, scale: 0.95, filter: 'blur(10px)' }}
-                            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                      {items.map((item) => (
+                        <Box
+                          key={item._id}
+                          sx={{
+                            display: 'flex',
+                            gap: { xs: 1.5, md: 4 },
+                            py: { xs: 2.5, md: 4 },
+                            px: { xs: 0, md: 2 },
+                            alignItems: 'center',
+                          }}
+                        >
+                          {/* Image */}
+                          <Box
+                            component={Link}
+                            to={`/products/${item.product._id}`}
                             sx={{
+                              width: { xs: 75, md: 100 },
+                              height: { xs: 95, md: 130 },
+                              flexShrink: 0,
+                              bgcolor: 'rgba(45,75,56,0.02)',
                               display: 'flex',
-                              gap: { xs: 1.5, md: 4 },
-                              py: { xs: 2.5, md: 4 },
-                              px: { xs: 0, md: 2 },
                               alignItems: 'center',
-                              transition: 'all 0.3s ease',
+                              justifyContent: 'center',
+                              overflow: 'hidden',
+                              borderRadius: '16px',
+                              border: '1px solid rgba(0,0,0,0.04)',
                             }}
                           >
-                            {/* Image */}
-                            <Box
+                            {item.product.image ? (
+                              <Box
+                                component="img"
+                                src={item.product.image}
+                                alt={item.product.name}
+                                sx={{ 
+                                  width: '100%', 
+                                  height: '100%', 
+                                  objectFit: 'cover',
+                                }}
+                                loading="lazy"
+                              />
+                            ) : (
+                              <Typography sx={{ color: 'rgba(0,0,0,0.1)', fontWeight: 900, fontSize: '1.5rem' }}>
+                                A
+                              </Typography>
+                            )}
+                          </Box>
+
+                          {/* Info */}
+                          <Box sx={{ flex: 1 }}>
+                            <Typography
                               component={Link}
                               to={`/products/${item.product._id}`}
                               sx={{
-                                width: { xs: 75, md: 100 },
-                                height: { xs: 95, md: 130 },
-                                flexShrink: 0,
-                                bgcolor: 'rgba(45,75,56,0.02)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                overflow: 'hidden',
-                                borderRadius: '16px',
-                                border: '1px solid rgba(0,0,0,0.04)',
+                                fontSize: { xs: '1rem', md: '1.25rem' },
+                                fontWeight: 800,
+                                textDecoration: 'none',
+                                color: 'primary.dark',
+                                '&:hover': { color: 'primary.main' },
+                                display: 'block',
+                                mb: 0.5
                               }}
                             >
-                              {item.product.image ? (
-                                <Box
-                                  component="img"
-                                  src={item.product.image}
-                                  alt={item.product.name}
-                                  sx={{ 
-                                    width: '100%', 
-                                    height: '100%', 
-                                    objectFit: 'cover',
-                                    transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-                                    '&:hover': { transform: 'scale(1.1)' }
-                                  }}
-                                />
-                              ) : (
-                                <Typography sx={{ color: 'rgba(0,0,0,0.1)', fontWeight: 900, fontSize: '1.5rem' }}>
-                                  A
+                              {item.product.name}
+                            </Typography>
+                            <Typography variant="body2" sx={{ fontWeight: 800, color: 'text.secondary', display: 'block' }}>
+                              ${item.product.price?.toFixed(2)} / unit
+                            </Typography>
+
+                            {/* Quantity controls */}
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mt: { xs: 2, md: 3 }, flexWrap: 'wrap' }}>
+                              <Box
+                                sx={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  border: '1px solid rgba(0,0,0,0.08)',
+                                  borderRadius: '50px',
+                                  bgcolor: 'white',
+                                  boxShadow: '0 4px 12px rgba(0,0,0,0.02)'
+                                }}
+                              >
+                                <IconButton
+                                  onClick={() => handleUpdateQuantity(item.product._id, item.quantity - 1)}
+                                  disabled={item.quantity <= 1}
+                                  sx={{ p: 1 }}
+                                >
+                                  <Remove fontSize="small" sx={{ opacity: item.quantity <= 1 ? 0.3 : 0.8 }} />
+                                </IconButton>
+                                <Typography sx={{ px: 2, fontSize: '0.9rem', fontWeight: 800, minWidth: 20, textAlign: 'center' }}>
+                                  {item.quantity}
                                 </Typography>
-                              )}
-                            </Box>
-
-                            {/* Info */}
-                            <Box sx={{ flex: 1 }}>
-                              <Typography
-                                component={Link}
-                                to={`/products/${item.product._id}`}
-                                sx={{
-                                  fontSize: { xs: '1rem', md: '1.25rem' },
-                                  fontWeight: 800,
-                                  textDecoration: 'none',
-                                  color: 'primary.dark',
-                                  '&:hover': { color: 'primary.main' },
-                                  display: 'block',
-                                  mb: 0.5
-                                }}
-                              >
-                                {item.product.name}
-                              </Typography>
-                              <Typography variant="body2" sx={{ fontWeight: 800, color: 'text.secondary', display: 'block' }}>
-                                ${item.product.price?.toFixed(2)} / unit
-                              </Typography>
-
-                              {/* Quantity controls */}
-                              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mt: { xs: 2, md: 3 }, flexWrap: 'wrap' }}>
-                                <Box
-                                  sx={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    border: '1px solid rgba(0,0,0,0.08)',
-                                    borderRadius: '50px',
-                                    bgcolor: 'white',
-                                    boxShadow: '0 4px 12px rgba(0,0,0,0.02)'
-                                  }}
+                                <IconButton
+                                  onClick={() => handleUpdateQuantity(item.product._id, item.quantity + 1)}
+                                  sx={{ p: 1 }}
                                 >
-                                  <IconButton
-                                    onClick={() => handleUpdateQuantity(item.product._id, item.quantity - 1)}
-                                    disabled={item.quantity <= 1}
-                                    sx={{ p: 1 }}
-                                  >
-                                    <Remove fontSize="small" sx={{ opacity: item.quantity <= 1 ? 0.3 : 0.8 }} />
-                                  </IconButton>
-                                  <Typography sx={{ px: 2, fontSize: '0.9rem', fontWeight: 800, minWidth: 20, textAlign: 'center' }}>
-                                    {item.quantity}
-                                  </Typography>
-                                  <IconButton
-                                    onClick={() => handleUpdateQuantity(item.product._id, item.quantity + 1)}
-                                    sx={{ p: 1 }}
-                                  >
-                                    <Add fontSize="small" sx={{ color: 'primary.main' }} />
-                                  </IconButton>
-                                </Box>
-                                <Button
-                                  size="small"
-                                  onClick={() => handleRemoveItem(item.product._id)}
-                                  startIcon={<Delete />}
-                                  color="error"
-                                  sx={{ 
-                                    fontWeight: 700, 
-                                    letterSpacing: '0.05em', 
-                                    textTransform: 'none',
-                                    borderRadius: '50px',
-                                    px: 2,
-                                    py: 0.8,
-                                    bgcolor: 'rgba(170,57,43,0.04)',
-                                    '&:hover': { bgcolor: 'rgba(170,57,43,0.08)' }
-                                  }}
-                                >
-                                  Remove
-                                </Button>
+                                  <Add fontSize="small" sx={{ color: 'primary.main' }} />
+                                </IconButton>
                               </Box>
-                            </Box>
-
-                            {/* Line total */}
-                            <Box sx={{ textAlign: 'right', display: { xs: 'none', sm: 'block' } }}>
-                              <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', display: 'block', mb: 0.5 }}>
-                                Total
-                              </Typography>
-                              <Typography
-                                sx={{
-                                  fontWeight: 900,
-                                  fontSize: '1.25rem',
-                                  color: 'primary.dark',
-                                  fontFamily: '"DM Sans", sans-serif'
+                              <Button
+                                size="small"
+                                onClick={() => handleRemoveItem(item.product._id)}
+                                startIcon={<Delete />}
+                                color="error"
+                                sx={{ 
+                                  fontWeight: 700, 
+                                  letterSpacing: '0.05em', 
+                                  textTransform: 'none',
+                                  borderRadius: '50px',
+                                  px: 2,
+                                  py: 0.8,
+                                  bgcolor: 'rgba(170,57,43,0.04)',
+                                  '&:hover': { bgcolor: 'rgba(170,57,43,0.08)' }
                                 }}
                               >
-                                ${(item.product.price * item.quantity).toFixed(2)}
-                              </Typography>
+                                Remove
+                              </Button>
                             </Box>
-                          </MotionBox>
-                        ))}
-                      </AnimatePresence>
-                    </Stack>
+                          </Box>
 
+                          {/* Line total */}
+                          <Box sx={{ textAlign: 'right', display: { xs: 'none', sm: 'block' } }}>
+                            <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', display: 'block', mb: 0.5 }}>
+                              Total
+                            </Typography>
+                            <Typography
+                              sx={{
+                                fontWeight: 900,
+                                fontSize: '1.25rem',
+                                color: 'primary.dark',
+                                fontFamily: '"DM Sans", sans-serif'
+                              }}
+                            >
+                              ${(item.product.price * item.quantity).toFixed(2)}
+                            </Typography>
+                          </Box>
+                        </Box>
+                      ))}
+                    </Stack>
                   </Box>
                 </Card>
-              </MotionBox>
+              </Box>
             </Grid>
 
             {/* Order Summary */}
             <Grid size={{ xs: 12, md: 4 }}>
-              <MotionBox initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
+              <Box>
                 <Box
                   sx={{
                     bgcolor: 'white',
@@ -387,7 +371,6 @@ export default function CartPage() {
                     </Typography>
                   </Box>
 
-
                   <Button
                     fullWidth
                     variant="contained"
@@ -403,8 +386,7 @@ export default function CartPage() {
                       letterSpacing: '0.1em',
                       textTransform: 'uppercase',
                       boxShadow: '0 8px 25px rgba(45,75,56,0.25)',
-                      '&:hover': { bgcolor: 'primary.dark', transform: 'translateY(-2px)' },
-                      transition: 'all 0.3s ease'
+                      '&:hover': { bgcolor: 'primary.dark' },
                     }}
                   >
                     Proceed to Checkout
@@ -427,7 +409,7 @@ export default function CartPage() {
                     Return to Shop
                   </Button>
                 </Box>
-              </MotionBox>
+              </Box>
             </Grid>
           </Grid>
         )}
@@ -444,4 +426,3 @@ export default function CartPage() {
     </Box>
   );
 }
-

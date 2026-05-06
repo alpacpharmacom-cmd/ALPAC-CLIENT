@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { 
   Box, Container, Typography, Grid, TextField, InputAdornment, MenuItem, Select,
   Drawer, IconButton, Chip, Stack, Button, List, ListItemButton, ListItemText,
-  useMediaQuery, useTheme, Fade
+  useMediaQuery, useTheme
 } from '@mui/material';
 import { 
   Search, Close, RestartAlt, 
@@ -15,7 +15,6 @@ import toast from 'react-hot-toast';
 import { useProductStore } from '../../stores/productStore';
 import StoreShopSkeleton from '../../components/skeletons/StoreShopSkeleton';
 import ProductCard from '../../components/store/ProductCard';
-import { motion, AnimatePresence } from 'framer-motion';
 
 const subcategoryMap: Record<string, { value: string; label: string }[]> = {
   cosmetics: [
@@ -111,10 +110,8 @@ const ShopFilters = ({
                 borderRadius: '12px',
                 width: 40,
                 height: 40,
-                transition: 'all 0.3s ease',
                 '&:hover': {
                   bgcolor: 'primary.main',
-                  transform: 'scale(1.05)'
                 }
               }}
             >
@@ -153,7 +150,6 @@ const ShopFilters = ({
                   mb: 0.5,
                   position: 'relative',
                   pl: activeCategory === cat ? 2.5 : 2,
-                  transition: 'all 0.2s ease',
                   '&.Mui-selected': {
                     bgcolor: 'rgba(0,0,0,0.04)',
                     '&::before': {
@@ -179,47 +175,39 @@ const ShopFilters = ({
                 {activeCategory === cat ? <Close sx={{ fontSize: 14, opacity: 0.5 }} /> : <ArrowForwardIos sx={{ fontSize: 10, opacity: 0.3 }} />}
               </ListItemButton>
               
-              <AnimatePresence>
-                {activeCategory === cat && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
+              {activeCategory === cat && (
+                <Box sx={{ pl: 2, mb: 1 }}>
+                  <ListItemButton 
+                    selected={activeSubcategory === 'all'}
+                    onClick={() => updateFilters('subcategory', 'all')}
+                    sx={{ borderRadius: '8px', py: 0.5 }}
                   >
-                    <Box sx={{ pl: 2, mb: 1 }}>
-                      <ListItemButton 
-                        selected={activeSubcategory === 'all'}
-                        onClick={() => updateFilters('subcategory', 'all')}
-                        sx={{ borderRadius: '8px', py: 0.5 }}
-                      >
-                        <ListItemText 
-                          primary={
-                            <Typography sx={{ fontSize: '0.8rem', opacity: 0.7 }}>
-                              All {cat}
-                            </Typography>
-                          } 
-                        />
-                      </ListItemButton>
-                      {subcategoryMap[cat].map(sub => (
-                        <ListItemButton 
-                          key={sub.value}
-                          selected={activeSubcategory === sub.value}
-                          onClick={() => updateFilters('subcategory', sub.value)}
-                          sx={{ borderRadius: '8px', py: 0.5 }}
-                        >
-                          <ListItemText 
-                            primary={
-                              <Typography sx={{ fontSize: '0.8rem', opacity: 0.7 }}>
-                                {sub.label}
-                              </Typography>
-                            } 
-                          />
-                        </ListItemButton>
-                      ))}
-                    </Box>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                    <ListItemText 
+                      primary={
+                        <Typography sx={{ fontSize: '0.8rem', opacity: 0.7 }}>
+                          All {cat}
+                        </Typography>
+                      } 
+                    />
+                  </ListItemButton>
+                  {subcategoryMap[cat].map(sub => (
+                    <ListItemButton 
+                      key={sub.value}
+                      selected={activeSubcategory === sub.value}
+                      onClick={() => updateFilters('subcategory', sub.value)}
+                      sx={{ borderRadius: '8px', py: 0.5 }}
+                    >
+                      <ListItemText 
+                        primary={
+                          <Typography sx={{ fontSize: '0.8rem', opacity: 0.7 }}>
+                            {sub.label}
+                          </Typography>
+                        } 
+                      />
+                    </ListItemButton>
+                  ))}
+                </Box>
+              )}
             </Box>
           ))}
         </List>
@@ -426,15 +414,6 @@ export default function ShopPage() {
           backgroundImage: 'linear-gradient(180deg, rgba(26,46,31,1) 0%, rgba(45,75,56,0.95) 100%)',
         }}
       >
-        <motion.div
-          initial={{ opacity: 0, scale: 1.1 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.5 }}
-          style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 0, opacity: 0.1 }}
-        >
-          {/* Decorative pattern could go here */}
-        </motion.div>
-
         <Container maxWidth="md" sx={{ position: 'relative', zIndex: 1 }}>
           <Typography
             className="overline"
@@ -637,7 +616,6 @@ export default function ShopPage() {
                       fontWeight: 700,
                       height: 32,
                       border: '1px solid rgba(0,0,0,0.05)',
-                      transition: 'all 0.2s ease',
                       '&:hover': {
                         bgcolor: '#E8E9E6',
                       },
@@ -660,7 +638,6 @@ export default function ShopPage() {
                       fontWeight: 700,
                       height: 32,
                       border: '1px solid rgba(0,0,0,0.05)',
-                      transition: 'all 0.2s ease',
                       '&:hover': {
                         bgcolor: '#E8E9E6',
                       },
@@ -683,7 +660,6 @@ export default function ShopPage() {
                       fontWeight: 700,
                       height: 32,
                       border: '1px solid rgba(0,0,0,0.05)',
-                      transition: 'all 0.2s ease',
                       '&:hover': {
                         bgcolor: '#E8E9E6',
                       },
@@ -706,7 +682,6 @@ export default function ShopPage() {
                       fontWeight: 700,
                       height: 32,
                       border: '1px solid rgba(0,0,0,0.05)',
-                      transition: 'all 0.2s ease',
                       '&:hover': {
                         bgcolor: '#E8E9E6',
                       },
@@ -750,7 +725,6 @@ export default function ShopPage() {
 
             {/* Products */}
             {filteredProducts.length === 0 ? (
-              <Fade in>
                 <Box 
                   sx={{ 
                     textAlign: 'center', 
@@ -779,7 +753,6 @@ export default function ShopPage() {
                     Reset All Filters
                   </Button>
                 </Box>
-              </Fade>
             ) : (
                 <Grid container spacing={{ xs: 2, sm: 4 }}>
                   {filteredProducts.map((product, index) => (
@@ -797,40 +770,35 @@ export default function ShopPage() {
           </Grid>
         </Grid>
       </Container>
-
-      {/* Mobile Filters Drawer */}
+      
+      {/* Mobile Drawer */}
       <Drawer
-        anchor="left"
+        anchor="right"
         open={mobileFilterOpen}
         onClose={() => setMobileFilterOpen(false)}
         slotProps={{
           paper: {
-            sx: { width: '85%', maxWidth: 360, borderRadius: '0 24px 24px 0' }
+            sx: { width: '85%', maxWidth: 360, p: 3, bgcolor: '#fbfaf8' }
           }
         }}
       >
-        <Box sx={{ p: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-            <Tune sx={{ color: 'primary.main' }} />
-            <Typography variant="h6" sx={{ fontWeight: 700 }}>Filter & Sort</Typography>
-          </Box>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 4 }}>
+          <Typography variant="h6" sx={{ fontWeight: 700 }}>Filters</Typography>
           <IconButton onClick={() => setMobileFilterOpen(false)}>
             <Close />
           </IconButton>
         </Box>
-        <Box sx={{ px: 3, py: 4 }}>
-          <ShopFilters 
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            activeCategory={activeCategory}
-            activeSubcategory={activeSubcategory}
-            activePriceRange={activePriceRange}
-            activeSort={activeSort}
-            updateFilters={updateFilters}
-            clearAllFilters={clearAllFilters}
-            mobile
-          />
-        </Box>
+        <ShopFilters 
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          activeCategory={activeCategory}
+          activeSubcategory={activeSubcategory}
+          activePriceRange={activePriceRange}
+          activeSort={activeSort}
+          updateFilters={updateFilters}
+          clearAllFilters={clearAllFilters}
+          mobile
+        />
       </Drawer>
     </Box>
   );

@@ -9,7 +9,6 @@ import {
   Add, Remove, ShoppingCart, FavoriteBorder, Favorite,
   LocalShipping, Star, GppGood, WorkspacePremium
 } from '@mui/icons-material';
-import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { productsAPI } from '../../api/products.api';
 import { useCartStore } from '../../stores/cartStore';
@@ -19,8 +18,6 @@ import { useProductStore } from '../../stores/productStore';
 import DetailSkeleton from '../../components/skeletons/DetailSkeleton';
 import ProductCard from '../../components/store/ProductCard';
 import AmbientBackground from '../../components/common/AmbientBackground';
-
-const MotionBox = motion.create(Box);
 
 export default function ProductPage() {
   const { id } = useParams<{ id: string }>();
@@ -191,74 +188,65 @@ export default function ProductPage() {
           <Grid container spacing={{ xs: 4, md: 8 }} sx={{ position: 'relative', zIndex: 1 }}>
             {/* Product Image Section */}
             <Grid size={{ xs: 12, md: 5 }}>
-              <MotionBox
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5 }}
+              <Box
+                sx={{
+                  bgcolor: '#f5f4f0',
+                  aspectRatio: '0.9',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  position: 'relative',
+                  borderRadius: '24px',
+                  overflow: 'hidden',
+                  border: '1px solid rgba(0,0,0,0.02)'
+                }}
               >
-                <Box
-                  sx={{
-                    bgcolor: '#f5f4f0',
-                    aspectRatio: '0.9',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    position: 'relative',
-                    borderRadius: '24px',
-                    overflow: 'hidden',
-                    border: '1px solid rgba(0,0,0,0.02)'
-                  }}
-                >
-                  {product.stockStatus === 'Out of Stock' && (
-                    <Box
-                      sx={{
-                        position: 'absolute',
-                        top: 24,
-                        left: 24,
-                        bgcolor: 'text.primary',
-                        color: 'white',
-                        px: 2,
-                        py: 0.7,
-                        fontSize: '0.75rem',
-                        fontWeight: 700,
-                        letterSpacing: '0.15em',
-                        textTransform: 'uppercase',
-                        borderRadius: '6px',
-                        zIndex: 10,
-                      }}
-                    >
-                      Sold Out
-                    </Box>
-                  )}
-                  {product.image ? (
-                    <Box
-                      component="img"
-                      src={product.image}
-                      alt={product.name}
-                      sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                      loading="eager"
-                      decoding="async"
-                    />
-                  ) : (
-                    <Typography
-                      sx={{
-                        fontSize: '5rem',
-                        color: 'rgba(0,0,0,0.08)',
-                      }}
-                    >
-                      VB
-                    </Typography>
-                  )}
-                </Box>
-              </MotionBox>
+                {product.stockStatus === 'Out of Stock' && (
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      top: 24,
+                      left: 24,
+                      bgcolor: 'text.primary',
+                      color: 'white',
+                      px: 2,
+                      py: 0.7,
+                      fontSize: '0.75rem',
+                      fontWeight: 700,
+                      letterSpacing: '0.15em',
+                      textTransform: 'uppercase',
+                      borderRadius: '6px',
+                      zIndex: 10,
+                    }}
+                  >
+                    Sold Out
+                  </Box>
+                )}
+                {product.image ? (
+                  <Box
+                    component="img"
+                    src={product.image}
+                    alt={product.name}
+                    sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    loading="eager"
+                    decoding="async"
+                  />
+                ) : (
+                  <Typography
+                    sx={{
+                      fontSize: '5rem',
+                      color: 'rgba(0,0,0,0.08)',
+                    }}
+                  >
+                    VB
+                  </Typography>
+                )}
+              </Box>
             </Grid>
 
             {/* Product Info Section */}
             <Grid size={{ xs: 12, md: 7 }}>
-              <MotionBox
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
+              <Box
                 sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
               >
                 <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
@@ -456,11 +444,10 @@ export default function ProductPage() {
                           bgcolor: isInCart ? 'rgba(45,75,56,0.1)' : 'primary.main',
                           color: isInCart ? 'primary.main' : 'white',
                           border: isInCart ? '1px solid rgba(45,75,56,0.2)' : 'none',
-                          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                          transition: 'none',
                           '&:hover': { 
                             bgcolor: isInCart ? 'rgba(45,75,56,0.15)' : 'primary.dark',
-                            boxShadow: isInCart ? 'none' : '0 15px 40px rgba(45,75,56,0.25)',
-                            transform: 'translateY(-2px)'
+                            boxShadow: 'none',
                           }
                         }}
                       >
@@ -477,10 +464,9 @@ export default function ProductPage() {
                           height: { xs: 56, sm: 64 },
                           color: isWishlisted ? 'error.main' : 'text.primary',
                           bgcolor: 'white',
-                          transition: 'all 0.3s ease',
+                          transition: 'none',
                           '&:hover': { 
                             bgcolor: isWishlisted ? 'rgba(211,47,47,0.04)' : '#f8f7f4',
-                            transform: 'scale(1.05)',
                             borderColor: isWishlisted ? 'error.main' : 'rgba(0,0,0,0.1)'
                           }
                         }}
@@ -528,7 +514,7 @@ export default function ProductPage() {
                 </Box>
 
 
-              </MotionBox>
+              </Box>
             </Grid>
           </Grid>
         </Box>

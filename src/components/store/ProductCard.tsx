@@ -11,13 +11,10 @@ import {
   CircularProgress
 } from '@mui/material';
 import { Favorite, FavoriteBorder, ShoppingCart } from '@mui/icons-material';
-import { motion } from 'framer-motion';
 import { useCartStore } from '../../stores/cartStore';
 import { useAuthStore } from '../../stores/authStore';
 import toast from 'react-hot-toast';
-import { useState } from 'react';
-
-const MotionBox = motion.create(Box);
+import { useState, memo } from 'react';
 
 interface ProductCardProps {
   product: any;
@@ -28,14 +25,13 @@ interface ProductCardProps {
   showAddToCart?: boolean;
 }
 
-export default function ProductCard({ 
+const ProductCard = memo(({ 
   product, 
-  index, 
   handleToggleWishlist, 
   isWishlisted,
   onAddToCart,
   showAddToCart = true
-}: ProductCardProps) {
+}: ProductCardProps) => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuthStore();
   const { items: cartItems, addToCart } = useCartStore();
@@ -77,12 +73,7 @@ export default function ProductCard({
   };
 
   return (
-    <MotionBox
-      initial={{ opacity: 0, y: 15 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.4, delay: index * 0.02 }}
-    >
+    <Box>
       <Card
         sx={{
           textDecoration: 'none',
@@ -95,19 +86,10 @@ export default function ProductCard({
           pt: { xs: 1, sm: 2 },
           pb: 0,
           border: '1px solid rgba(0,0,0,0.05)',
-          boxShadow: '0 10px 40px rgba(0,0,0,0.03)',
-          transition: 'all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1)',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.02)',
           overflow: 'hidden',
           height: '100%',
           position: 'relative',
-          '&:hover': {
-            transform: 'translateY(-8px)',
-            boxShadow: '0 30px 60px rgba(45,75,56,0.12)',
-            borderColor: 'rgba(45,75,56,0.15)',
-          },
-          '&:hover .product-img': {
-            transform: 'scale(1.08)',
-          },
           '&:hover .product-name': {
             color: 'primary.main',
           },
@@ -178,7 +160,6 @@ export default function ProductCard({
                 width: '100%',
                 height: '100%',
                 objectFit: 'cover',
-                transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
               }}
               loading="lazy"
               decoding="async"
@@ -202,17 +183,14 @@ export default function ProductCard({
               right: 12,
               bgcolor: 'rgba(255,255,255,0.95)',
               backdropFilter: { xs: 'none', sm: 'blur(8px)' },
-              '&:hover': { 
-                bgcolor: 'white',
-                transform: 'scale(1.1)',
-                color: 'error.main'
-              },
               color: isWishlisted ? 'error.main' : 'text.primary',
               zIndex: 10,
               width: { xs: 32, sm: 38 },
               height: { xs: 32, sm: 38 },
-              transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
+              boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+              '&:hover': {
+                 color: 'error.main'
+              }
             }}
           >
             {isWishlisted ? <Favorite sx={{ fontSize: { xs: 18, sm: 20 } }} /> : <FavoriteBorder sx={{ fontSize: { xs: 18, sm: 20 } }} />}
@@ -252,7 +230,6 @@ export default function ProductCard({
                 WebkitBoxOrient: 'vertical',
                 overflow: 'hidden',
                 minHeight: { xs: '1.92rem', sm: '2.5rem' },
-                transition: 'color 0.3s ease',
               }}
             >
               {product.name}
@@ -315,14 +292,10 @@ export default function ProductCard({
                 fontWeight: 800,
                 py: { xs: 1.2, sm: 1.6 },
                 whiteSpace: 'nowrap',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                 boxShadow: 'none',
                 '&:hover': { 
                   bgcolor: isInCart ? 'rgba(45,75,56,0.15)' : 'primary.dark',
                   boxShadow: 'none',
-                },
-                '&:active': { 
-                  transform: 'scale(0.98)',
                 },
                 '&.Mui-disabled': {
                   bgcolor: product.stockStatus === 'Out of Stock' ? 'rgba(0,0,0,0.1)' : (isInCart ? 'rgba(45,75,56,0.1)' : 'primary.main'),
@@ -343,7 +316,9 @@ export default function ProductCard({
           )}
         </CardContent>
       </Card>
-    </MotionBox>
+    </Box>
   );
+});
 
-}
+ProductCard.displayName = 'ProductCard';
+export default ProductCard;

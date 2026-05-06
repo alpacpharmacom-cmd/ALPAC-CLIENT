@@ -13,7 +13,6 @@ import {
 import { 
   East, 
 } from '@mui/icons-material';
-import { motion } from 'framer-motion';
 
 import { useAuthStore } from '../../stores/authStore';
 import { useWishlistStore } from '../../stores/wishlistStore';
@@ -21,9 +20,6 @@ import { useProductStore } from '../../stores/productStore';
 import toast from 'react-hot-toast';
 import ProductCard from '../../components/store/ProductCard';
 import CardSkeleton from '../../components/skeletons/CardSkeleton';
-
-const MotionBox = motion.create(Box);
-motion.create(Typography);
 
 export default function HomePage() {
   const theme = useTheme();
@@ -72,10 +68,6 @@ export default function HomePage() {
     }
   };
 
-
-
-
-
   return (
     <Box sx={{ position: 'relative' }}>
       {/* Hero Section */}
@@ -119,12 +111,7 @@ export default function HomePage() {
         <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }}>
           <Grid container spacing={4} sx={{ alignItems: 'center' }}>
             <Grid size={{ xs: 12, md: 7 }}>
-              <MotionBox
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                style={{ willChange: 'opacity, transform' }}
-              >
+              <Box>
                 <Typography
                   sx={{
                     color: 'secondary.main',
@@ -192,7 +179,7 @@ export default function HomePage() {
                     Our Philosophy
                   </Button>
                 </Stack>
-              </MotionBox>
+              </Box>
             </Grid>
           </Grid>
         </Container>
@@ -285,9 +272,7 @@ export default function HomePage() {
             {/* Main Featured Card: Cosmetics */}
             <Grid component="div" size={{ xs: 12, md: 7 }}>
               <Link to="/shop?category=cosmetics" style={{ textDecoration: 'none', height: '100%', display: 'block' }}>
-                <MotionBox
-                  whileHover="hover"
-                  initial="initial"
+                <Box
                   sx={{
                     height: '100%',
                     position: 'relative',
@@ -307,11 +292,6 @@ export default function HomePage() {
                       width: '100%',
                       height: '100%',
                       objectFit: 'cover',
-                      transform: 'scale(1)',
-                      transition: 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1)',
-                      '.MuiBox-root:hover &': {
-                        transform: 'scale(1.1)'
-                      }
                     }}
                     loading="lazy"
                     decoding="async"
@@ -356,7 +336,7 @@ export default function HomePage() {
                       Explore The Lab
                     </Button>
                   </Box>
-                </MotionBox>
+                </Box>
               </Link>
             </Grid>
 
@@ -365,9 +345,7 @@ export default function HomePage() {
               <Stack spacing={4} sx={{ height: '100%' }}>
                 {/* Secondary Card: Inner Beauty */}
                 <Link to="/shop?category=nutrients" style={{ textDecoration: 'none', flex: 1, display: 'block' }}>
-                  <MotionBox
-                    whileHover="hover"
-                    initial="initial"
+                  <Box
                     sx={{
                       height: '100%',
                       position: 'relative',
@@ -386,11 +364,6 @@ export default function HomePage() {
                         width: '100%',
                         height: '100%',
                         objectFit: 'cover',
-                        transform: 'scale(1)',
-                        transition: 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1)',
-                        '.MuiBox-root:hover &': {
-                          transform: 'scale(1.1)'
-                        }
                       }}
                       loading="lazy"
                       decoding="async"
@@ -408,14 +381,12 @@ export default function HomePage() {
                       <Typography sx={{ color: 'rgba(255,255,255,0.8)', mb: 3, fontSize: '0.95rem' }}>Premium supplements for natural vitality from within.</Typography>
                       <Button variant="text" sx={{ color: 'secondary.main', p: 0, fontWeight: 700, letterSpacing: '0.1em' }} endIcon={<East />}>Discover More</Button>
                     </Box>
-                  </MotionBox>
+                  </Box>
                 </Link>
 
                 {/* Third Card: Our Story */}
                 <Link to="/about" style={{ textDecoration: 'none', flex: 1, display: 'block' }}>
-                  <MotionBox
-                    whileHover="hover"
-                    initial="initial"
+                  <Box
                     sx={{
                       height: '100%',
                       position: 'relative',
@@ -434,11 +405,6 @@ export default function HomePage() {
                         width: '100%',
                         height: '100%',
                         objectFit: 'cover',
-                        transform: 'scale(1)',
-                        transition: 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1)',
-                        '.MuiBox-root:hover &': {
-                          transform: 'scale(1.1)'
-                        }
                       }}
                       loading="lazy"
                       decoding="async"
@@ -456,7 +422,7 @@ export default function HomePage() {
                       <Typography sx={{ color: 'rgba(255,255,255,0.9)', mb: 3, fontSize: '0.95rem' }}>Learn about our commitment to pure, ethical skincare.</Typography>
                       <Button variant="text" sx={{ color: 'white', p: 0, fontWeight: 700, letterSpacing: '0.1em', opacity: 0.9 }} endIcon={<East />}>Read Full Story</Button>
                     </Box>
-                  </MotionBox>
+                  </Box>
                 </Link>
               </Stack>
             </Grid>

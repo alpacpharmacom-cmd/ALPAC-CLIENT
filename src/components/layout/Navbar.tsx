@@ -180,9 +180,7 @@ export default function Navbar() {
                   sx={{
                     position: 'relative',
                     '&:hover .nav-dropdown': {
-                      visibility: 'visible',
-                      opacity: 1,
-                      transform: 'translateY(0)',
+                      display: 'block',
                     },
                   }}
                 >
@@ -201,7 +199,7 @@ export default function Navbar() {
                       display: 'flex',
                       alignItems: 'center',
                       gap: 0.5,
-                      transition: 'all 0.3s ease',
+                      transition: 'none',
                       '&::after': {
                         content: '""',
                         position: 'absolute',
@@ -211,7 +209,6 @@ export default function Navbar() {
                         width: isActive ? '50%' : 0,
                         height: '2px',
                         bgcolor: '#3d6b4f',
-                        transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                       },
                       '&:hover': {
                         bgcolor: 'transparent',
@@ -233,13 +230,10 @@ export default function Navbar() {
                         position: 'absolute',
                         top: '100%',
                         left: 0,
-                        visibility: 'hidden',
-                        opacity: 0,
-                        transform: 'translateY(8px)',
+                        display: 'none',
                         minWidth: 100,
                         pt: 1, // This creates a "bridge" to prevent flickering
                         zIndex: 1000,
-                        transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
                       }}
                     >
                       <Box
@@ -270,11 +264,9 @@ export default function Navbar() {
                                 color: '#333',
                                 textTransform: 'uppercase',
                                 letterSpacing: '0.04em',
-                                transition: 'all 0.1s ease',
                                 '&:hover': {
                                   bgcolor: 'rgba(45,75,56,0.06)',
                                   color: '#3d6b4f',
-                                  pl: 3.5,
                                 },
                               }}
                             >
@@ -320,7 +312,6 @@ export default function Navbar() {
               }}
               sx={{
                 width: searchOpen ? 260 : 180,
-                transition: 'width 0.3s ease',
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '100px',
                   bgcolor: 'rgba(0,0,0,0.03)',
@@ -373,7 +364,6 @@ export default function Navbar() {
                     color: '#3d6b4f',
                     display: { xs: 'none', md: 'flex' },
                     '&:hover': { bgcolor: 'rgba(61,107,79,0.06)' },
-                    transition: 'all 0.2s'
                   }}
                 >
                   <Dashboard sx={{ fontSize: 20 }} />
@@ -388,7 +378,6 @@ export default function Navbar() {
                   sx={{ 
                     color: '#333', 
                     '&:hover': { bgcolor: 'rgba(0,0,0,0.04)' },
-                    transition: 'all 0.2s'
                   }}
                 >
                   <Person sx={{ fontSize: 21 }} />
@@ -415,7 +404,6 @@ export default function Navbar() {
                     color: '#3d6b4f',
                     bgcolor: 'rgba(61,107,79,0.02)'
                   },
-                  transition: 'all 0.3s'
                 }}
               >
                 Sign In
@@ -432,7 +420,6 @@ export default function Navbar() {
                 sx={{ 
                   color: '#333', 
                   '&:hover': { bgcolor: 'rgba(0,0,0,0.04)' },
-                  transition: 'all 0.2s'
                 }}
               >
                 <Badge
@@ -462,7 +449,6 @@ export default function Navbar() {
                 sx={{ 
                   color: '#333', 
                   '&:hover': { bgcolor: 'rgba(0,0,0,0.04)' },
-                  transition: 'all 0.2s'
                 }}
               >
                 <Badge
@@ -492,7 +478,6 @@ export default function Navbar() {
                 sx={{ 
                   color: '#333', 
                   '&:hover': { bgcolor: 'rgba(0,0,0,0.04)' },
-                  transition: 'all 0.2s'
                 }}
               >
                 <Inventory2 sx={{ fontSize: 21 }} />
