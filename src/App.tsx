@@ -43,7 +43,21 @@ const AdminUsersPage = lazy(() => import('./pages/admin/UsersPage'));
 const AdminUserDetailPage = lazy(() => import('./pages/admin/UserDetailPage'));
 
 const PageLoader = () => (
-  <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
+  <Box 
+    sx={{ 
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center', 
+      height: '100vh',
+      width: '100vw',
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      zIndex: 9999,
+      bgcolor: 'rgba(255, 255, 255, 0.8)',
+      backdropFilter: 'blur(8px)'
+    }}
+  >
     <CircularProgress color="primary" size={40} />
   </Box>
 );

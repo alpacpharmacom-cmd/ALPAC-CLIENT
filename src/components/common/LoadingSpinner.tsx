@@ -14,8 +14,19 @@ export default function LoadingSpinner({ message = 'Loading...', fullScreen = fa
         alignItems: 'center',
         justifyContent: 'center',
         gap: 2,
-        minHeight: fullScreen ? '100vh' : '300px',
-        width: '100%',
+        ...(fullScreen ? {
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          bgcolor: 'rgba(255, 255, 255, 0.9)',
+          backdropFilter: 'blur(4px)',
+          zIndex: 9999,
+        } : {
+          minHeight: '300px',
+          width: '100%',
+        })
       }}
     >
       <CircularProgress
