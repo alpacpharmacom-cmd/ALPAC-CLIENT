@@ -34,7 +34,7 @@ interface AuthState {
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   token: null,
-  isLoading: false,
+  isLoading: !!localStorage.getItem('token'),
   isAuthenticated: false,
   isAdmin: false,
 
@@ -93,19 +93,30 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   loadUser: async () => {
     const token = localStorage.getItem('token');
-    if (token) {
-      try {
-        const { data: res } = await authAPI.getProfile();
-        const user = res.data;
-        set({
-          user,
-          token,
-          isAuthenticated: true,
-          isAdmin: user.isAdmin || false,
-        });
-      } catch {
-        localStorage.removeItem('token');
-      }
+    if (!token) {
+      set({ isLoading: false });
+      return;
+    }
+
+    set({ isLoading: true });
+    try {
+      const { data: res } = await authAPI.getProfile();
+      const user = res.data;
+      set({
+        user,
+        token,
+        isAuthenticated: true,
+        isAdmin: user.isAdmin || false,
+        isLoading: false,
+      });
+    } catch {
+      localStorage.removeItem('token');
+      set({ 
+        token: null, 
+        isAuthenticated: false, 
+        isAdmin: false, 
+        isLoading: false 
+      });
     }
   },
 

@@ -2,7 +2,11 @@ import { Navigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores/authStore';
 
 export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, isLoading } = useAuthStore();
+
+  if (isLoading) {
+    return null; // Or a loading spinner
+  }
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
