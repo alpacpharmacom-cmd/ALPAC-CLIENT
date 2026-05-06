@@ -334,6 +334,26 @@ export default function CartPage() {
                                   return (price * qty).toFixed(2);
                                 })()}
                             </Typography>
+                            {/* Per-item offer savings annotation */}
+                            {(() => {
+                              const { price, offer } = item.product;
+                              const qty = item.quantity;
+                              if (offer && offer.isActive && offer.buy > 0 && offer.get > 0) {
+                                const { buy, get } = offer;
+                                const bundles = Math.floor(qty / (buy + get));
+                                const remainder = qty % (buy + get);
+                                const paidQuantity = (bundles * buy) + Math.min(remainder, buy);
+                                const savings = price * (qty - paidQuantity);
+                                if (savings > 0) {
+                                  return (
+                                    <Typography variant="caption" sx={{ display: 'block', color: '#27ae60', fontWeight: 800, mt: 0.5 }}>
+                                      −${savings.toFixed(2)} saved
+                                    </Typography>
+                                  );
+                                }
+                              }
+                              return null;
+                            })()}
                           </Box>
                         </Box>
                       ))}
@@ -374,7 +394,9 @@ export default function CartPage() {
                   <Stack spacing={2} sx={{ mb: 4 }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                       <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 600 }}>Subtotal</Typography>
-                      <Typography variant="body2" sx={{ fontWeight: 800 }}>${totalPrice.toFixed(2)}</Typography>
+                      <Typography variant="body2" sx={{ fontWeight: 800 }}>
+                        ${items.reduce((sum, item) => sum + item.product.price * item.quantity, 0).toFixed(2)}
+                      </Typography>
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                       <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 600 }}>Shipping & Handling</Typography>

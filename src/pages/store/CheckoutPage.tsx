@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Box, Container, Typography, Grid, TextField, Button, Divider, Card, Stack
+  Box, Container, Typography, Grid, TextField, Button, Divider, Card, Stack,
+  FormControlLabel, Checkbox, Tooltip
 } from '@mui/material';
-import { LocalMall, ArrowForward, Lock, LocalOffer, AutoAwesome } from '@mui/icons-material';
+import { LocalMall, ArrowForward, Lock, LocalOffer, AutoAwesome, Save } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 
 const MotionBox = motion.create(Box);
@@ -15,10 +16,15 @@ import DetailSkeleton from '../../components/skeletons/DetailSkeleton';
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
-  const { user } = useAuthStore();
+  const { user, updateProfile } = useAuthStore();
   const { items, totalPrice, fetchCart, resetCart, isLoading } = useCartStore();
   const [loading, setLoading] = useState(false);
-  const [address, setAddress] = useState({
+  const [saveToProfile, setSaveToProfile] = useState(true);
+  // Stable key for this checkout session — prevents duplicate orders on slow connections / retries
+  const idempotencyKey = useRef(crypto.randomUUID());
+
+  const [shippingInfo, setShippingInfo] = useState({
+    phone: user?.phone || '',
     street: user?.address?.street || '',
     city: user?.address?.city || '',
     state: user?.address?.state || '',
@@ -26,6 +32,20 @@ export default function CheckoutPage() {
     country: user?.address?.country || '',
   });
   const [isFirstOrder, setIsFirstOrder] = useState(false);
+
+  // Re-sync from user profile whenever the user object loads/changes
+  useEffect(() => {
+    if (user) {
+      setShippingInfo({
+        phone: user.phone || '',
+        street: user.address?.street || '',
+        city: user.address?.city || '',
+        state: user.address?.state || '',
+        zipCode: user.address?.zipCode || '',
+        country: user.address?.country || '',
+      });
+    }
+  }, [user]);
 
   useEffect(() => {
     fetchCart();
@@ -35,7 +55,6 @@ export default function CheckoutPage() {
   const checkFirstOrder = async () => {
     try {
       const { data } = await ordersAPI.getMyOrders();
-      // data.data is the array of orders
       setIsFirstOrder(data.data.length === 0);
     } catch (error) {
       console.error('Failed to check order history:', error);
@@ -46,7 +65,11 @@ export default function CheckoutPage() {
   const total = Number((totalPrice - discountPrice).toFixed(2));
 
   const handlePlaceOrder = async () => {
-    if (!address.street || !address.city || !address.state || !address.zipCode || !address.country) {
+    if (!shippingInfo.phone) {
+      toast.error('Please provide a contact phone number');
+      return;
+    }
+    if (!shippingInfo.street || !shippingInfo.city || !shippingInfo.state || !shippingInfo.zipCode || !shippingInfo.country) {
       toast.error('Please fill in all shipping fields');
       return;
     }
@@ -58,6 +81,21 @@ export default function CheckoutPage() {
 
     setLoading(true);
     try {
+      // 1. Save address + phone back to the user's profile if opted in
+      if (saveToProfile) {
+        await updateProfile({
+          phone: shippingInfo.phone,
+          address: {
+            street: shippingInfo.street,
+            city: shippingInfo.city,
+            state: shippingInfo.state,
+            zipCode: shippingInfo.zipCode,
+            country: shippingInfo.country,
+          },
+        });
+      }
+
+      // 2. Place the order
       const orderItems = items.map((item) => ({
         product: item.product._id,
         quantity: item.quantity,
@@ -65,7 +103,14 @@ export default function CheckoutPage() {
 
       const { data } = await ordersAPI.create({
         orderItems,
-        shippingAddress: address,
+        shippingAddress: {
+          street: shippingInfo.street,
+          city: shippingInfo.city,
+          state: shippingInfo.state,
+          zipCode: shippingInfo.zipCode,
+          country: shippingInfo.country,
+        },
+        idempotencyKey: idempotencyKey.current,
       });
 
       resetCart();
@@ -78,16 +123,18 @@ export default function CheckoutPage() {
     }
   };
 
+  const fieldSx = { borderRadius: '12px', bgcolor: '#fbfaf8' };
+
   if (isLoading) return <DetailSkeleton type="order" />;
 
   if (items.length === 0 && !loading) {
     return (
       <Container maxWidth="lg" sx={{ py: { xs: 8, md: 12 }, textAlign: 'center' }}>
-        <MotionBox 
+        <MotionBox
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          sx={{ 
-            py: { xs: 8, md: 12 }, 
+          sx={{
+            py: { xs: 8, md: 12 },
             px: 4,
             bgcolor: 'white',
             borderRadius: '32px',
@@ -108,10 +155,10 @@ export default function CheckoutPage() {
             onClick={() => navigate('/shop')}
             variant="contained"
             endIcon={<ArrowForward />}
-            sx={{ 
-              bgcolor: 'primary.main', 
+            sx={{
+              bgcolor: 'primary.main',
               color: 'white',
-              px: 5, 
+              px: 5,
               py: 1.5,
               borderRadius: '50px',
               fontWeight: 800,
@@ -131,15 +178,15 @@ export default function CheckoutPage() {
 
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'transparent' }}>
-      <Box 
-        sx={{ 
-          bgcolor: 'primary.dark', 
-          pt: { xs: 4, md: 12 }, 
-          pb: { xs: 4, md: 12 }, 
+      <Box
+        sx={{
+          bgcolor: 'primary.dark',
+          pt: { xs: 4, md: 12 },
+          pb: { xs: 4, md: 12 },
           mb: 3,
-          textAlign: 'center', 
-          color: 'white', 
-          position: 'relative', 
+          textAlign: 'center',
+          color: 'white',
+          position: 'relative',
           overflow: 'hidden',
           backgroundImage: 'linear-gradient(180deg, rgba(26,46,31,1) 0%, rgba(45,75,56,0.95) 100%)',
         }}
@@ -147,9 +194,9 @@ export default function CheckoutPage() {
         <Box sx={{ position: 'relative', zIndex: 2 }}>
           <Typography
             variant="h1"
-            sx={{ 
-              fontWeight: 700, 
-              fontSize: { xs: '2rem', md: '4rem' }, 
+            sx={{
+              fontWeight: 700,
+              fontSize: { xs: '2rem', md: '4rem' },
               fontFamily: '"Playfair Display", serif',
               letterSpacing: '-0.02em',
               mb: 1
@@ -161,14 +208,14 @@ export default function CheckoutPage() {
             Finalize your botanical selections
           </Typography>
         </Box>
-        <Box 
-          sx={{ 
-            position: 'absolute', 
-            top: 0, left: 0, right: 0, bottom: 0, 
-            background: 'radial-gradient(circle, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 70%)', 
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 0, left: 0, right: 0, bottom: 0,
+            background: 'radial-gradient(circle, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 70%)',
             pointerEvents: 'none',
             opacity: 0.1
-          }} 
+          }}
         />
       </Box>
 
@@ -179,14 +226,14 @@ export default function CheckoutPage() {
             <MotionBox initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
               <Card sx={{ borderRadius: '32px', boxShadow: '0 40px 80px rgba(0,0,0,0.06)', border: '1px solid rgba(0,0,0,0.04)', overflow: 'hidden' }}>
                 {isFirstOrder && (
-                  <Box 
-                    sx={{ 
-                      bgcolor: 'secondary.main', 
-                      color: 'white', 
-                      px: 3, 
-                      py: 2, 
-                      display: 'flex', 
-                      alignItems: 'center', 
+                  <Box
+                    sx={{
+                      bgcolor: 'secondary.main',
+                      color: 'white',
+                      px: 3,
+                      py: 2,
+                      display: 'flex',
+                      alignItems: 'center',
                       gap: 2,
                       backgroundImage: 'linear-gradient(45deg, rgba(184,149,106,1) 0%, rgba(202,186,166,1) 100%)',
                     }}
@@ -217,55 +264,95 @@ export default function CheckoutPage() {
                   </Typography>
 
                   <Grid container spacing={3}>
+                    {/* Phone Number — full width, top of form */}
+                    <Grid size={12}>
+                      <TextField
+                        fullWidth
+                        label="Contact Phone Number"
+                        placeholder="+1 (555) 000-0000"
+                        value={shippingInfo.phone}
+                        onChange={(e) => setShippingInfo({ ...shippingInfo, phone: e.target.value })}
+                        required
+                        type="tel"
+                        slotProps={{ input: { sx: fieldSx } }}
+                      />
+                    </Grid>
+
                     <Grid size={12}>
                       <TextField
                         fullWidth
                         label="Street Address"
-                        value={address.street}
-                        onChange={(e) => setAddress({ ...address, street: e.target.value })}
+                        value={shippingInfo.street}
+                        onChange={(e) => setShippingInfo({ ...shippingInfo, street: e.target.value })}
                         required
-                        slotProps={{ input: { sx: { borderRadius: '12px', bgcolor: '#fbfaf8' } } }}
+                        slotProps={{ input: { sx: fieldSx } }}
                       />
                     </Grid>
                     <Grid size={{ xs: 12, sm: 6 }}>
                       <TextField
                         fullWidth
                         label="City"
-                        value={address.city}
-                        onChange={(e) => setAddress({ ...address, city: e.target.value })}
+                        value={shippingInfo.city}
+                        onChange={(e) => setShippingInfo({ ...shippingInfo, city: e.target.value })}
                         required
-                        slotProps={{ input: { sx: { borderRadius: '12px', bgcolor: '#fbfaf8' } } }}
+                        slotProps={{ input: { sx: fieldSx } }}
                       />
                     </Grid>
                     <Grid size={{ xs: 12, sm: 6 }}>
                       <TextField
                         fullWidth
                         label="State / Province"
-                        value={address.state}
-                        onChange={(e) => setAddress({ ...address, state: e.target.value })}
+                        value={shippingInfo.state}
+                        onChange={(e) => setShippingInfo({ ...shippingInfo, state: e.target.value })}
                         required
-                        slotProps={{ input: { sx: { borderRadius: '12px', bgcolor: '#fbfaf8' } } }}
+                        slotProps={{ input: { sx: fieldSx } }}
                       />
                     </Grid>
                     <Grid size={{ xs: 12, sm: 6 }}>
                       <TextField
                         fullWidth
                         label="ZIP / Postal Code"
-                        value={address.zipCode}
-                        onChange={(e) => setAddress({ ...address, zipCode: e.target.value })}
+                        value={shippingInfo.zipCode}
+                        onChange={(e) => setShippingInfo({ ...shippingInfo, zipCode: e.target.value })}
                         required
-                        slotProps={{ input: { sx: { borderRadius: '12px', bgcolor: '#fbfaf8' } } }}
+                        slotProps={{ input: { sx: fieldSx } }}
                       />
                     </Grid>
                     <Grid size={{ xs: 12, sm: 6 }}>
                       <TextField
                         fullWidth
                         label="Country"
-                        value={address.country}
-                        onChange={(e) => setAddress({ ...address, country: e.target.value })}
+                        value={shippingInfo.country}
+                        onChange={(e) => setShippingInfo({ ...shippingInfo, country: e.target.value })}
                         required
-                        slotProps={{ input: { sx: { borderRadius: '12px', bgcolor: '#fbfaf8' } } }}
+                        slotProps={{ input: { sx: fieldSx } }}
                       />
+                    </Grid>
+
+                    {/* Save to profile toggle */}
+                    <Grid size={12}>
+                      <Tooltip title="Your address and phone will be updated in your profile for future checkouts">
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              id="save-address-to-profile"
+                              checked={saveToProfile}
+                              onChange={(e) => setSaveToProfile(e.target.checked)}
+                              sx={{
+                                color: 'primary.main',
+                                '&.Mui-checked': { color: 'primary.main' },
+                              }}
+                              icon={<Save sx={{ fontSize: 20, opacity: 0.4 }} />}
+                              checkedIcon={<Save sx={{ fontSize: 20 }} />}
+                            />
+                          }
+                          label={
+                            <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.secondary', fontSize: '0.85rem' }}>
+                              Save shipping details to my profile
+                            </Typography>
+                          }
+                        />
+                      </Tooltip>
                     </Grid>
                   </Grid>
                 </Box>
@@ -302,32 +389,66 @@ export default function CheckoutPage() {
                 </Typography>
 
                 <Stack spacing={2} sx={{ mb: 4 }}>
-                  {items.map((item) => (
-                    <Box key={item._id} sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 600 }}>
-                        {item.product.name} × {item.quantity}
-                      </Typography>
-                      <Typography variant="body2" sx={{ fontWeight: 800 }}>
-                        ${(item.product.price * item.quantity).toFixed(2)}
-                      </Typography>
-                    </Box>
-                  ))}
+                  {items.map((item) => {
+                    const { price, offer } = item.product;
+                    const qty = item.quantity;
+                    let lineTotal = price * qty;
+                    if (offer && offer.isActive && offer.buy > 0 && offer.get > 0) {
+                      const { buy, get } = offer;
+                      const bundles = Math.floor(qty / (buy + get));
+                      const remainder = qty % (buy + get);
+                      const paidQty = (bundles * buy) + Math.min(remainder, buy);
+                      lineTotal = price * paidQty;
+                    }
+                    return (
+                      <Box key={item._id} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                        <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 600 }}>
+                          {item.product.name} × {qty}
+                        </Typography>
+                        <Box sx={{ textAlign: 'right' }}>
+                          {lineTotal < price * qty && (
+                            <Typography variant="caption" sx={{ display: 'block', color: 'success.main', fontWeight: 800 }}>
+                              −${(price * qty - lineTotal).toFixed(2)} saved
+                            </Typography>
+                          )}
+                          <Typography variant="body2" sx={{ fontWeight: 800 }}>
+                            ${lineTotal.toFixed(2)}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    );
+                  })}
                 </Stack>
 
                 <Divider sx={{ my: 3, opacity: 0.5 }} />
 
                 <Stack spacing={2} sx={{ mb: 4 }}>
-                   <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 600 }}>Subtotal</Typography>
-                    <Typography variant="body2" sx={{ fontWeight: 800 }}>${totalPrice.toFixed(2)}</Typography>
+                    <Typography variant="body2" sx={{ fontWeight: 800 }}>
+                      ${items.reduce((sum, item) => sum + item.product.price * item.quantity, 0).toFixed(2)}
+                    </Typography>
                   </Box>
+                  {(() => {
+                    const subtotalFull = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+                    const offerSavings = subtotalFull - totalPrice;
+                    if (offerSavings > 0.001) {
+                      return (
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', color: '#27ae60' }}>
+                          <Typography variant="body2" sx={{ fontWeight: 700 }}>Offer Savings</Typography>
+                          <Typography variant="body2" sx={{ fontWeight: 900 }}>−${offerSavings.toFixed(2)}</Typography>
+                        </Box>
+                      );
+                    }
+                    return null;
+                  })()}
                   {isFirstOrder && (
-                    <Box sx={{ 
-                      display: 'flex', 
-                      justifyContent: 'space-between', 
-                      bgcolor: 'rgba(61,107,79,0.05)', 
-                      p: 2, 
-                      mx: -2, 
+                    <Box sx={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      bgcolor: 'rgba(61,107,79,0.05)',
+                      p: 2,
+                      mx: -2,
                       borderRadius: '12px',
                       border: '1px dashed rgba(61,107,79,0.3)'
                     }}>
@@ -338,7 +459,7 @@ export default function CheckoutPage() {
                     </Box>
                   )}
                   <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 600 }}>Shipping & Handling</Typography>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 600 }}>Shipping &amp; Handling</Typography>
                     <Typography variant="body2" sx={{ fontWeight: 800, color: 'text.primary' }}>
                       Complimentary
                     </Typography>

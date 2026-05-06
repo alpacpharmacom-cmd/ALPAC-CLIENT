@@ -273,16 +273,21 @@ export default function OrderDetailPage() {
                                 <Box component="span" sx={{ color: 'primary.main', fontWeight: 900 }}>{item.quantity} UNIT{item.quantity > 1 ? 'S' : ''}</Box> &nbsp;×&nbsp; ${item.price?.toFixed(2)}
                               </Typography>
                             </Box>
-                            <Typography variant="h5" sx={{ 
-                              fontWeight: 900, 
-                              color: 'primary.dark', 
-                              fontFamily: '"DM Sans", sans-serif', 
-                              textAlign: 'right', 
-                              alignSelf: 'flex-end', // Forces the price to the right edge on mobile
-                              pb: { md: 1 }
-                            }}>
-                              ${(item.price * item.quantity).toFixed(2)}
-                            </Typography>
+                            <Box sx={{ textAlign: 'right', alignSelf: 'flex-end', pb: { md: 1 } }}>
+                              {/* Show offer savings if totalItemPrice is less than full price */}
+                              {item.totalItemPrice < item.price * item.quantity && (
+                                <Typography variant="caption" sx={{ display: 'block', color: 'success.main', fontWeight: 800, mb: 0.5 }}>
+                                  -{`$${(item.price * item.quantity - item.totalItemPrice).toFixed(2)}`} offer savings
+                                </Typography>
+                              )}
+                              <Typography variant="h5" sx={{
+                                fontWeight: 900,
+                                color: 'primary.dark',
+                                fontFamily: '"DM Sans", sans-serif',
+                              }}>
+                                ${item.totalItemPrice?.toFixed(2)}
+                              </Typography>
+                            </Box>
                           </Box>
                         </Box>
                       </MotionBox>

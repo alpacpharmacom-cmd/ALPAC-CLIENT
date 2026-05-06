@@ -1,7 +1,7 @@
 import API from './axios';
 
 export const ordersAPI = {
-  create: (data: { orderItems: any[]; shippingAddress: any }) =>
+  create: (data: { orderItems: any[]; shippingAddress: any; idempotencyKey?: string }) =>
     API.post('/orders', data),
 
   getMyOrders: () => API.get('/orders/myOrders'),
