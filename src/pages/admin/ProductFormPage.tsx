@@ -47,6 +47,7 @@ export default function ProductFormPage() {
     offerBuy: '',
     offerGet: '',
     offerIsActive: false,
+    isActive: true,
   });
   const [uploading, setUploading] = useState(false);
 
@@ -75,6 +76,7 @@ export default function ProductFormPage() {
             offerBuy: product.offer?.buy?.toString() || '',
             offerGet: product.offer?.get?.toString() || '',
             offerIsActive: product.offer?.isActive || false,
+            isActive: product.isActive !== undefined ? product.isActive : true,
           });
         } catch {
           toast.error('Product not found');
@@ -166,6 +168,7 @@ export default function ProductFormPage() {
           get: Number(form.offerGet) || 0,
           isActive: form.offerIsActive,
         },
+        isActive: form.isActive,
       };
 
       if (isEdit) {
@@ -506,6 +509,26 @@ export default function ProductFormPage() {
                     />
                   </Grid>
                 </Grid>
+              </Grid>
+
+              <Grid size={12}>
+                <Typography variant="h6" sx={{ fontWeight: 800, mt: 2, mb: 2, color: 'text.primary' }}>
+                  Visibility
+                </Typography>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={form.isActive}
+                      onChange={(e) => handleSwitchChange('isActive', e.target.checked)}
+                      color="primary"
+                    />
+                  }
+                  label={
+                    <Typography sx={{ fontWeight: 600, fontSize: '0.9rem' }}>
+                      Product is Active (Visible in Store)
+                    </Typography>
+                  }
+                />
               </Grid>
             </Grid>
           </Box>

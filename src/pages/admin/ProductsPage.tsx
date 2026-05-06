@@ -40,6 +40,7 @@ export default function AdminProductsPage() {
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [stockFilter, setStockFilter] = useState('All'); // All, In Stock, Out of Stock, Low Stock
   const [subcategoryFilter, setSubcategoryFilter] = useState('All');
+  const [statusFilter, setStatusFilter] = useState('All'); // All, Active, Inactive
   const [sortBy, setSortBy] = useState('newest'); // newest, price-low, price-high
 
   const loadProducts = async () => {
@@ -81,7 +82,11 @@ export default function AdminProductsPage() {
       else if (stockFilter === 'Out of Stock') matchesStock = product.countInStock === 0;
       else if (stockFilter === 'Low Stock') matchesStock = product.countInStock > 0 && product.countInStock < 5;
 
-      return matchesSearch && matchesCategory && matchesSubcategory && matchesStock;
+      let matchesStatus = true;
+      if (statusFilter === 'Active') matchesStatus = product.isActive !== false;
+      else if (statusFilter === 'Inactive') matchesStatus = product.isActive === false;
+
+      return matchesSearch && matchesCategory && matchesSubcategory && matchesStock && matchesStatus;
     })
     .sort((a, b) => {
       if (sortBy === 'price-low') return a.price - b.price;
@@ -317,6 +322,34 @@ export default function AdminProductsPage() {
           <MenuItem value="price-low">Price: Low to High</MenuItem>
           <MenuItem value="price-high">Price: High to Low</MenuItem>
         </TextField>
+
+        <TextField
+          select
+          size="small"
+          label="Visibility"
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+          sx={{ 
+            minWidth: 140,
+            '& .MuiOutlinedInput-root': {
+              borderRadius: '12px',
+              bgcolor: '#fbfaf8',
+              height: 40,
+              fontSize: '0.875rem',
+              '& fieldset': { borderColor: 'rgba(0,0,0,0.06)' },
+            },
+            '& .MuiInputLabel-root': {
+              fontSize: '0.8rem',
+              fontWeight: 700,
+              '&.MuiInputLabel-shrink': { transform: 'translate(14px, -10px) scale(0.85)', bgcolor: 'white', px: 0.5 }
+            }
+          }}
+          slotProps={{ inputLabel: { shrink: true } }}
+        >
+          <MenuItem value="All">All Status</MenuItem>
+          <MenuItem value="Active">Active Only</MenuItem>
+          <MenuItem value="Inactive">Inactive Only</MenuItem>
+        </TextField>
       </Box>
 
       {loading ? (
@@ -345,6 +378,7 @@ export default function AdminProductsPage() {
             <Typography variant="caption"  sx={{ fontWeight: 800,  flex: 1, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.7rem', textAlign: 'center' }}>Subcategory</Typography>
             <Typography variant="caption"  sx={{ fontWeight: 800,  flex: 1, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.7rem', textAlign: 'center' }}>Price</Typography>
             <Typography variant="caption"  sx={{ fontWeight: 800,  flex: 1.2, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.7rem', textAlign: 'center' }}>Stock</Typography>
+            <Typography variant="caption"  sx={{ fontWeight: 800,  flex: 0.8, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.7rem', textAlign: 'center' }}>Status</Typography>
             <Typography variant="caption"  sx={{ fontWeight: 800,  flex: 1, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.7rem', textAlign: 'right' }}>Actions</Typography>
           </Box>
 
@@ -434,6 +468,37 @@ export default function AdminProductsPage() {
                       borderRadius: '8px',
                       boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
                       '& .MuiChip-label': { px: 1, width: '100%', textAlign: 'center' }
+                    }}
+                  />
+                </Box>
+                <Box sx={{ flex: 0.8, display: 'flex', justifyContent: 'center' }}>
+                  <Chip
+                    label={product.isActive !== false ? 'ACTIVE' : 'INACTIVE'}
+                    size="small"
+                    onClick={async (e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      try {
+                        await productsAPI.update(product._id, { isActive: !product.isActive });
+                        toast.success(`Product ${product.isActive !== false ? 'deactivated' : 'activated'}`);
+                        invalidateProducts();
+                        await fetchProducts(true);
+                      } catch {
+                        toast.error('Failed to update status');
+                      }
+                    }}
+                    sx={{
+                      fontSize: '0.6rem',
+                      fontWeight: 900,
+                      bgcolor: product.isActive !== false ? 'rgba(45, 75, 56, 0.1)' : 'rgba(0,0,0,0.05)',
+                      color: product.isActive !== false ? 'primary.main' : 'text.disabled',
+                      border: '1px solid',
+                      borderColor: product.isActive !== false ? 'rgba(45, 75, 56, 0.2)' : 'rgba(0,0,0,0.1)',
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                      '&:hover': {
+                        bgcolor: product.isActive !== false ? 'rgba(45, 75, 56, 0.2)' : 'rgba(0,0,0,0.1)',
+                      }
                     }}
                   />
                 </Box>
