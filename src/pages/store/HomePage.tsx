@@ -260,23 +260,28 @@ export default function HomePage() {
       </Box>
 
       {/* Featured Banner / Category Grid */}
-      <Box sx={{ py: 12, bgcolor: 'primary.dark', backgroundImage: 'linear-gradient(180deg, rgba(26,46,31,1) 0%, rgba(45,75,56,0.95) 100%)' }}>
+      <Box sx={{ 
+        py: { xs: 8, md: 12 }, 
+        bgcolor: '#1a2e1f', // Solid dark green fallback
+        position: 'relative'
+      }}>
         <Container maxWidth="xl" sx={{ px: { xs: 2, md: 6, xl: 10 } }}>
           <Grid container spacing={4} sx={{ minHeight: { md: 650 } }}>
             {/* Main Featured Card: Cosmetics */}
             <Grid component="div" size={{ xs: 12, md: 7 }}>
               <Link to="/shop?category=cosmetics" style={{ textDecoration: 'none', height: '100%', display: 'block' }}>
-                <Box
-                  sx={{
-                    height: '100%',
-                    position: 'relative',
-                    overflow: 'hidden',
-                    borderRadius: '32px',
-                    bgcolor: 'primary.main',
-                    boxShadow: '0 20px 60px rgba(0,0,0,0.15)',
-                    cursor: 'pointer',
-                  }}
-                >
+                 <Box
+                   sx={{
+                     height: '100%',
+                     position: 'relative',
+                     overflow: 'hidden',
+                     borderRadius: '24px', // Reduced slightly for better mobile rendering
+                     bgcolor: 'primary.main',
+                     boxShadow: '0 10px 40px rgba(0,0,0,0.12)',
+                     cursor: 'pointer',
+                     willChange: 'transform',
+                   }}
+                 >
                   <Box
                     component="img"
                     src="/images/nature/botanical_cosmetics.png"
@@ -290,11 +295,11 @@ export default function HomePage() {
                     loading="lazy"
                     decoding="async"
                   />
-                  <Box
+                   <Box
                     sx={{
                       position: 'absolute',
                       inset: 0,
-                      background: 'linear-gradient(to top, rgba(26,46,31,0.95) 0%, rgba(26,46,31,0.3) 50%, transparent 100%)',
+                      background: 'linear-gradient(to top, rgba(26,46,31,0.9) 0%, transparent 60%)',
                       zIndex: 1,
                     }}
                   />
@@ -339,14 +344,16 @@ export default function HomePage() {
               <Stack spacing={4} sx={{ height: '100%' }}>
                 {/* Secondary Card: Inner Beauty */}
                 <Link to="/shop?category=nutrients" style={{ textDecoration: 'none', flex: 1, display: 'block' }}>
-                  <Box
+                   <Box
                     sx={{
                       height: '100%',
                       position: 'relative',
                       overflow: 'hidden',
-                      borderRadius: '32px',
+                      borderRadius: '24px',
                       bgcolor: '#4a6b41',
                       cursor: 'pointer',
+                      willChange: 'transform',
+                      boxShadow: '0 8px 30px rgba(0,0,0,0.1)',
                     }}
                   >
                     <Box
@@ -380,14 +387,16 @@ export default function HomePage() {
 
                 {/* Third Card: Our Story */}
                 <Link to="/about" style={{ textDecoration: 'none', flex: 1, display: 'block' }}>
-                  <Box
+                   <Box
                     sx={{
                       height: '100%',
                       position: 'relative',
                       overflow: 'hidden',
-                      borderRadius: '32px',
+                      borderRadius: '24px',
                       bgcolor: 'secondary.main',
                       cursor: 'pointer',
+                      willChange: 'transform',
+                      boxShadow: '0 8px 30px rgba(0,0,0,0.1)',
                     }}
                   >
                     <Box

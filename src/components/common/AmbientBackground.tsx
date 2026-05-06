@@ -14,6 +14,8 @@ export default function AmbientBackground() {
         background: 'linear-gradient(-45deg, #8ba895, #cabaa6, #7d9e87, #eedfcd, #8ba895)',
         backgroundSize: '100% 100%',
         opacity: { xs: 0.15, md: 0.3 },
+        willChange: 'transform',
+        contain: 'strict',
       }}
     />
   );

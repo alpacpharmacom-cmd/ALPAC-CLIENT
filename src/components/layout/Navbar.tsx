@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
   AppBar,
@@ -185,7 +186,9 @@ export default function Navbar() {
                   sx={{
                     position: 'relative',
                     '&:hover .nav-dropdown': {
-                      display: 'block',
+                      opacity: 1,
+                      visibility: 'visible',
+                      transform: 'translateY(0)',
                     },
                   }}
                 >
@@ -235,7 +238,10 @@ export default function Navbar() {
                         position: 'absolute',
                         top: '100%',
                         left: 0,
-                        display: 'none',
+                        opacity: 0,
+                        visibility: 'hidden',
+                        transform: 'translateY(8px)',
+                        transition: 'all 0.25s cubic-bezier(0.22, 1, 0.36, 1)',
                         minWidth: 100,
                         pt: 1, // This creates a "bridge" to prevent flickering
                         zIndex: 1000,
@@ -317,12 +323,14 @@ export default function Navbar() {
               }}
               sx={{
                 width: searchOpen ? 260 : 180,
+                transition: 'width 0.3s cubic-bezier(0.22, 1, 0.36, 1)',
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '100px',
                   bgcolor: 'rgba(0,0,0,0.03)',
                   height: 38,
                   fontSize: '0.82rem',
                   fontFamily: '"DM Sans", sans-serif',
+                  transition: 'background-color 0.3s ease, border-color 0.3s ease',
                   '& fieldset': {
                     borderColor: 'rgba(0,0,0,0.08)',
                   },
@@ -547,47 +555,57 @@ export default function Navbar() {
         </Toolbar>
 
         {/* Mobile search bar - slides down */}
-        {searchOpen && (
-          <ClickAwayListener onClickAway={() => { if (window.innerWidth < 900) setSearchOpen(false); }}>
-            <Box
-              component="form"
-              onSubmit={handleSearch}
-              sx={{
-                display: { md: 'none' },
-                pb: 1.5,
-                px: 1,
-              }}
+        <AnimatePresence>
+          {searchOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              style={{ overflow: 'hidden' }}
             >
-              <TextField
-                autoFocus
-                fullWidth
-                size="small"
-                placeholder="Search products..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                slotProps={{
-                  input: {
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Search sx={{ fontSize: 18, color: '#999' }} />
-                      </InputAdornment>
-                    ),
-                  }
-                }}
-                sx={{
-                  '& .MuiOutlinedInput-root': {
-                    borderRadius: '100px',
-                    bgcolor: 'white',
-                    height: 40,
-                    fontSize: '0.85rem',
-                    '& fieldset': { borderColor: 'rgba(0,0,0,0.1)' },
-                    '&.Mui-focused fieldset': { borderColor: '#3d6b4f', borderWidth: '1px' },
-                  },
-                }}
-              />
-            </Box>
-          </ClickAwayListener>
-        )}
+              <ClickAwayListener onClickAway={() => { if (window.innerWidth < 900) setSearchOpen(false); }}>
+                <Box
+                  component="form"
+                  onSubmit={handleSearch}
+                  sx={{
+                    display: { md: 'none' },
+                    pb: 1.5,
+                    px: 1,
+                  }}
+                >
+                  <TextField
+                    autoFocus
+                    fullWidth
+                    size="small"
+                    placeholder="Search products..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    slotProps={{
+                      input: {
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <Search sx={{ fontSize: 18, color: '#999' }} />
+                          </InputAdornment>
+                        ),
+                      }
+                    }}
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        borderRadius: '100px',
+                        bgcolor: 'white',
+                        height: 40,
+                        fontSize: '0.85rem',
+                        '& fieldset': { borderColor: 'rgba(0,0,0,0.1)' },
+                        '&.Mui-focused fieldset': { borderColor: '#3d6b4f', borderWidth: '1px' },
+                      },
+                    }}
+                  />
+                </Box>
+              </ClickAwayListener>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </Container>
 
       {/* Mobile Drawer */}
