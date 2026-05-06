@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
-  Box, Typography, TextField, Button, Grid, MenuItem
+  Box, Typography, TextField, Button, Grid, MenuItem, FormControlLabel, Switch
 } from '@mui/material';
 import { ArrowBack, Save, CloudUpload } from '@mui/icons-material';
 import toast from 'react-hot-toast';
@@ -44,6 +44,9 @@ export default function ProductFormPage() {
     category: '',
     subcategory: '',
     countInStock: '',
+    offerBuy: '',
+    offerGet: '',
+    offerIsActive: false,
   });
   const [uploading, setUploading] = useState(false);
 
@@ -69,6 +72,9 @@ export default function ProductFormPage() {
             category: product.category || '',
             subcategory: product.subcategory || '',
             countInStock: product.countInStock?.toString() || '',
+            offerBuy: product.offer?.buy?.toString() || '',
+            offerGet: product.offer?.get?.toString() || '',
+            offerIsActive: product.offer?.isActive || false,
           });
         } catch {
           toast.error('Product not found');
@@ -112,6 +118,10 @@ export default function ProductFormPage() {
     setForm(newForm);
   };
 
+  const handleSwitchChange = (field: string, checked: boolean) => {
+    setForm({ ...form, [field]: checked });
+  };
+
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -151,6 +161,11 @@ export default function ProductFormPage() {
         category: form.category,
         subcategory: form.subcategory,
         countInStock: Number(form.countInStock),
+        offer: {
+          buy: Number(form.offerBuy) || 0,
+          get: Number(form.offerGet) || 0,
+          isActive: form.offerIsActive,
+        },
       };
 
       if (isEdit) {
@@ -425,6 +440,72 @@ export default function ProductFormPage() {
                     }
                   }}
                 />
+              </Grid>
+
+              <Grid size={12}>
+                <Typography variant="h6" sx={{ fontWeight: 800, mt: 2, mb: 2, color: 'text.primary' }}>
+                  Special Offer (Buy X Get Y)
+                </Typography>
+                <Grid container spacing={3}>
+                  <Grid size={12}>
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={form.offerIsActive}
+                          onChange={(e) => handleSwitchChange('offerIsActive', e.target.checked)}
+                          color="primary"
+                        />
+                      }
+                      label={
+                        <Typography sx={{ fontWeight: 600, fontSize: '0.9rem' }}>
+                          Activate Offer
+                        </Typography>
+                      }
+                    />
+                  </Grid>
+                  <Grid size={6}>
+                    <TextField
+                      fullWidth
+                      size="small"
+                      label="Buy Quantity (X)"
+                      type="number"
+                      value={form.offerBuy}
+                      onChange={(e) => handleChange('offerBuy', e.target.value)}
+                      disabled={!form.offerIsActive}
+                      variant="outlined"
+                      slotProps={{ inputLabel: { shrink: true } }}
+                      sx={{ 
+                        '& .MuiOutlinedInput-root': { borderRadius: '12px', bgcolor: form.offerIsActive ? '#fbfaf8' : '#eee' },
+                        '& .MuiInputLabel-root': { 
+                          fontSize: '0.85rem', 
+                          fontWeight: 600,
+                          '&.MuiInputLabel-shrink': { transform: 'translate(14px, -11px) scale(0.85)', bgcolor: 'white', px: 0.5 }
+                        }
+                      }}
+                    />
+                  </Grid>
+                  <Grid size={6}>
+                    <TextField
+                      fullWidth
+                      size="small"
+                      label="Get Quantity Free (Y)"
+                      type="number"
+                      value={form.offerGet}
+                      onChange={(e) => handleChange('offerGet', e.target.value)}
+                      disabled={!form.offerIsActive}
+                      variant="outlined"
+                      slotProps={{ inputLabel: { shrink: true } }}
+                      sx={{ 
+                        '& .MuiOutlinedInput-root': { borderRadius: '12px', bgcolor: form.offerIsActive ? '#fbfaf8' : '#eee' },
+                        '& .MuiInputLabel-root': { 
+                          fontSize: '0.85rem', 
+                          fontWeight: 600,
+                          '&.MuiInputLabel-shrink': { transform: 'translate(14px, -11px) scale(0.85)', bgcolor: 'white', px: 0.5 }
+                        }
+                      }}
+                    />
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
           </Box>

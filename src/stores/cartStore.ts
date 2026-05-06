@@ -8,6 +8,11 @@ interface CartItem {
     price: number;
     image: string;
     stockStatus: string;
+    offer?: {
+      buy: number;
+      get: number;
+      isActive: boolean;
+    };
   };
   quantity: number;
   _id: string;
@@ -32,7 +37,20 @@ const calculateTotals = (items: CartItem[]) => {
   const validItems = items.filter(item => item.product !== null);
   return {
     totalItems: validItems.reduce((sum, item) => sum + item.quantity, 0),
-    totalPrice: validItems.reduce((sum, item) => sum + item.product.price * item.quantity, 0),
+    totalPrice: validItems.reduce((sum, item) => {
+      const { price, offer } = item.product;
+      const qty = item.quantity;
+      
+      if (offer && offer.isActive && offer.buy > 0 && offer.get > 0) {
+        const { buy, get } = offer;
+        const bundles = Math.floor(qty / (buy + get));
+        const remainder = qty % (buy + get);
+        const paidQuantity = (bundles * buy) + Math.min(remainder, buy);
+        return sum + price * paidQuantity;
+      }
+      
+      return sum + price * qty;
+    }, 0),
   };
 };
 

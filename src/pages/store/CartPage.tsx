@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
-  Box, Container, Typography, Button, IconButton, Divider, Grid, Card, Stack 
+  Box, Container, Typography, Button, IconButton, Divider, Grid, Card, Stack, Chip 
 } from '@mui/material';
 import { Add, Remove, Delete, ArrowForward, ShoppingCart } from '@mui/icons-material';
 import toast from 'react-hot-toast';
@@ -243,6 +243,20 @@ export default function CartPage() {
                             <Typography variant="body2" sx={{ fontWeight: 800, color: 'text.secondary', display: 'block' }}>
                               ${item.product.price?.toFixed(2)} / unit
                             </Typography>
+                            {item.product.offer && item.product.offer.isActive && (
+                              <Chip 
+                                label={`Buy ${item.product.offer.buy} Get ${item.product.offer.get} Free`}
+                                size="small"
+                                sx={{ 
+                                  mt: 1, 
+                                  bgcolor: 'rgba(39, 174, 96, 0.1)', 
+                                  color: '#27ae60', 
+                                  fontWeight: 800,
+                                  fontSize: '0.65rem',
+                                  height: 20
+                                }}
+                              />
+                            )}
 
                             {/* Quantity controls */}
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mt: { xs: 2, md: 3 }, flexWrap: 'wrap' }}>
@@ -307,7 +321,18 @@ export default function CartPage() {
                                 fontFamily: '"DM Sans", sans-serif'
                               }}
                             >
-                              ${(item.product.price * item.quantity).toFixed(2)}
+                              ${(() => {
+                                  const { price, offer } = item.product;
+                                  const qty = item.quantity;
+                                  if (offer && offer.isActive && offer.buy > 0 && offer.get > 0) {
+                                    const { buy, get } = offer;
+                                    const bundles = Math.floor(qty / (buy + get));
+                                    const remainder = qty % (buy + get);
+                                    const paidQuantity = (bundles * buy) + Math.min(remainder, buy);
+                                    return (price * paidQuantity).toFixed(2);
+                                  }
+                                  return (price * qty).toFixed(2);
+                                })()}
                             </Typography>
                           </Box>
                         </Box>
@@ -361,6 +386,19 @@ export default function CartPage() {
                       <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 600 }}>Archival Tax (0%)</Typography>
                       <Typography variant="body2" sx={{ fontWeight: 800 }}>$0.00</Typography>
                     </Box>
+                    {(() => {
+                      const subtotalNoOffers = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+                      const savings = subtotalNoOffers - totalPrice;
+                      if (savings > 0) {
+                        return (
+                          <Box sx={{ display: 'flex', justifyContent: 'space-between', color: '#27ae60' }}>
+                            <Typography variant="body2" sx={{ fontWeight: 700 }}>Offer Savings</Typography>
+                            <Typography variant="body2" sx={{ fontWeight: 900 }}>-${savings.toFixed(2)}</Typography>
+                          </Box>
+                        );
+                      }
+                      return null;
+                    })()}
                   </Stack>
 
                   <Divider sx={{ my: 3, opacity: 0.5}} />

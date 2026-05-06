@@ -334,6 +334,22 @@ export default function ProductPage() {
                   </Typography>
                 </Stack>
 
+                {product.offer && product.offer.isActive && (
+                  <Box sx={{ 
+                    mb: 3, 
+                    p: 2, 
+                    bgcolor: 'rgba(39, 174, 96, 0.05)', 
+                    border: '1px dashed #27ae60', 
+                    borderRadius: '12px',
+                    display: 'inline-block',
+                    alignSelf: 'flex-start'
+                  }}>
+                    <Typography sx={{ color: '#27ae60', fontWeight: 800, fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                      Special Offer: Buy {product.offer.buy} Get {product.offer.get} Free
+                    </Typography>
+                  </Box>
+                )}
+
                 <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 2, mb: { xs: 2, md: 4 } }}>
                   <Typography
                     variant="h3"

@@ -152,6 +152,27 @@ const ProductCard = memo(({
             </Box>
           )}
 
+          {product.offer && product.offer.isActive && (
+            <Box
+              sx={{
+                position: 'absolute',
+                top: product.oldPrice > product.price ? 42 : 12,
+                left: 12,
+                bgcolor: '#27ae60',
+                color: 'white',
+                px: 1.5,
+                py: 0.5,
+                fontSize: '0.65rem',
+                fontWeight: 700,
+                zIndex: 5,
+                borderRadius: '4px',
+                textTransform: 'uppercase'
+              }}
+            >
+              Buy {product.offer.buy} Get {product.offer.get}
+            </Box>
+          )}
+
           {product.image ? (
             <CardMedia
               component="img"
