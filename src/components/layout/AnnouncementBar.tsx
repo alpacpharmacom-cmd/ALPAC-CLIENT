@@ -15,16 +15,16 @@ export default function AnnouncementBar() {
     >
       <Container maxWidth="xl">
         <Stack
-          direction={{ xs: 'column', sm: 'row' }}
-          spacing={{ xs: 1, sm: 0 }}
+          direction="row"
           sx={{
             justifyContent: 'space-between',
             alignItems: 'center',
-            maxWidth: '1000px'
+            width: '100%',
+            px: { xs: 0, md: 2 }
           }}
         >
           {/* Email */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-start' }}>
             <Typography
               component="a"
               href="mailto:info@alpacpharma.com"
@@ -44,7 +44,7 @@ export default function AnnouncementBar() {
             </Typography>
           </Box>
 
-          {/* Slogan or Welcome (Optional, but helps balance) */}
+          {/* Slogan or Welcome */}
           <Typography
             sx={{
               display: { xs: 'none', md: 'block' },
@@ -54,51 +54,55 @@ export default function AnnouncementBar() {
               textTransform: 'uppercase',
               color: 'rgba(255,255,255,0.6)',
               fontFamily: '"DM Sans", sans-serif',
+              textAlign: 'center',
+              whiteSpace: 'nowrap'
             }}
           >
             Your Health, Our Mission.
           </Typography>
 
           {/* Social Icons */}
-          <Stack 
-            direction="row" 
-            spacing={2.5} 
-            sx={{ alignItems: 'center' }}
-          >
-            <Link 
-              href="#" 
-              target="_blank" 
-              sx={{ 
-                color: 'rgba(255,255,255,0.5)', 
-                display: 'flex',
-                '&:hover': { color: 'secondary.main' }
-              }}
+          <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
+            <Stack 
+              direction="row" 
+              spacing={2.5} 
+              sx={{ alignItems: 'center' }}
             >
-              <Instagram sx={{ fontSize: 14 }} />
-            </Link>
-            <Link 
-              href="#" 
-              target="_blank" 
-              sx={{ 
-                color: 'rgba(255,255,255,0.5)', 
-                display: 'flex',
-                '&:hover': { color: 'secondary.main' }
-              }}
-            >
-              <Facebook sx={{ fontSize: 14 }} />
-            </Link>
-            <Link 
-              href="#" 
-              target="_blank" 
-              sx={{ 
-                color: 'rgba(255,255,255,0.5)', 
-                display: 'flex',
-                '&:hover': { color: 'secondary.main' }
-              }}
-            >
-              <X sx={{ fontSize: 13 }} />
-            </Link>
-          </Stack>
+              <Link 
+                href="#" 
+                target="_blank" 
+                sx={{ 
+                  color: 'rgba(255,255,255,0.5)', 
+                  display: 'flex',
+                  '&:hover': { color: 'secondary.main' }
+                }}
+              >
+                <Instagram sx={{ fontSize: 14 }} />
+              </Link>
+              <Link 
+                href="#" 
+                target="_blank" 
+                sx={{ 
+                  color: 'rgba(255,255,255,0.5)', 
+                  display: 'flex',
+                  '&:hover': { color: 'secondary.main' }
+                }}
+              >
+                <Facebook sx={{ fontSize: 14 }} />
+              </Link>
+              <Link 
+                href="#" 
+                target="_blank" 
+                sx={{ 
+                  color: 'rgba(255,255,255,0.5)', 
+                  display: 'flex',
+                  '&:hover': { color: 'secondary.main' }
+                }}
+              >
+                <X sx={{ fontSize: 13 }} />
+              </Link>
+            </Stack>
+          </Box>
         </Stack>
       </Container>
     </Box>
