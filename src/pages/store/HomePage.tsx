@@ -97,7 +97,7 @@ export default function HomePage() {
           sx={{
             position: 'absolute',
             inset: 0,
-            background: 'linear-gradient(90deg, rgba(45,75,56,0.7) 0%, rgba(45,75,56,0.2) 100%)',
+            bgcolor: 'rgba(26,46,31,0.4)', // Simplified from gradient
             zIndex: 1,
           }}
         />
@@ -184,8 +184,7 @@ export default function HomePage() {
       <Box sx={{ py: { xs: 8, md: 12 } }}>
         <Container maxWidth={false} disableGutters>
           <Box sx={{ 
-            bgcolor: 'rgba(244, 242, 238, 0)', 
-            py: { xs: 6, md: 10 },
+            py: { xs: 4, md: 8 }, // Reduced padding
             px: { xs: 2, md: 4, lg: 6 },
           }}>
             <Stack 

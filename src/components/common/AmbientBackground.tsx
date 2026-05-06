@@ -11,11 +11,11 @@ export default function AmbientBackground() {
         bottom: 0,
         zIndex: -1,
         pointerEvents: 'none',
-        background: 'linear-gradient(-45deg, #8ba895, #cabaa6, #7d9e87, #eedfcd, #8ba895)',
-        backgroundSize: '100% 100%',
-        opacity: { xs: 0.15, md: 0.3 },
-        willChange: 'transform',
-        contain: 'strict',
+        bgcolor: { xs: '#fdfbf7', md: 'transparent' },
+        background: { 
+          xs: 'none', 
+          md: 'linear-gradient(135deg, #fdfbf7 0%, #f5f3ec 100%)' 
+        },
       }}
     />
   );
