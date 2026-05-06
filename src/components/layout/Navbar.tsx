@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
   AppBar,
@@ -74,9 +74,14 @@ const navLinks = [
 export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { isAuthenticated, isAdmin, user, logout } = useAuthStore();
-  const { totalItems } = useCartStore();
-  const { items: wishlistItems } = useWishlistStore();
+  
+  const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+  const isAdmin = useAuthStore(state => state.isAdmin);
+  const user = useAuthStore(state => state.user);
+  const logout = useAuthStore(state => state.logout);
+  
+  const totalItems = useCartStore(state => state.totalItems);
+  const wishlistItems = useWishlistStore(state => state.items);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<Record<string, boolean>>({});

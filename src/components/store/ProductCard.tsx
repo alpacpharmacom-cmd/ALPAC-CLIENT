@@ -90,6 +90,8 @@ const ProductCard = memo(({
           overflow: 'hidden',
           height: '100%',
           position: 'relative',
+          minHeight: { xs: '320px', sm: '420px' },
+          contentVisibility: 'auto',
           '&:hover .product-name': {
             color: 'primary.main',
           },

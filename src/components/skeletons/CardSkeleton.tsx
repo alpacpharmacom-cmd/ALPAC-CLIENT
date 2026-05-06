@@ -45,7 +45,7 @@ export default function CardSkeleton({
       >
         <Skeleton
           variant="rectangular"
-          animation={false}
+          animation="pulse"
           sx={{
             position: 'absolute',
             top: 0,
@@ -63,14 +63,14 @@ export default function CardSkeleton({
           width="40%" 
           height={14} 
           sx={{ mb: 0.5, bgcolor: 'rgba(0,0,0,0.03)', borderRadius: '4px' }} 
-          animation={false}
+          animation="pulse"
         />
         <Skeleton 
           variant="rectangular" 
           width="90%" 
           height={32} 
           sx={{ mb: 1.5, bgcolor: 'rgba(0,0,0,0.05)', borderRadius: '4px' }} 
-          animation={false}
+          animation="pulse"
         />
         
         <Box sx={{ mt: 1.5, mb: 1.5 }}>
@@ -83,7 +83,7 @@ export default function CardSkeleton({
                   width={14} 
                   height={14} 
                   sx={{ bgcolor: 'rgba(74, 103, 65, 0.08)' }} // Hint of botanical green
-                  animation={false}
+                  animation="pulse"
                 />
               ))}
             </Box>
@@ -93,7 +93,7 @@ export default function CardSkeleton({
             width="35%" 
             height={24} 
             sx={{ bgcolor: 'rgba(45, 75, 56, 0.05)', borderRadius: '6px' }} 
-            animation={false}
+            animation="pulse"
           />
         </Box>
 
@@ -107,7 +107,7 @@ export default function CardSkeleton({
               borderRadius: { xs: '14px', sm: '16px' },
               bgcolor: 'rgba(45, 75, 56, 0.08)' 
             }} 
-            animation={false}
+            animation="pulse"
           />
         )}
       </CardContent>

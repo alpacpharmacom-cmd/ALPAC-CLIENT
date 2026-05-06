@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, memo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { 
   Box, Container, Typography, Grid, TextField, InputAdornment, MenuItem, Select,
@@ -61,7 +61,7 @@ interface ShopFiltersProps {
   mobile?: boolean;
 }
 
-const ShopFilters = ({
+const ShopFilters = memo(({
   searchQuery,
   setSearchQuery,
   activeCategory,
@@ -273,7 +273,7 @@ const ShopFilters = ({
       </Button>
     </Stack>
   </Box>
-);
+));
 
 export default function ShopPage() {
   const theme = useTheme();
@@ -296,6 +296,26 @@ export default function ShopPage() {
   const wishlistItems = useWishlistStore(state => state.items);
   const toggleWishlistProduct = useWishlistStore(state => state.toggleWishlistProduct);
 
+  const handleToggleWishlist = React.useCallback(async (e: React.MouseEvent, productId: string) => {
+    e.preventDefault();
+    if (!isAuthenticated) {
+      toast.error('Please login to use wishlist');
+      return;
+    }
+    try {
+      await toggleWishlistProduct(productId);
+      const isWishlisted = wishlistItems.some(item => item._id === productId);
+      if (isWishlisted) {
+        toast.success('Removed from wishlist');
+      } else {
+        toast.success('Added to wishlist!');
+      }
+    } catch {
+      toast.error('Failed to update wishlist');
+    }
+  }, [isAuthenticated, toggleWishlistProduct, wishlistItems]);
+
+
   useEffect(() => {
     const fetchProducts = async () => {
       if (!fetchedAll) {
@@ -317,7 +337,7 @@ export default function ShopPage() {
     setSearchQuery(searchParams.get('search') || '');
   }, [searchParams]);
 
-  const updateFilters = (key: string, value: string) => {
+  const updateFilters = React.useCallback((key: string, value: string) => {
     const newParams = new URLSearchParams(searchParams);
     const currentValue = searchParams.get(key) || 'all';
 
@@ -337,28 +357,14 @@ export default function ShopPage() {
     
     setSearchParams(newParams);
     if (!isDesktop) setMobileFilterOpen(false);
-  };
+  }, [searchParams, setSearchParams, isDesktop]);
 
-  const clearAllFilters = () => {
+  const clearAllFilters = React.useCallback(() => {
     setSearchParams(new URLSearchParams());
     setSearchQuery('');
     if (!isDesktop) setMobileFilterOpen(false);
-  };
+  }, [setSearchParams, isDesktop]);
 
-  const handleToggleWishlist = async (e: React.MouseEvent, productId: string) => {
-    e.preventDefault();
-    if (!isAuthenticated) {
-      toast.error('Please login to use wishlist');
-      return;
-    }
-    try {
-      await toggleWishlistProduct(productId);
-      const isWishlisted = wishlistItems.some(item => item._id === productId);
-      toast.success(isWishlisted ? 'Removed from wishlist' : 'Added to wishlist!');
-    } catch {
-      toast.error('Failed to update wishlist');
-    }
-  };
 
   const filteredProducts = useMemo(() => {
     let result = [...allProducts];

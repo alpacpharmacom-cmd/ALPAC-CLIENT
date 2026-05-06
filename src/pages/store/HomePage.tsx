@@ -1,12 +1,10 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Box, 
   Container, 
   Typography, 
   Button, 
-  useTheme,
-  useMediaQuery,
   Grid,
   Stack,
 } from '@mui/material';
@@ -22,10 +20,6 @@ import ProductCard from '../../components/store/ProductCard';
 import CardSkeleton from '../../components/skeletons/CardSkeleton';
 
 export default function HomePage() {
-  const theme = useTheme();
-  useMediaQuery(theme.breakpoints.down('sm'));
-  useMediaQuery(theme.breakpoints.down('md'));
-
   const { newArrivals, topRated, fetchedHome, fetchHomeData } = useProductStore();
   const [loading, setLoading] = useState(!fetchedHome);
 
@@ -49,7 +43,7 @@ export default function HomePage() {
     fetchData();
   }, [fetchedHome, fetchHomeData]);
 
-  const handleToggleWishlist = async (e: React.MouseEvent, productId: string) => {
+  const handleToggleWishlist = React.useCallback(async (e: React.MouseEvent, productId: string) => {
     e.preventDefault();
     if (!isAuthenticated) {
       toast.error('Please login to use wishlist');
@@ -66,7 +60,7 @@ export default function HomePage() {
     } catch {
       toast.error('Failed to update wishlist');
     }
-  };
+  }, [isAuthenticated, toggleWishlistProduct, wishlistItems]);
 
   return (
     <Box sx={{ position: 'relative' }}>
