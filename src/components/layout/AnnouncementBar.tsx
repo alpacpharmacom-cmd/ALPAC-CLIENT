@@ -19,7 +19,8 @@ export default function AnnouncementBar() {
           spacing={{ xs: 1, sm: 0 }}
           sx={{
             justifyContent: 'space-between',
-            alignItems: 'center'
+            alignItems: 'center',
+            maxWidth: '1000px'
           }}
         >
           {/* Email */}
@@ -51,11 +52,11 @@ export default function AnnouncementBar() {
               fontWeight: 700,
               letterSpacing: '0.15em',
               textTransform: 'uppercase',
-              color: 'rgba(255,255,255,0.3)',
+              color: 'rgba(255,255,255,0.6)',
               fontFamily: '"DM Sans", sans-serif',
             }}
           >
-            Premium Botanical Formulations
+            Your Health, Our Mission.
           </Typography>
 
           {/* Social Icons */}
