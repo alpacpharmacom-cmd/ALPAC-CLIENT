@@ -10,9 +10,7 @@ import {
 } from '@mui/material';
 import { 
   East, 
-  KeyboardArrowDown,
 } from '@mui/icons-material';
-import { motion } from 'framer-motion';
 
 import { useAuthStore } from '../../stores/authStore';
 import { useWishlistStore } from '../../stores/wishlistStore';
@@ -20,6 +18,8 @@ import { useProductStore } from '../../stores/productStore';
 import toast from 'react-hot-toast';
 import ProductCard from '../../components/store/ProductCard';
 import CardSkeleton from '../../components/skeletons/CardSkeleton';
+
+import { motion } from 'framer-motion';
 
 export default function HomePage() {
   const { newArrivals, topRated, fetchedHome, fetchHomeData } = useProductStore();
@@ -65,209 +65,200 @@ export default function HomePage() {
   }, [isAuthenticated, toggleWishlistProduct, wishlistItems]);
 
   return (
-    <Box sx={{ position: 'relative', overflow: 'hidden' }}>
-      {/* Hero Section */}
+    <Box sx={{ position: 'relative' }}>
+      {/* Premium Hero Section */}
       <Box
-        component="section"
         sx={{
           height: '100vh',
           display: 'flex',
           alignItems: 'center',
           position: 'relative',
-          bgcolor: 'primary.dark',
+          bgcolor: '#1A2E1F', // Deep dark fallback
           color: 'white',
           overflow: 'hidden',
-          mt: '-80px',
+          mt: '-80px', // Overlap with transparent navbar
         }}
       >
-        {/* Background Image with Motion */}
+        {/* Background Image with subtle zoom animation */}
         <motion.div
-          initial={{ scale: 1.1, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1 }}
           transition={{ duration: 1.5, ease: "easeOut" }}
           style={{
             position: 'absolute',
             inset: 0,
+            width: '100%',
+            height: '100%',
             zIndex: 0,
           }}
         >
           <Box
             component="img"
-            src="/images/hero/hero_banner_v3.png"
-            alt="Alpac Skincare Rituals"
+            src="/images/hero/hero_banner_v2.png"
+            alt="Alpac Hero"
             sx={{
               width: '100%',
               height: '100%',
               objectFit: 'cover',
               objectPosition: 'center',
-              filter: 'brightness(0.85) contrast(1.05)',
             }}
             loading="eager"
-            decoding="async"
           />
         </motion.div>
 
-        {/* Sophisticated Overlay */}
+        {/* Sophisticated Gradient Overlay */}
         <Box
           sx={{
             position: 'absolute',
             inset: 0,
             background: {
-              xs: 'linear-gradient(to bottom, rgba(26,46,31,0.6) 0%, rgba(26,46,31,0.8) 100%)',
-              md: 'linear-gradient(90deg, rgba(26,46,31,0.85) 0%, rgba(26,46,31,0.4) 50%, transparent 100%)',
+              xs: 'linear-gradient(to bottom, rgba(26,46,31,0.8) 0%, rgba(26,46,31,0.4) 100%)',
+              md: 'linear-gradient(to right, rgba(26,46,31,0.9) 0%, rgba(26,46,31,0.7) 40%, transparent 100%)',
             },
             zIndex: 1,
           }}
         />
 
-        {/* Content */}
-        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, px: { xs: 3, md: 8 } }}>
-          <Grid container spacing={4}>
+        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }}>
+          <Grid container>
             <Grid size={{ xs: 12, md: 8, lg: 7 }}>
-              <Box>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                >
-                  <Typography
-                    sx={{
-                      color: 'secondary.light',
-                      letterSpacing: '0.4em',
-                      fontSize: { xs: '0.65rem', md: '0.85rem' },
-                      fontWeight: 700,
-                      mb: 2,
-                      textTransform: 'uppercase',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 2,
-                    }}
-                  >
-                    <Box component="span" sx={{ width: 40, height: 1, bgcolor: 'secondary.light' }} />
-                    Botanical Excellence
-                  </Typography>
-                </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+              >
+                <Stack spacing={4}>
+                  <Box>
+                    <motion.div
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.6, delay: 0.4 }}
+                    >
+                      <Typography
+                        variant="overline"
+                        sx={{
+                          color: 'secondary.main',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 2,
+                          mb: 2,
+                          fontWeight: 700,
+                          fontSize: '0.85rem',
+                        }}
+                      >
+                        <Box component="span" sx={{ width: 40, height: 1, bgcolor: 'secondary.main' }} />
+                        Pure Botanical Excellence
+                      </Typography>
+                    </motion.div>
 
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.4 }}
-                >
-                  <Typography
-                    variant="h1"
-                    sx={{
-                      fontWeight: 600,
-                      fontSize: { xs: '3.5rem', sm: '4.5rem', md: '6rem', lg: '7rem' },
-                      lineHeight: { xs: 1.1, md: 1 },
-                      mb: 3,
-                      color: 'white',
-                      textShadow: '0 4px 20px rgba(0,0,0,0.15)',
-                    }}
-                  >
-                    Reveal Your
-                    <br />
-                    <Box 
-                      component="span" 
-                      sx={{ 
-                        color: 'secondary.main', 
-                        fontStyle: 'italic',
-                        position: 'relative',
-                        '&::after': {
-                          content: '""',
-                          position: 'absolute',
-                          bottom: '15%',
-                          left: 0,
-                          width: '100%',
-                          height: '4px',
-                          bgcolor: 'secondary.main',
-                          opacity: 0.3,
-                          borderRadius: '2px',
-                        }
+                    <Typography
+                      variant="h1"
+                      sx={{
+                        fontSize: { xs: '3.5rem', sm: '4.5rem', md: '5.5rem', lg: '6.5rem' },
+                        fontWeight: 600,
+                        lineHeight: 0.95,
+                        letterSpacing: '-0.03em',
+                        mb: 3,
+                        textShadow: '0 4px 12px rgba(0,0,0,0.15)',
                       }}
                     >
-                      Natural
-                    </Box> Glow
-                  </Typography>
-                </motion.div>
+                      Reveal Your
+                      <br />
+                      <Box 
+                        component="span" 
+                        sx={{ 
+                          color: 'secondary.main', 
+                          fontStyle: 'italic',
+                          fontFamily: '"Playfair Display", serif',
+                          fontWeight: 400
+                        }}
+                      >
+                        Natural
+                      </Box> Glow
+                    </Typography>
+                  </Box>
 
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.6 }}
-                >
-                  <Typography
-                    sx={{
-                      color: 'rgba(255,255,255,0.9)',
-                      maxWidth: 580,
-                      mb: 5,
-                      fontSize: { xs: '1rem', md: '1.25rem' },
-                      lineHeight: 1.8,
-                      fontWeight: 400,
-                    }}
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.8, delay: 0.6 }}
                   >
-                    Experience the synergy of high-performance science and pure botanical extracts. 
-                    Our formulations are meticulously crafted to nourish your skin's unique biological needs.
-                  </Typography>
-                </motion.div>
+                    <Typography
+                      sx={{
+                        color: 'rgba(255,255,255,0.85)',
+                        maxWidth: 540,
+                        fontSize: { xs: '1rem', md: '1.25rem' },
+                        lineHeight: 1.6,
+                        fontWeight: 400,
+                        borderLeft: '2px solid',
+                        borderColor: 'secondary.main',
+                        pl: 3,
+                        mb: 2,
+                      }}
+                    >
+                      Discover the harmony of clinical science and raw nature. 
+                      Our artisan formulations are meticulously crafted to 
+                      transform your skincare ritual into a moment of pure indulgence.
+                    </Typography>
+                  </motion.div>
 
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.8 }}
-                >
-                  <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3}>
-                    <Button
-                      component={Link}
-                      to="/shop"
-                      variant="contained"
-                      size="large"
-                      color="secondary"
-                      endIcon={<East />}
-                      sx={{ 
-                        px: 6, 
-                        py: 2.5, 
-                        color: 'white',
-                        fontSize: '0.9rem',
-                        boxShadow: '0 10px 30px rgba(184,149,106,0.4)',
-                        '&:hover': {
-                          boxShadow: '0 15px 40px rgba(184,149,106,0.6)',
-                        }
-                      }}
-                    >
-                      Explore Collection
-                    </Button>
-                    <Button
-                      component={Link}
-                      to="/about"
-                      variant="outlined"
-                      size="large"
-                      sx={{ 
-                        borderColor: 'rgba(255,255,255,0.3)', 
-                        color: 'white', 
-                        px: 6, 
-                        py: 2.5,
-                        fontSize: '0.9rem',
-                        backdropFilter: 'blur(4px)',
-                        '&:hover': { 
-                          borderColor: 'white', 
-                          bgcolor: 'rgba(255,255,255,0.1)',
-                        }
-                      }}
-                    >
-                      The Alpac Story
-                    </Button>
-                  </Stack>
-                </motion.div>
-              </Box>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.8 }}
+                  >
+                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3} sx={{ pt: 2 }}>
+                      <Button
+                        component={Link}
+                        to="/shop"
+                        variant="contained"
+                        color="secondary"
+                        size="large"
+                        endIcon={<East />}
+                        sx={{ 
+                          px: 6, 
+                          py: 2.5, 
+                          fontSize: '0.9rem',
+                          boxShadow: '0 20px 40px rgba(184,149,106,0.25)',
+                          '&:hover': {
+                            boxShadow: '0 25px 50px rgba(184,149,106,0.35)',
+                          }
+                        }}
+                      >
+                        Shop Collection
+                      </Button>
+                      <Button
+                        component={Link}
+                        to="/about"
+                        variant="outlined"
+                        size="large"
+                        sx={{ 
+                          px: 6, 
+                          py: 2.5,
+                          fontSize: '0.9rem',
+                          borderColor: 'rgba(255,255,255,0.3)',
+                          color: 'white',
+                          backdropFilter: 'blur(4px)',
+                          '&:hover': {
+                            borderColor: 'white',
+                            bgcolor: 'rgba(255,255,255,0.1)',
+                          }
+                        }}
+                      >
+                        Our Philosophy
+                      </Button>
+                    </Stack>
+                  </motion.div>
+                </Stack>
+              </motion.div>
             </Grid>
           </Grid>
         </Container>
 
-        {/* Scroll Indicator */}
+        {/* Floating Scroll Indicator */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.5 }}
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           style={{
             position: 'absolute',
             bottom: '40px',
@@ -280,31 +271,13 @@ export default function HomePage() {
             gap: '8px',
           }}
         >
-          <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.6)', letterSpacing: '0.3em', textTransform: 'uppercase', fontSize: '0.65rem' }}>
+          <Typography sx={{ fontSize: '0.7rem', letterSpacing: '0.2em', opacity: 0.6, textTransform: 'uppercase' }}>
             Scroll
           </Typography>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <KeyboardArrowDown sx={{ color: 'secondary.main', fontSize: '2rem' }} />
-          </motion.div>
+          <Box sx={{ width: '1px', height: '40px', bgcolor: 'rgba(255,255,255,0.3)' }} />
         </motion.div>
-
-        {/* Decorative Light Leak */}
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '-20%',
-            right: '-10%',
-            width: '60%',
-            height: '100%',
-            background: 'radial-gradient(circle, rgba(184,149,106,0.15) 0%, transparent 70%)',
-            zIndex: 1,
-            pointerEvents: 'none',
-          }}
-        />
       </Box>
+
 
 
       {/* New Arrivals Section - Boxed */}
