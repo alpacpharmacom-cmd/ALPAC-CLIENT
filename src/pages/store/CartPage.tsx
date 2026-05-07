@@ -388,7 +388,7 @@ export default function CartPage() {
                       mb: 4,
                     }}
                   >
-                    Financial Ledger
+                    Purchase Details
                   </Typography>
 
                   <Stack spacing={2} sx={{ mb: 4 }}>

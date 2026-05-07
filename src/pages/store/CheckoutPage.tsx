@@ -260,7 +260,7 @@ export default function CheckoutPage() {
                       mb: 4,
                     }}
                   >
-                    Delivery Destination
+                    Billing Details
                   </Typography>
 
                   <Grid container spacing={3}>
@@ -385,7 +385,7 @@ export default function CheckoutPage() {
                     mb: 4,
                   }}
                 >
-                  Final Execution
+                  Order Summary
                 </Typography>
 
                 <Stack spacing={2} sx={{ mb: 4 }}>
@@ -474,7 +474,7 @@ export default function CheckoutPage() {
 
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', mb: 4 }}>
                   <Typography variant="subtitle2" sx={{ fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'text.secondary', mb: 0.5 }}>
-                    Total Investment
+                    Total Price
                   </Typography>
                   <Typography variant="h3" sx={{ fontWeight: 900, color: 'primary.main', fontFamily: '"DM Sans", sans-serif' }}>
                     ${total.toFixed(2)}
@@ -501,7 +501,7 @@ export default function CheckoutPage() {
                     transition: 'all 0.3s ease'
                   }}
                 >
-                  {loading ? 'Authorizing...' : 'Authorize Transaction'}
+                  {loading ? 'Processing...' : 'Place Order'}
                 </Button>
               </Box>
             </MotionBox>

@@ -568,18 +568,43 @@ export default function ProductPage() {
         {/* Related Products Section */}
         {relatedProducts.length > 0 && (
           <Box sx={{ mb: { xs: 8, md: 16 } }}>
-            <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'flex-end', mb: 6 }}>
+            <Stack 
+              direction={{ xs: 'column', sm: 'row' }} 
+              spacing={{ xs: 2, sm: 0 }}
+              sx={{ 
+                justifyContent: 'space-between', 
+                alignItems: { xs: 'flex-start', sm: 'flex-end' }, 
+                mb: { xs: 4, md: 6 } 
+              }}
+            >
               <Box>
                 <Typography variant="overline" sx={{ color: 'primary.main', fontWeight: 800, letterSpacing: '0.2em' }}>
                   Complete the set
                 </Typography>
-                <Typography variant="h3" sx={{ fontWeight: 600, mt: 1 }}>Related Products</Typography>
+                <Typography 
+                  variant="h3" 
+                  sx={{ 
+                    fontWeight: 600, 
+                    mt: 1,
+                    fontSize: { xs: '1.75rem', sm: '2rem', md: '2.5rem' }
+                  }}
+                >
+                  Related Products
+                </Typography>
               </Box>
               <Button 
                 component={Link} 
                 to="/shop" 
                 color="primary" 
-                sx={{ fontWeight: 700, textTransform: 'none' }}
+                sx={{ 
+                  fontWeight: 700, 
+                  textTransform: 'none',
+                  alignSelf: { xs: 'flex-end', sm: 'auto' },
+                  textAlign: { xs: 'right', sm: 'left' },
+                  fontSize: { xs: '0.9rem', sm: '1rem' },
+                  minWidth: 'auto',
+                  p: { xs: 0, sm: 1 }
+                }}
               >
                 View All Collection
               </Button>

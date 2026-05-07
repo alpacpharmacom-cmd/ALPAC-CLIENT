@@ -206,7 +206,7 @@ export default function AdminLayout() {
       )}
 
       {/* Main content */}
-      <Box sx={{ flex: 1, ml: { md: `${DRAWER_WIDTH}px` } }}>
+      <Box sx={{ flex: 1, ml: { md: `${DRAWER_WIDTH}px` }, display: 'flex', flexDirection: 'column' }}>
         {/* Top bar for mobile */}
         {isMobile && (
           <AppBar
@@ -229,7 +229,7 @@ export default function AdminLayout() {
           </AppBar>
         )}
 
-        <Box sx={{ p: { xs: 3, md: 6 }, maxWidth: 1600, mx: 'auto' }}>
+        <Box sx={{ p: { xs: 3, md: 6 }, maxWidth: 1600, mx: 'auto', flex: 1, display: 'flex', flexDirection: 'column', width: '100%' }}>
           <Outlet />
         </Box>
       </Box>

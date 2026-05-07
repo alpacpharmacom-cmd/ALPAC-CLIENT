@@ -11,7 +11,7 @@ export default function StoreLayout() {
       <AmbientBackground />
       <AnnouncementBar />
       <Navbar />
-      <Box component="main" sx={{ flex: 1 }}>
+      <Box component="main" sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
         <Outlet />
       </Box>
       <Footer />

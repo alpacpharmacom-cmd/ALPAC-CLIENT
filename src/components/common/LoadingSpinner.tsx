@@ -24,7 +24,8 @@ export default function LoadingSpinner({ message = 'Loading...', fullScreen = fa
           backdropFilter: 'blur(4px)',
           zIndex: 9999,
         } : {
-          minHeight: '300px',
+          flex: 1,
+          minHeight: '400px',
           width: '100%',
         })
       }}

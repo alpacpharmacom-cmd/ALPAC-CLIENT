@@ -335,14 +335,14 @@ export default function OrderDetailPage() {
                     {/* Financial Protocol Section */}
                     <Box>
                       <Typography variant="caption" sx={{ fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.2em', color: 'text.secondary', mb: 2, display: 'block' }}>
-                        Financial Summary
+                        Cost Summary
                       </Typography>
                       <Box sx={{ bgcolor: 'white', p: { xs: 2.5, md: 4 }, borderRadius: '24px', border: '1px solid rgba(0,0,0,0.04)', boxShadow: '0 20px 40px rgba(0,0,0,0.03)' }}>
                         <Stack spacing={2.5}>
                           {[
-                            { label: 'Market Subtotal', value: order.itemsPrice },
+                            { label: 'Subtotal', value: order.itemsPrice },
                             { label: 'First Order Discount', value: -order.discountPrice, color: 'success.main', hide: !order.discountPrice },
-                            { label: 'Excellence Shipping', value: order.shippingPrice },
+                            { label: 'Shipping & Handling', value: order.shippingPrice },
                             { label: 'Archival Tax', value: order.taxPrice },
                           ].filter(row => !row.hide).map((row) => (
                             <Box key={row.label} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -362,7 +362,7 @@ export default function OrderDetailPage() {
                             gap: 1
                           }}>
                             <Typography variant="subtitle1" sx={{ fontWeight: 900, whiteSpace: 'nowrap' }}>
-                              Total Investment
+                              Total Price
                             </Typography>
                             <Typography variant="h3" sx={{ 
                               fontWeight: 900, 

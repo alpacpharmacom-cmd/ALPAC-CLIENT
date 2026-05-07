@@ -134,13 +134,6 @@ export default function AboutPage() {
           </MotionBox>
         </Container>
 
-        <MotionBox 
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          sx={{ position: 'absolute', bottom: 40, left: '50%', transform: 'translateX(-50%)', opacity: 0.6 }}
-        >
-          <Box sx={{ width: 1, height: 60, borderRight: '1px solid white', mx: 'auto' }} />
-        </MotionBox>
       </Box>
 
       {/* Manifesto Section */}
