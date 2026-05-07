@@ -460,19 +460,12 @@ export default function AboutPage() {
                 mb: 4
               }}
             >
-              Sustainability <br />
-              <Box component="span" sx={{ fontStyle: 'italic', fontWeight: 300 }}>& Vision</Box>
+              Sustainability & Vision<br />
             </Typography>
             <Divider sx={{ width: 80, mx: 'auto', bgcolor: 'var(--gold)', height: 2, mb: 4 }} />
             <Typography variant="body1" sx={{ color: 'text.secondary', fontSize: '1.2rem', maxWidth: 600, mx: 'auto', mb: 4 }}>
               The individual is at the center of everything we do. Our values drive us to be at the forefront of the premium botanical care industry, providing a diverse portfolio of high-quality, transformative wellness products while protecting the planet that provides our ingredients.
             </Typography>
-            <Box sx={{ display: 'flex', gap: 3, alignItems: 'center', justifyContent: 'center' }}>
-              <PublicIcon sx={{ color: 'var(--sage)', fontSize: 32 }} />
-              <Typography variant="body2" sx={{ fontWeight: 600, color: 'var(--sage-dark)' }}>
-                Committed to a carbon-neutral future by 2030.
-              </Typography>
-            </Box>
           </MotionBox>
         </Container>
       </Box>
