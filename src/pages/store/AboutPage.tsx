@@ -9,7 +9,7 @@ import PublicIcon from '@mui/icons-material/Public';
 // Import images for Vite asset handling
 import heroImg from '../../assets/images/about/hero_premium.png';
 import missionImg from '../../assets/images/about/mission.png';
-import founderImg from '../../assets/images/about/founder_premium_v2.png';
+import founderImg from '../../assets/images/about/foundation_lab.png';
 import processImg from '../../assets/images/about/process_detail.png';
 import sustainabilityImg from '../../assets/images/about/sustainability_premium_v2.png';
 
@@ -358,8 +358,7 @@ export default function AboutPage() {
                   OUR FOUNDATION
                 </Typography>
                 <Typography variant="h2" sx={{ fontFamily: "'Playfair Display', serif", mb: 4, fontSize: { xs: '2.5rem', md: '4rem' } }}>
-                  Rooted in Science <br />
-                  <Box component="span" sx={{ fontStyle: 'italic', fontWeight: 300 }}>& Passion</Box>
+                  Rooted in Science & Passion<br />
                 </Typography>
                 <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.85)', fontSize: '1.2rem', mb: 3, lineHeight: 1.8 }}>
                   Founded in 2019 in Egypt by a collective of scientific and botanical experts, ALPAC was born from a desire to elevate personal care. We specialize in crafting premium skincare and wellness products of the highest quality.
@@ -370,11 +369,8 @@ export default function AboutPage() {
                 
                 <Box sx={{ position: 'relative', pl: 4 }}>
                   <Box sx={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 4, bgcolor: 'var(--gold)', borderRadius: 2 }} />
-                  <Typography variant="h5" sx={{ fontStyle: 'italic', fontWeight: 300, lineHeight: 1.6, mb: 3, color: 'var(--gold-light)' }}>
+                  <Typography variant="h5" sx={{ fontStyle: 'italic', fontWeight: 300, lineHeight: 1.6, color: 'var(--gold-light)' }}>
                     "Our goal was never to just sell products, but to create a new standard for botanical excellence in the Middle East."
-                  </Typography>
-                  <Typography variant="subtitle1" sx={{ fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'white' }}>
-                    — Dr. Amira Hassan, Founder
                   </Typography>
                 </Box>
               </MotionBox>
@@ -387,29 +383,6 @@ export default function AboutPage() {
       <Box sx={{ py: { xs: 6, md: 10 } }}>
         <Container maxWidth="lg">
           <Grid container spacing={10} sx={{ alignItems: 'center' }}>
-            <Grid size={{ xs: 12, md: 6 }}>
-              <MotionBox
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={fadeInVariants}
-              >
-                <Typography variant="overline" sx={{ color: 'var(--gold)', fontWeight: 800, mb: 2, display: 'block', letterSpacing: '0.2em' }}>
-                  THE PROCESS
-                </Typography>
-                <Typography variant="h2" sx={{ fontFamily: "'Playfair Display', serif", color: 'var(--sage-dark)', mb: 4, fontSize: { xs: '2.5rem', md: '3.5rem' } }}>
-                  Uncompromising Standards
-                </Typography>
-                <Typography variant="body1" sx={{ color: 'text.secondary', fontSize: '1.1rem', mb: 4, lineHeight: 1.8 }}>
-                  We pursue an ambitious strategy to redefine wellness through a robust, futuristic platform that merges nature's purity with uncompromising quality. Every ingredient is tested for potency and purity before it enters our formulation stage.
-                </Typography>
-                <Box component="ul" sx={{ color: 'text.secondary', pl: 2, '& li': { mb: 2 } }}>
-                  <li><Typography variant="body1">Sourcing only rare botanical species.</Typography></li>
-                  <li><Typography variant="body1">Cold-press extraction to preserve vital nutrients.</Typography></li>
-                  <li><Typography variant="body1">Rigorous clinical testing for all skin types.</Typography></li>
-                </Box>
-              </MotionBox>
-            </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
               <MotionBox
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -437,6 +410,29 @@ export default function AboutPage() {
                   alt="Process" 
                   sx={{ width: 1, height: 500, objectFit: 'cover', borderRadius: '0 50% 0 0', boxShadow: 10 }}
                 />
+              </MotionBox>
+            </Grid>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <MotionBox
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeInVariants}
+              >
+                <Typography variant="overline" sx={{ color: 'var(--gold)', fontWeight: 800, mb: 2, display: 'block', letterSpacing: '0.2em' }}>
+                  THE PROCESS
+                </Typography>
+                <Typography variant="h2" sx={{ fontFamily: "'Playfair Display', serif", color: 'var(--sage-dark)', mb: 4, fontSize: { xs: '2.5rem', md: '3.5rem' } }}>
+                  Uncompromising Standards
+                </Typography>
+                <Typography variant="body1" sx={{ color: 'text.secondary', fontSize: '1.1rem', mb: 4, lineHeight: 1.8 }}>
+                  We pursue an ambitious strategy to redefine wellness through a robust, futuristic platform that merges nature's purity with uncompromising quality. Every ingredient is tested for potency and purity before it enters our formulation stage.
+                </Typography>
+                <Box component="ul" sx={{ color: 'text.secondary', pl: 2, '& li': { mb: 2 } }}>
+                  <li><Typography variant="body1">Sourcing only rare botanical species.</Typography></li>
+                  <li><Typography variant="body1">Cold-press extraction to preserve vital nutrients.</Typography></li>
+                  <li><Typography variant="body1">Rigorous clinical testing for all skin types.</Typography></li>
+                </Box>
               </MotionBox>
             </Grid>
           </Grid>
