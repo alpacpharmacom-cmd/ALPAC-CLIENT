@@ -1,4 +1,4 @@
-import { Box, Container, Typography, Grid, Paper, Divider } from '@mui/material';
+import { Box, Container, Typography, Grid, Divider } from '@mui/material';
 import { motion, useScroll, useTransform, type Variants } from 'framer-motion';
 import { useRef } from 'react';
 import LocalFloristIcon from '@mui/icons-material/LocalFlorist';
@@ -51,7 +51,7 @@ export default function AboutPage() {
       {/* Hero Section */}
       <Box
         sx={{
-          height: '90vh',
+          height: { xs: '60vh', md: '75vh' },
           position: 'relative',
           display: 'flex',
           alignItems: 'center',
@@ -113,8 +113,8 @@ export default function AboutPage() {
                 textShadow: '0 10px 30px rgba(0,0,0,0.5)'
               }}
             >
-              Elevating Health,<br />
-              <Box component="span" sx={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--gold-light)' }}>Honoring Nature.</Box>
+              Your Health,<br />
+              <Box component="span" sx={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--gold-light)' }}>Our Mission.</Box>
             </MotionTypography>
             
             <MotionTypography
@@ -145,7 +145,7 @@ export default function AboutPage() {
       </Box>
 
       {/* Manifesto Section */}
-      <Box sx={{ py: { xs: 10, md: 20 }, textAlign: 'center', bgcolor: 'white' }}>
+      <Box sx={{ py: { xs: 8, md: 12 }, textAlign: 'center', bgcolor: 'white' }}>
         <Container maxWidth="md">
           <MotionBox
             initial="hidden"
@@ -177,9 +177,9 @@ export default function AboutPage() {
       </Box>
 
       {/* Values Grid */}
-      <Box sx={{ py: { xs: 8, md: 15 }, bgcolor: 'var(--ivory)' }}>
+      <Box sx={{ py: { xs: 6, md: 10 }, bgcolor: 'white' }}>
         <Container maxWidth="lg">
-          <Grid container spacing={4}>
+          <Grid container spacing={6}>
             {[
               { icon: <LocalFloristIcon />, title: 'Pure Botanicals', desc: 'Rare ingredients sourced from the most pristine environments across Egypt.' },
               { icon: <ScienceIcon />, title: 'Molecular Science', desc: 'Advanced formulas that ensure every drop delivers maximum cellular impact.' },
@@ -194,21 +194,18 @@ export default function AboutPage() {
                   variants={fadeInVariants}
                   transition={{ delay: idx * 0.1 }}
                   sx={{ 
-                    p: 4, 
-                    height: '100%', 
-                    bgcolor: 'white', 
-                    boxShadow: 'var(--premium-shadow)',
+                    textAlign: 'center',
                     transition: 'transform 0.3s ease',
                     '&:hover': { transform: 'translateY(-10px)' }
                   }}
                 >
-                  <Box sx={{ color: 'var(--gold)', mb: 3 }}>
+                  <Box sx={{ color: 'var(--gold)', mb: 3, display: 'flex', justifyContent: 'center', '& .MuiSvgIcon-root': { fontSize: 40 } }}>
                     {value.icon}
                   </Box>
-                  <Typography variant="h5" sx={{ fontFamily: "'Playfair Display', serif", mb: 2, color: 'var(--sage-dark)' }}>
+                  <Typography variant="h5" sx={{ fontFamily: "'Playfair Display', serif", mb: 2, color: 'var(--sage-dark)', fontWeight: 600 }}>
                     {value.title}
                   </Typography>
-                  <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.7 }}>
+                  <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.8, px: 2 }}>
                     {value.desc}
                   </Typography>
                 </MotionBox>
@@ -219,7 +216,7 @@ export default function AboutPage() {
       </Box>
 
       {/* Split Section: Mission */}
-      <Box sx={{ py: { xs: 8, md: 15 } }}>
+      <Box sx={{ py: { xs: 6, md: 10 } }}>
         <Container maxWidth="lg">
           <Grid container spacing={10} sx={{ alignItems: 'center' }}>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -229,10 +226,10 @@ export default function AboutPage() {
                 viewport={{ once: true }}
                 variants={fadeInVariants}
               >
-                <Typography variant="overline" sx={{ color: 'var(--gold)', fontWeight: 800, mb: 2, display: 'block' }}>
+                <Typography variant="overline" sx={{ color: 'var(--gold)', fontWeight: 800, mb: 2, display: 'block', letterSpacing: '0.2em' }}>
                   OUR MISSION
                 </Typography>
-                <Typography variant="h3" sx={{ fontFamily: "'Playfair Display', serif", color: 'var(--sage-dark)', mb: 4 }}>
+                <Typography variant="h2" sx={{ fontFamily: "'Playfair Display', serif", color: 'var(--sage-dark)', mb: 4, fontSize: { xs: '2.5rem', md: '3.5rem' } }}>
                   Care, Not Just Medicine
                 </Typography>
                 <Typography variant="body1" sx={{ color: 'text.secondary', fontSize: '1.1rem', mb: 4, lineHeight: 1.8 }}>
@@ -284,7 +281,7 @@ export default function AboutPage() {
       </Box>
 
       {/* Founder Section */}
-      <Box sx={{ py: { xs: 8, md: 18 }, bgcolor: 'var(--sage-dark)', color: 'white', position: 'relative', overflow: 'hidden' }}>
+      <Box sx={{ py: { xs: 8, md: 12 }, bgcolor: 'var(--sage-dark)', color: 'white', position: 'relative', overflow: 'hidden' }}>
         {/* Decorative Watermark */}
         <Typography 
           sx={{ 
@@ -387,7 +384,7 @@ export default function AboutPage() {
       </Box>
 
       {/* Process Detail Section */}
-      <Box sx={{ py: { xs: 8, md: 15 } }}>
+      <Box sx={{ py: { xs: 6, md: 10 } }}>
         <Container maxWidth="lg">
           <Grid container spacing={10} sx={{ alignItems: 'center' }}>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -397,10 +394,10 @@ export default function AboutPage() {
                 viewport={{ once: true }}
                 variants={fadeInVariants}
               >
-                <Typography variant="overline" sx={{ color: 'var(--gold)', fontWeight: 800, mb: 2, display: 'block' }}>
+                <Typography variant="overline" sx={{ color: 'var(--gold)', fontWeight: 800, mb: 2, display: 'block', letterSpacing: '0.2em' }}>
                   THE PROCESS
                 </Typography>
-                <Typography variant="h3" sx={{ fontFamily: "'Playfair Display', serif", color: 'var(--sage-dark)', mb: 4 }}>
+                <Typography variant="h2" sx={{ fontFamily: "'Playfair Display', serif", color: 'var(--sage-dark)', mb: 4, fontSize: { xs: '2.5rem', md: '3.5rem' } }}>
                   Uncompromising Standards
                 </Typography>
                 <Typography variant="body1" sx={{ color: 'text.secondary', fontSize: '1.1rem', mb: 4, lineHeight: 1.8 }}>
@@ -414,76 +411,97 @@ export default function AboutPage() {
               </MotionBox>
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
-              <Box 
-                component="img" 
-                src={processImg} 
-                alt="Process" 
-                sx={{ width: 1, height: 400, objectFit: 'cover', borderRadius: '50% 50% 0 0', boxShadow: 5 }}
-              />
+              <MotionBox
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1 }}
+                sx={{ 
+                  position: 'relative',
+                  '&::after': {
+                    content: '""',
+                    position: 'absolute',
+                    top: -20,
+                    left: -20,
+                    width: '100%',
+                    height: '100%',
+                    border: '1px solid var(--gold)',
+                    zIndex: -1,
+                    borderRadius: '0 50% 0 0'
+                  }
+                }}
+              >
+                <Box 
+                  component="img" 
+                  src={processImg} 
+                  alt="Process" 
+                  sx={{ width: 1, height: 500, objectFit: 'cover', borderRadius: '0 50% 0 0', boxShadow: 10 }}
+                />
+              </MotionBox>
             </Grid>
           </Grid>
         </Container>
       </Box>
 
       {/* Sustainability Section */}
-      <Box sx={{ py: { xs: 12, md: 20 }, bgcolor: 'var(--ivory)', position: 'relative' }}>
+      <Box sx={{ py: { xs: 8, md: 12 }, bgcolor: 'white' }}>
         <Container maxWidth="lg">
-          <MotionBox
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1 }}
-          >
-            <Paper 
-              elevation={0}
-              sx={{ 
-                p: { xs: 4, md: 0 }, 
-                borderRadius: 10, 
-                bgcolor: 'white', 
-                position: 'relative',
-                overflow: 'visible',
-                display: 'flex',
-                flexDirection: { xs: 'column', md: 'row' },
-                alignItems: 'center',
-                boxShadow: '0 50px 100px -20px rgba(0,0,0,0.08), 0 30px 60px -30px rgba(0,0,0,0.05)',
-                border: '1px solid rgba(0,0,0,0.03)'
-              }}
-            >
-              <Box sx={{ flex: 1, p: { md: 10 }, textAlign: { xs: 'center', md: 'left' } }}>
+          <Grid container spacing={10} sx={{ alignItems: 'center' }}>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <MotionBox
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeInVariants}
+              >
                 <Typography variant="overline" sx={{ color: 'var(--gold)', fontWeight: 800, mb: 2, display: 'block', letterSpacing: '0.2em' }}>
                   OUR FUTURE
                 </Typography>
-                <Typography variant="h2" sx={{ fontFamily: "'Playfair Display', serif", color: 'var(--sage-dark)', mb: 4, fontSize: { xs: '2rem', md: '3.5rem' } }}>
+                <Typography variant="h2" sx={{ fontFamily: "'Playfair Display', serif", color: 'var(--sage-dark)', mb: 4, fontSize: { xs: '2.5rem', md: '3.5rem' } }}>
                   Sustainability <br />
                   <Box component="span" sx={{ fontStyle: 'italic', fontWeight: 300 }}>& Vision</Box>
                 </Typography>
                 <Typography variant="body1" sx={{ color: 'text.secondary', fontSize: '1.2rem', mb: 4, lineHeight: 1.8 }}>
                   The individual is at the center of everything we do. Our values drive us to be at the forefront of the premium botanical care industry, providing a diverse portfolio of high-quality, transformative wellness products while protecting the planet that provides our ingredients.
                 </Typography>
-                <Box sx={{ display: 'flex', gap: 3, justifyContent: { xs: 'center', md: 'flex-start' } }}>
+                <Box sx={{ display: 'flex', gap: 3, alignItems: 'center' }}>
                   <PublicIcon sx={{ color: 'var(--sage)', fontSize: 40 }} />
                   <Typography variant="body2" sx={{ fontWeight: 600, color: 'var(--sage-dark)', maxWidth: 200 }}>
                     Committed to a carbon-neutral future by 2030.
                   </Typography>
                 </Box>
-              </Box>
-              <Box sx={{ flex: 1, width: 1, height: { xs: 300, md: '100%' }, position: 'relative' }}>
+              </MotionBox>
+            </Grid>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <MotionBox
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1 }}
+                sx={{ 
+                  position: 'relative',
+                  '&::after': {
+                    content: '""',
+                    position: 'absolute',
+                    top: 20,
+                    left: 20,
+                    width: '100%',
+                    height: '100%',
+                    border: '1px solid var(--gold)',
+                    zIndex: -1,
+                    borderRadius: 2
+                  }
+                }}
+              >
                 <Box 
                   component="img" 
                   src={sustainabilityImg} 
                   alt="Sustainability" 
-                  sx={{ 
-                    width: 1, 
-                    height: { xs: 300, md: 600 }, 
-                    objectFit: 'cover', 
-                    borderRadius: { xs: 4, md: '0 80px 80px 0' },
-                    transform: { md: 'scale(1.05)' },
-                    boxShadow: { md: '-20px 0 50px rgba(0,0,0,0.1)' }
-                  }}
+                  sx={{ width: 1, height: 500, objectFit: 'cover', borderRadius: 2, boxShadow: 10 }}
                 />
-              </Box>
-            </Paper>
-          </MotionBox>
+              </MotionBox>
+            </Grid>
+          </Grid>
         </Container>
       </Box>
     </Box>
