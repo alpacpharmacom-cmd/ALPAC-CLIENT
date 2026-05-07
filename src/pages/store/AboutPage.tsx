@@ -7,10 +7,10 @@ import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import PublicIcon from '@mui/icons-material/Public';
 
 // Import images for Vite asset handling
-import heroImg from '../../assets/images/about/hero_premium.png';
-import missionImg from '../../assets/images/about/mission.png';
-import founderImg from '../../assets/images/about/foundation_lab.png';
-import processImg from '../../assets/images/about/process_realistic.png';
+import heroImg from '../../assets/images/about/hero_natural.png';
+import missionImg from '../../assets/images/about/mission_natural.png';
+import founderImg from '../../assets/images/about/foundation_natural_v2.png';
+import processImg from '../../assets/images/about/process_natural_v2.png';
 
 const MotionBox = motion.create(Box);
 const MotionTypography = motion.create(Typography);
@@ -261,7 +261,6 @@ export default function AboutPage() {
                     right: -20,
                     width: '100%',
                     height: '100%',
-                    border: '2px solid var(--gold)',
                     zIndex: -1,
                     borderRadius: 2
                   }
@@ -271,7 +270,7 @@ export default function AboutPage() {
                   component="img" 
                   src={missionImg} 
                   alt="Mission" 
-                  sx={{ width: 1, height: 500, objectFit: 'cover', borderRadius: 2, boxShadow: 10 }}
+                  sx={{ width: 1, height: 500, objectFit: 'cover', borderRadius: '20px', boxShadow: 10 }}
                 />
               </MotionBox>
             </Grid>
@@ -322,28 +321,10 @@ export default function AboutPage() {
                     width: 1, 
                     height: { xs: 450, md: 650 }, 
                     objectFit: 'cover', 
-                    borderRadius: '20px 100px 20px 20px',
+                    borderRadius: '20px',
                     boxShadow: '0 30px 60px rgba(0,0,0,0.4)'
                   }}
                 />
-                <Box 
-                  sx={{ 
-                    position: 'absolute', 
-                    bottom: -30, 
-                    right: -30, 
-                    width: 150, 
-                    height: 150, 
-                    bgcolor: 'var(--gold)', 
-                    borderRadius: '50%', 
-                    display: { xs: 'none', md: 'flex' },
-                    alignItems: 'center', 
-                    justifyContent: 'center',
-                    border: '8px solid var(--sage-dark)',
-                    zIndex: 2
-                  }}
-                >
-                  <Typography variant="h4" sx={{ color: 'var(--sage-dark)', fontWeight: 800 }}>EST.</Typography>
-                </Box>
               </MotionBox>
             </Grid>
             <Grid size={{ xs: 12, md: 7 }}>
@@ -420,7 +401,6 @@ export default function AboutPage() {
                     left: -20,
                     width: '100%',
                     height: '100%',
-                    border: '1px solid var(--gold)',
                     zIndex: -1,
                     borderRadius: '0 50% 0 0'
                   }
@@ -430,7 +410,7 @@ export default function AboutPage() {
                   component="img" 
                   src={processImg} 
                   alt="Process" 
-                  sx={{ width: 1, height: 500, objectFit: 'cover', borderRadius: '0 50% 0 0', boxShadow: 10 }}
+                  sx={{ width: 1, height: 500, objectFit: 'cover', borderRadius: '20px', boxShadow: 10 }}
                 />
               </MotionBox>
             </Grid>
