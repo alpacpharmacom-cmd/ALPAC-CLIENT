@@ -9,8 +9,8 @@ import PublicIcon from '@mui/icons-material/Public';
 // Import images for Vite asset handling
 import heroImg from '../../assets/images/about/hero_natural.png';
 import missionImg from '../../assets/images/about/mission_natural.png';
-import founderImg from '../../assets/images/about/foundation_natural_v2.png';
-import processImg from '../../assets/images/about/process_natural_v2.png';
+import founderImg from '../../assets/images/about/foundation_natural_v3.png';
+import processImg from '../../assets/images/about/process_natural_v3.png';
 
 const MotionBox = motion.create(Box);
 const MotionTypography = motion.create(Typography);
