@@ -292,27 +292,47 @@ export default function ProductPage() {
                 </Typography>
 
                 {/* Rating and Review Link */}
-                <Stack direction="row" spacing={2} sx={{ alignItems: 'center', mb: 3 }}>
-                  <Rating value={product.rating} readOnly precision={0.5} />
-                  <Typography 
-                    component="a" 
-                    href="#reviews"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      document.getElementById('reviews')?.scrollIntoView({ behavior: 'smooth' });
-                    }}
+                <Stack 
+                  direction={{ xs: 'column', sm: 'row' }} 
+                  spacing={{ xs: 1.5, sm: 2 }} 
+                  sx={{ 
+                    alignItems: { xs: 'flex-start', sm: 'center' }, 
+                    mb: 3 
+                  }}
+                >
+                  <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center' }}>
+                    <Rating value={product.rating} readOnly precision={0.5} size="small" />
+                    <Typography 
+                      component="a" 
+                      href="#reviews"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        document.getElementById('reviews')?.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                      sx={{ 
+                        color: 'text.secondary', 
+                        fontWeight: 600, 
+                        fontSize: '0.85rem',
+                        textDecoration: 'underline',
+                        cursor: 'pointer',
+                        whiteSpace: 'nowrap',
+                        '&:hover': { color: 'primary.main' }
+                      }}
+                    >
+                      {product.numReviews} Trusted Reviews
+                    </Typography>
+                  </Stack>
+
+                  <Divider 
+                    orientation="vertical" 
+                    flexItem 
                     sx={{ 
-                      color: 'text.secondary', 
-                      fontWeight: 600, 
-                      fontSize: '0.85rem',
-                      textDecoration: 'underline',
-                      cursor: 'pointer',
-                      '&:hover': { color: 'primary.main' }
-                    }}
-                  >
-                    {product.numReviews} Trusted Reviews
-                  </Typography>
-                  <Divider orientation="vertical" flexItem sx={{ height: 16, my: 'auto' }} />
+                      height: 16, 
+                      my: 'auto', 
+                      display: { xs: 'none', sm: 'block' } 
+                    }} 
+                  />
+
                   <Typography 
                     component="a" 
                     href="#write-review"
