@@ -54,6 +54,9 @@ const calculateTotals = (items: CartItem[]) => {
   };
 };
 
+// To track debounced API calls for each product
+const updateTimers: Record<string, ReturnType<typeof setTimeout>> = {};
+
 export const useCartStore = create<CartState>((set, get) => ({
   items: [],
   isLoading: false,
@@ -88,27 +91,51 @@ export const useCartStore = create<CartState>((set, get) => ({
   },
 
   updateQuantity: async (productId: string, quantity: number) => {
-    set({ isLoading: true });
-    try {
-      const { data } = await cartAPI.updateQuantity(productId, quantity);
-      const rawItems = data.data?.items || [];
-      const items = rawItems.filter((item: any) => item.product !== null);
-      set({ items, ...calculateTotals(items), isLoading: false });
-    } catch (error) {
-      set({ isLoading: false });
-      throw error;
+    const previousItems = get().items;
+    
+    // 1. Optimistic Update (Immediate UI response)
+    const updatedItems = previousItems.map(item => 
+      item.product._id === productId ? { ...item, quantity } : item
+    );
+    set({ items: updatedItems, ...calculateTotals(updatedItems) });
+
+    // 2. Debounce the API call
+    if (updateTimers[productId]) {
+      clearTimeout(updateTimers[productId]);
     }
+
+    updateTimers[productId] = setTimeout(async () => {
+      try {
+        const { data } = await cartAPI.updateQuantity(productId, quantity);
+        const rawItems = data.data?.items || [];
+        const items = rawItems.filter((item: any) => item.product !== null);
+        
+        // Sync with server data (in case prices or offers changed)
+        set({ items, ...calculateTotals(items) });
+        delete updateTimers[productId];
+      } catch (error) {
+        // Revert to previous state if the server request fails
+        set({ items: previousItems, ...calculateTotals(previousItems) });
+        console.error('Failed to update cart quantity:', error);
+      }
+    }, 500); // 500ms delay
   },
 
   removeItem: async (productId: string) => {
-    set({ isLoading: true });
+    const previousItems = get().items;
+    
+    // Optimistic Update
+    const updatedItems = previousItems.filter(item => item.product._id !== productId);
+    set({ items: updatedItems, ...calculateTotals(updatedItems) });
+
     try {
       const { data } = await cartAPI.removeItem(productId);
       const rawItems = data.data?.items || [];
       const items = rawItems.filter((item: any) => item.product !== null);
-      set({ items, ...calculateTotals(items), isLoading: false });
+      set({ items, ...calculateTotals(items) });
     } catch (error) {
-      set({ isLoading: false });
+      // Revert on error
+      set({ items: previousItems, ...calculateTotals(previousItems) });
       throw error;
     }
   },
