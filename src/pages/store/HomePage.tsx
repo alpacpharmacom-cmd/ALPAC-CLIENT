@@ -10,7 +10,9 @@ import {
 } from '@mui/material';
 import { 
   East, 
+  KeyboardArrowDown,
 } from '@mui/icons-material';
+import { motion } from 'framer-motion';
 
 import { useAuthStore } from '../../stores/authStore';
 import { useWishlistStore } from '../../stores/wishlistStore';
@@ -63,120 +65,245 @@ export default function HomePage() {
   }, [isAuthenticated, toggleWishlistProduct, wishlistItems]);
 
   return (
-    <Box sx={{ position: 'relative' }}>
+    <Box sx={{ position: 'relative', overflow: 'hidden' }}>
       {/* Hero Section */}
       <Box
+        component="section"
         sx={{
-          height: '100vh', // Full viewport height
+          height: '100vh',
           display: 'flex',
           alignItems: 'center',
           position: 'relative',
-          bgcolor: 'primary.main',
+          bgcolor: 'primary.dark',
           color: 'white',
           overflow: 'hidden',
-          mt: '-80px', // Pull up to overlap with transparent navbar
+          mt: '-80px',
         }}
       >
-        <Box
-          component="img"
-          src="/images/hero/hero_banner_v2.png"
-          alt="Alpac Hero"
-          sx={{
+        {/* Background Image with Motion */}
+        <motion.div
+          initial={{ scale: 1.1, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
+          style={{
             position: 'absolute',
             inset: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            objectPosition: 'center',
             zIndex: 0,
           }}
-          loading="eager"
-          decoding="async"
-        />
+        >
+          <Box
+            component="img"
+            src="/images/hero/hero_banner_v3.png"
+            alt="Alpac Skincare Rituals"
+            sx={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              objectPosition: 'center',
+              filter: 'brightness(0.85) contrast(1.05)',
+            }}
+            loading="eager"
+            decoding="async"
+          />
+        </motion.div>
+
+        {/* Sophisticated Overlay */}
         <Box
           sx={{
             position: 'absolute',
             inset: 0,
-            background: 'linear-gradient(90deg, rgba(45,75,56,0.7) 0%, rgba(45,75,56,0.2) 100%)',
+            background: {
+              xs: 'linear-gradient(to bottom, rgba(26,46,31,0.6) 0%, rgba(26,46,31,0.8) 100%)',
+              md: 'linear-gradient(90deg, rgba(26,46,31,0.85) 0%, rgba(26,46,31,0.4) 50%, transparent 100%)',
+            },
             zIndex: 1,
           }}
         />
 
-        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }}>
-          <Grid container spacing={4} sx={{ alignItems: 'center' }}>
-            <Grid size={{ xs: 12, md: 7 }}>
+        {/* Content */}
+        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, px: { xs: 3, md: 8 } }}>
+          <Grid container spacing={4}>
+            <Grid size={{ xs: 12, md: 8, lg: 7 }}>
               <Box>
-                <Typography
-                  sx={{
-                    color: 'secondary.main',
-                    letterSpacing: '0.4em',
-                    fontSize: '0.75rem',
-                    fontWeight: 700,
-                    mb: 3,
-                    textTransform: 'uppercase',
-                  }}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
                 >
-                  Essential Skincare Rituals
-                </Typography>
-                <Typography
-                  variant="h1"
-                  sx={{
-                    fontWeight: 600,
-                    fontSize: { xs: '3.2rem', md: '5rem', lg: '5.8rem' },
-                    lineHeight: 1,
-                    mb: 4,
-                    color: 'white',
-                  }}
-                >
-                  Reveal Your
-                  <br />
-                  <Box component="span" sx={{ color: 'secondary.main', fontStyle: 'italic' }}>Natural</Box> Glow
-                </Typography>
-                <Typography
-                  sx={{
-                    color: 'rgba(255,255,255,0.85)',
-                    maxWidth: 520,
-                    mb: 6,
-                    fontSize: '1.1rem',
-                    lineHeight: 1.8,
-                  }}
-                >
-                  Discover the harmony of science and nature. Our premium botanical
-                  formulations are designed to nourish, protect, and illuminate
-                  your skin from within.
-                </Typography>
-                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2.5}>
-                  <Button
-                    component={Link}
-                    to="/shop"
-                    variant="contained"
-                    size="large"
-                    color="secondary"
-                    endIcon={<East />}
-                    sx={{ px: 5, py: 2, color: 'white' }}
-                  >
-                    Explore Shop
-                  </Button>
-                  <Button
-                    component={Link}
-                    to="/about"
-                    variant="outlined"
-                    size="large"
-                    sx={{ 
-                      borderColor: 'rgba(255,255,255,0.4)', 
-                      color: 'white', 
-                      px: 5, 
-                      py: 2,
-                      '&:hover': { borderColor: 'white', bgcolor: 'rgba(255,255,255,0.05)' }
+                  <Typography
+                    sx={{
+                      color: 'secondary.light',
+                      letterSpacing: '0.4em',
+                      fontSize: { xs: '0.65rem', md: '0.85rem' },
+                      fontWeight: 700,
+                      mb: 2,
+                      textTransform: 'uppercase',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 2,
                     }}
                   >
-                    Our Philosophy
-                  </Button>
-                </Stack>
+                    <Box component="span" sx={{ width: 40, height: 1, bgcolor: 'secondary.light' }} />
+                    Botanical Excellence
+                  </Typography>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.4 }}
+                >
+                  <Typography
+                    variant="h1"
+                    sx={{
+                      fontWeight: 600,
+                      fontSize: { xs: '3.5rem', sm: '4.5rem', md: '6rem', lg: '7rem' },
+                      lineHeight: { xs: 1.1, md: 1 },
+                      mb: 3,
+                      color: 'white',
+                      textShadow: '0 4px 20px rgba(0,0,0,0.15)',
+                    }}
+                  >
+                    Reveal Your
+                    <br />
+                    <Box 
+                      component="span" 
+                      sx={{ 
+                        color: 'secondary.main', 
+                        fontStyle: 'italic',
+                        position: 'relative',
+                        '&::after': {
+                          content: '""',
+                          position: 'absolute',
+                          bottom: '15%',
+                          left: 0,
+                          width: '100%',
+                          height: '4px',
+                          bgcolor: 'secondary.main',
+                          opacity: 0.3,
+                          borderRadius: '2px',
+                        }
+                      }}
+                    >
+                      Natural
+                    </Box> Glow
+                  </Typography>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.6 }}
+                >
+                  <Typography
+                    sx={{
+                      color: 'rgba(255,255,255,0.9)',
+                      maxWidth: 580,
+                      mb: 5,
+                      fontSize: { xs: '1rem', md: '1.25rem' },
+                      lineHeight: 1.8,
+                      fontWeight: 400,
+                    }}
+                  >
+                    Experience the synergy of high-performance science and pure botanical extracts. 
+                    Our formulations are meticulously crafted to nourish your skin's unique biological needs.
+                  </Typography>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.8 }}
+                >
+                  <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3}>
+                    <Button
+                      component={Link}
+                      to="/shop"
+                      variant="contained"
+                      size="large"
+                      color="secondary"
+                      endIcon={<East />}
+                      sx={{ 
+                        px: 6, 
+                        py: 2.5, 
+                        color: 'white',
+                        fontSize: '0.9rem',
+                        boxShadow: '0 10px 30px rgba(184,149,106,0.4)',
+                        '&:hover': {
+                          boxShadow: '0 15px 40px rgba(184,149,106,0.6)',
+                        }
+                      }}
+                    >
+                      Explore Collection
+                    </Button>
+                    <Button
+                      component={Link}
+                      to="/about"
+                      variant="outlined"
+                      size="large"
+                      sx={{ 
+                        borderColor: 'rgba(255,255,255,0.3)', 
+                        color: 'white', 
+                        px: 6, 
+                        py: 2.5,
+                        fontSize: '0.9rem',
+                        backdropFilter: 'blur(4px)',
+                        '&:hover': { 
+                          borderColor: 'white', 
+                          bgcolor: 'rgba(255,255,255,0.1)',
+                        }
+                      }}
+                    >
+                      The Alpac Story
+                    </Button>
+                  </Stack>
+                </motion.div>
               </Box>
             </Grid>
           </Grid>
         </Container>
+
+        {/* Scroll Indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1.5 }}
+          style={{
+            position: 'absolute',
+            bottom: '40px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '8px',
+          }}
+        >
+          <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.6)', letterSpacing: '0.3em', textTransform: 'uppercase', fontSize: '0.65rem' }}>
+            Scroll
+          </Typography>
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <KeyboardArrowDown sx={{ color: 'secondary.main', fontSize: '2rem' }} />
+          </motion.div>
+        </motion.div>
+
+        {/* Decorative Light Leak */}
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '-20%',
+            right: '-10%',
+            width: '60%',
+            height: '100%',
+            background: 'radial-gradient(circle, rgba(184,149,106,0.15) 0%, transparent 70%)',
+            zIndex: 1,
+            pointerEvents: 'none',
+          }}
+        />
       </Box>
 
 
