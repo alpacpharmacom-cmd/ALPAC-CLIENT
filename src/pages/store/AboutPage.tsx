@@ -10,8 +10,7 @@ import PublicIcon from '@mui/icons-material/Public';
 import heroImg from '../../assets/images/about/hero_premium.png';
 import missionImg from '../../assets/images/about/mission.png';
 import founderImg from '../../assets/images/about/foundation_lab.png';
-import processImg from '../../assets/images/about/process_detail.png';
-import sustainabilityImg from '../../assets/images/about/sustainability_premium_v2.png';
+import processImg from '../../assets/images/about/process_realistic.png';
 
 const MotionBox = motion.create(Box);
 const MotionTypography = motion.create(Typography);
@@ -385,6 +384,29 @@ export default function AboutPage() {
           <Grid container spacing={10} sx={{ alignItems: 'center' }}>
             <Grid size={{ xs: 12, md: 6 }}>
               <MotionBox
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeInVariants}
+              >
+                <Typography variant="overline" sx={{ color: 'var(--gold)', fontWeight: 800, mb: 2, display: 'block', letterSpacing: '0.2em' }}>
+                  THE PROCESS
+                </Typography>
+                <Typography variant="h2" sx={{ fontFamily: "'Playfair Display', serif", color: 'var(--sage-dark)', mb: 4, fontSize: { xs: '2.5rem', md: '3.5rem' } }}>
+                  Uncompromising Standards
+                </Typography>
+                <Typography variant="body1" sx={{ color: 'text.secondary', fontSize: '1.1rem', mb: 4, lineHeight: 1.8 }}>
+                  We pursue an ambitious strategy to redefine wellness through a robust, futuristic platform that merges nature's purity with uncompromising quality. Every ingredient is tested for potency and purity before it enters our formulation stage.
+                </Typography>
+                <Box component="ul" sx={{ color: 'text.secondary', pl: 2, '& li': { mb: 2 } }}>
+                  <li><Typography variant="body1">Sourcing only rare botanical species.</Typography></li>
+                  <li><Typography variant="body1">Cold-press extraction to preserve vital nutrients.</Typography></li>
+                  <li><Typography variant="body1">Rigorous clinical testing for all skin types.</Typography></li>
+                </Box>
+              </MotionBox>
+            </Grid>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <MotionBox
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
@@ -412,92 +434,46 @@ export default function AboutPage() {
                 />
               </MotionBox>
             </Grid>
-            <Grid size={{ xs: 12, md: 6 }}>
-              <MotionBox
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={fadeInVariants}
-              >
-                <Typography variant="overline" sx={{ color: 'var(--gold)', fontWeight: 800, mb: 2, display: 'block', letterSpacing: '0.2em' }}>
-                  THE PROCESS
-                </Typography>
-                <Typography variant="h2" sx={{ fontFamily: "'Playfair Display', serif", color: 'var(--sage-dark)', mb: 4, fontSize: { xs: '2.5rem', md: '3.5rem' } }}>
-                  Uncompromising Standards
-                </Typography>
-                <Typography variant="body1" sx={{ color: 'text.secondary', fontSize: '1.1rem', mb: 4, lineHeight: 1.8 }}>
-                  We pursue an ambitious strategy to redefine wellness through a robust, futuristic platform that merges nature's purity with uncompromising quality. Every ingredient is tested for potency and purity before it enters our formulation stage.
-                </Typography>
-                <Box component="ul" sx={{ color: 'text.secondary', pl: 2, '& li': { mb: 2 } }}>
-                  <li><Typography variant="body1">Sourcing only rare botanical species.</Typography></li>
-                  <li><Typography variant="body1">Cold-press extraction to preserve vital nutrients.</Typography></li>
-                  <li><Typography variant="body1">Rigorous clinical testing for all skin types.</Typography></li>
-                </Box>
-              </MotionBox>
-            </Grid>
           </Grid>
         </Container>
       </Box>
 
       {/* Sustainability Section */}
-      <Box sx={{ py: { xs: 8, md: 12 }, bgcolor: 'white' }}>
-        <Container maxWidth="lg">
-          <Grid container spacing={10} sx={{ alignItems: 'center' }}>
-            <Grid size={{ xs: 12, md: 6 }}>
-              <MotionBox
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={fadeInVariants}
-              >
-                <Typography variant="overline" sx={{ color: 'var(--gold)', fontWeight: 800, mb: 2, display: 'block', letterSpacing: '0.2em' }}>
-                  OUR FUTURE
-                </Typography>
-                <Typography variant="h2" sx={{ fontFamily: "'Playfair Display', serif", color: 'var(--sage-dark)', mb: 4, fontSize: { xs: '2.5rem', md: '3.5rem' } }}>
-                  Sustainability <br />
-                  <Box component="span" sx={{ fontStyle: 'italic', fontWeight: 300 }}>& Vision</Box>
-                </Typography>
-                <Typography variant="body1" sx={{ color: 'text.secondary', fontSize: '1.2rem', mb: 4, lineHeight: 1.8 }}>
-                  The individual is at the center of everything we do. Our values drive us to be at the forefront of the premium botanical care industry, providing a diverse portfolio of high-quality, transformative wellness products while protecting the planet that provides our ingredients.
-                </Typography>
-                <Box sx={{ display: 'flex', gap: 3, alignItems: 'center' }}>
-                  <PublicIcon sx={{ color: 'var(--sage)', fontSize: 40 }} />
-                  <Typography variant="body2" sx={{ fontWeight: 600, color: 'var(--sage-dark)', maxWidth: 200 }}>
-                    Committed to a carbon-neutral future by 2030.
-                  </Typography>
-                </Box>
-              </MotionBox>
-            </Grid>
-            <Grid size={{ xs: 12, md: 6 }}>
-              <MotionBox
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1 }}
-                sx={{ 
-                  position: 'relative',
-                  '&::after': {
-                    content: '""',
-                    position: 'absolute',
-                    top: 20,
-                    left: 20,
-                    width: '100%',
-                    height: '100%',
-                    border: '1px solid var(--gold)',
-                    zIndex: -1,
-                    borderRadius: 2
-                  }
-                }}
-              >
-                <Box 
-                  component="img" 
-                  src={sustainabilityImg} 
-                  alt="Sustainability" 
-                  sx={{ width: 1, height: 500, objectFit: 'cover', borderRadius: 2, boxShadow: 10 }}
-                />
-              </MotionBox>
-            </Grid>
-          </Grid>
+      <Box sx={{ py: { xs: 8, md: 15 }, textAlign: 'center', bgcolor: 'white' }}>
+        <Container maxWidth="md">
+          <MotionBox
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInVariants}
+          >
+            <Typography variant="overline" sx={{ color: 'var(--gold)', fontWeight: 800, mb: 3, display: 'block', letterSpacing: '0.2em' }}>
+              OUR FUTURE
+            </Typography>
+            <Typography 
+              variant="h2" 
+              sx={{ 
+                fontFamily: "'Playfair Display', serif", 
+                color: 'var(--sage-dark)', 
+                fontSize: { xs: '2rem', md: '3.5rem' },
+                lineHeight: 1.2,
+                mb: 4
+              }}
+            >
+              Sustainability <br />
+              <Box component="span" sx={{ fontStyle: 'italic', fontWeight: 300 }}>& Vision</Box>
+            </Typography>
+            <Divider sx={{ width: 80, mx: 'auto', bgcolor: 'var(--gold)', height: 2, mb: 4 }} />
+            <Typography variant="body1" sx={{ color: 'text.secondary', fontSize: '1.2rem', maxWidth: 600, mx: 'auto', mb: 4 }}>
+              The individual is at the center of everything we do. Our values drive us to be at the forefront of the premium botanical care industry, providing a diverse portfolio of high-quality, transformative wellness products while protecting the planet that provides our ingredients.
+            </Typography>
+            <Box sx={{ display: 'flex', gap: 3, alignItems: 'center', justifyContent: 'center' }}>
+              <PublicIcon sx={{ color: 'var(--sage)', fontSize: 32 }} />
+              <Typography variant="body2" sx={{ fontWeight: 600, color: 'var(--sage-dark)' }}>
+                Committed to a carbon-neutral future by 2030.
+              </Typography>
+            </Box>
+          </MotionBox>
         </Container>
       </Box>
     </Box>
