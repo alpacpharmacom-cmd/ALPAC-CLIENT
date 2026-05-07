@@ -79,7 +79,7 @@ export default function HomePage() {
       >
         <Box
           component="img"
-          src="/images/hero/hero_banner.png"
+          src="/images/hero/hero_banner_v2.png"
           alt="Alpac Hero"
           sx={{
             position: 'absolute',
