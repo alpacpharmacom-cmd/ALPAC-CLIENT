@@ -79,7 +79,7 @@ export default function HomePage() {
       >
         <Box
           component="img"
-          src="/images/hero/hero_banner_v3.png"
+          src="/images/hero/hero_banner_v2.png"
           alt="Alpac Hero"
           sx={{
             position: 'absolute',
@@ -97,85 +97,101 @@ export default function HomePage() {
           sx={{
             position: 'absolute',
             inset: 0,
-            background: 'linear-gradient(90deg, rgba(45,75,56,0.7) 0%, rgba(45,75,56,0.2) 100%)',
+            background: 'linear-gradient(90deg, rgba(20,30,22,0.8) 0%, rgba(45,75,56,0.1) 60%, transparent 100%)',
             zIndex: 1,
           }}
         />
 
-        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }}>
-          <Grid container spacing={4} sx={{ alignItems: 'center' }}>
-            <Grid size={{ xs: 12, md: 7 }}>
-              <Box>
-                <Typography
-                  sx={{
-                    color: 'secondary.main',
-                    letterSpacing: '0.4em',
-                    fontSize: '0.75rem',
-                    fontWeight: 700,
-                    mb: 3,
-                    textTransform: 'uppercase',
+        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, px: { xs: 3, md: 6, lg: 8 }, height: '100%' }}>
+          <Box
+            sx={{
+              position: 'absolute',
+              top: { xs: '58%', md: '62%' },
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '100%',
+              textAlign: 'center',
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <Box
+              sx={{
+                background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0) 70%)',
+                px: { xs: 2, md: 8 },
+                py: { xs: 4, md: 6 },
+                width: 'fit-content',
+              }}
+            >
+              <Typography
+                sx={{
+                  color: 'secondary.main',
+                  letterSpacing: '0.25em',
+                  fontSize: { xs: '0.85rem', md: '1rem' },
+                  fontWeight: 700,
+                  mb: 1.5,
+                  textTransform: 'uppercase',
+                  textShadow: '0px 2px 8px rgba(0,0,0,0.9), 0px 1px 2px rgba(0,0,0,0.8)',
+                }}
+              >
+                Health & Beauty
+              </Typography>
+              <Typography
+                variant="h1"
+                sx={{
+                  fontWeight: 600,
+                  fontSize: { xs: '2.2rem', md: '3.2rem', lg: '3.8rem' },
+                  lineHeight: 1.1,
+                  mb: 4,
+                  color: 'white',
+                  textShadow: '0px 4px 20px rgba(0,0,0,0.8), 0px 2px 5px rgba(0,0,0,0.9)',
+                }}
+              >
+                Reveal Your <Box component="span" sx={{ color: 'secondary.main', fontStyle: 'italic', textShadow: '0px 4px 20px rgba(0,0,0,0.8), 0px 2px 5px rgba(0,0,0,0.9)' }}>Natural</Box> Glow
+              </Typography>
+              <Box sx={{ display: 'flex', justifyContent: 'center', gap: 3, width: '100%' }}>
+                <Button
+                  component={Link}
+                  to="/shop"
+                  variant="contained"
+                  size="large"
+                  color="secondary"
+                  sx={{ 
+                    px: 5, 
+                    py: 1.8, 
+                    color: 'white', 
+                    fontWeight: 600, 
+                    fontSize: '1.1rem', 
+                    borderRadius: 2,
+                    boxShadow: '0px 4px 15px rgba(0,0,0,0.3)',
                   }}
                 >
-                  Essential Skincare Rituals
-                </Typography>
-                <Typography
-                  variant="h1"
-                  sx={{
+                  Shop Now
+                </Button>
+                <Button
+                  component={Link}
+                  to="/about"
+                  variant="outlined"
+                  size="large"
+                  sx={{ 
+                    borderColor: 'rgba(255,255,255,0.8)', 
+                    color: 'white', 
+                    px: 5, 
+                    py: 1.8,
                     fontWeight: 600,
-                    fontSize: { xs: '3.2rem', md: '5rem', lg: '5.8rem' },
-                    lineHeight: 1,
-                    mb: 4,
-                    color: 'white',
-                  }}
-                >
-                  Reveal Your
-                  <br />
-                  <Box component="span" sx={{ color: 'secondary.main', fontStyle: 'italic' }}>Natural</Box> Glow
-                </Typography>
-                <Typography
-                  sx={{
-                    color: 'rgba(255,255,255,0.85)',
-                    maxWidth: 520,
-                    mb: 6,
                     fontSize: '1.1rem',
-                    lineHeight: 1.8,
+                    borderRadius: 2,
+                    backdropFilter: 'blur(8px)',
+                    boxShadow: '0px 4px 15px rgba(0,0,0,0.2)',
+                    background: 'rgba(0,0,0,0.1)',
+                    '&:hover': { borderColor: 'white', background: 'rgba(255,255,255,0.15)' }
                   }}
                 >
-                  Discover the harmony of science and nature. Our premium botanical
-                  formulations are designed to nourish, protect, and illuminate
-                  your skin from within.
-                </Typography>
-                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2.5}>
-                  <Button
-                    component={Link}
-                    to="/shop"
-                    variant="contained"
-                    size="large"
-                    color="secondary"
-                    endIcon={<East />}
-                    sx={{ px: 5, py: 2, color: 'white' }}
-                  >
-                    Explore Shop
-                  </Button>
-                  <Button
-                    component={Link}
-                    to="/about"
-                    variant="outlined"
-                    size="large"
-                    sx={{ 
-                      borderColor: 'rgba(255,255,255,0.4)', 
-                      color: 'white', 
-                      px: 5, 
-                      py: 2,
-                      '&:hover': { borderColor: 'white', bgcolor: 'rgba(255,255,255,0.05)' }
-                    }}
-                  >
-                    Our Philosophy
-                  </Button>
-                </Stack>
+                  Our Story
+                </Button>
               </Box>
-            </Grid>
-          </Grid>
+            </Box>
+          </Box>
         </Container>
       </Box>
 
