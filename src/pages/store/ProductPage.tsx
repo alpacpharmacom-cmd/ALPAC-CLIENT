@@ -3,11 +3,10 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import {
   Box, Container, Typography, Grid, Button, Rating, Divider,
   TextField, Breadcrumbs, Chip, IconButton, Link as MuiLink, Stack, CircularProgress,
-  LinearProgress, Tab, Tabs
+  LinearProgress
 } from '@mui/material';
 import {
-  Add, Remove, ShoppingCart, FavoriteBorder, Favorite,
-  LocalShipping, Star, GppGood, WorkspacePremium
+  Add, Remove, ShoppingCart, FavoriteBorder, Favorite, Star
 } from '@mui/icons-material';
 import toast from 'react-hot-toast';
 import { productsAPI } from '../../api/products.api';
@@ -35,7 +34,7 @@ export default function ProductPage() {
   const { items: wishlistItems, toggleWishlistProduct } = useWishlistStore();
   const { fetchAllProducts } = useProductStore();
   const [relatedProducts, setRelatedProducts] = useState<any[]>([]);
-  const [activeTab, setActiveTab] = useState(0);
+  const [openAccordion, setOpenAccordion] = useState<string | null>('description');
   
   const isWishlisted = product ? wishlistItems.some((item) => item._id === product._id) : false;
 
@@ -514,41 +513,106 @@ export default function ProductPage() {
                   </Stack>
                 )}
                 
-                {/* Trust & Service Highlights */}
-                <Box sx={{ 
-                  mt: 'auto', 
-                  pt: 4, 
-                  borderTop: '1px dashed rgba(0,0,0,0.1)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 2
-                }}>
-                  {[
-                    { icon: <WorkspacePremium />, title: 'Premium Quality', desc: '100% Authentic botanical formula' },
-                    { icon: <GppGood />, title: 'Secure Transaction', desc: 'Encrypted and protected payment' },
-                    { icon: <LocalShipping />, title: 'Carbon-Neutral Delivery', desc: 'Sustainable logistics for all orders' }
-                  ].map((item, i) => (
-                    <Stack key={i} direction="row" spacing={2} sx={{ alignItems: 'center' }}>
-                      <Box sx={{ 
-                        color: 'primary.main', 
-                        display: 'flex', 
-                        p: 1, 
-                        borderRadius: '12px', 
-                        bgcolor: 'rgba(45,75,56,0.05)' 
-                      }}>
-                        {item.icon}
-                      </Box>
-                      <Box>
-                        <Typography variant="caption" sx={{ fontWeight: 800, color: 'primary.dark', display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                          {item.title}
-                        </Typography>
-                        <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 500 }}>
-                          {item.desc}
-                        </Typography>
-                      </Box>
-                    </Stack>
-                  ))}
-                </Box>
+                {/* Product Info Accordion: Description, Ingredients, How to Use */}
+                {(() => {
+                  const sections = [
+                    { key: 'description', label: 'Description', content: product.description },
+                    { key: 'ingredients', label: 'Ingredients', content: product.ingredients },
+                    { key: 'howToUse', label: 'How to Use', content: product.howToUse },
+                  ].filter(s => s.content);
+                  return sections.length > 0 ? (
+                    <Box sx={{ mt: 'auto', pt: 3, borderTop: '1px dashed rgba(0,0,0,0.1)' }}>
+                      {sections.map((section, idx) => (
+                        <Box
+                          key={section.key}
+                          sx={{
+                            borderBottom: idx < sections.length - 1 ? '1px solid rgba(0,0,0,0.07)' : 'none',
+                          }}
+                        >
+                          {/* Header row */}
+                          <Box
+                            onClick={() => setOpenAccordion(openAccordion === section.key ? null : section.key)}
+                            sx={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
+                              py: 2,
+                              px: 0.5,
+                              cursor: 'pointer',
+                              userSelect: 'none',
+                              '&:hover .accordion-label': { color: 'primary.main' },
+                            }}
+                          >
+                            <Typography
+                              className="accordion-label"
+                              sx={{
+                                fontWeight: 700,
+                                fontSize: '0.82rem',
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.12em',
+                                color: openAccordion === section.key ? 'primary.main' : 'text.primary',
+                                transition: 'color 0.2s',
+                              }}
+                            >
+                              {section.label}
+                            </Typography>
+                            <Box
+                              sx={{
+                                width: 28,
+                                height: 28,
+                                borderRadius: '50%',
+                                border: '1.5px solid',
+                                borderColor: openAccordion === section.key ? 'primary.main' : 'rgba(0,0,0,0.18)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                color: openAccordion === section.key ? 'primary.main' : 'text.secondary',
+                                transition: 'all 0.2s',
+                                flexShrink: 0,
+                              }}
+                            >
+                              <Box
+                                sx={{
+                                  fontSize: '1.1rem',
+                                  lineHeight: 1,
+                                  fontWeight: 300,
+                                  transform: openAccordion === section.key ? 'rotate(45deg)' : 'rotate(0deg)',
+                                  transition: 'transform 0.25s ease',
+                                  mt: '-1px',
+                                }}
+                              >
+                                +
+                              </Box>
+                            </Box>
+                          </Box>
+                          {/* Content */}
+                          <Box
+                            sx={{
+                              overflow: 'hidden',
+                              maxHeight: openAccordion === section.key ? '400px' : '0px',
+                              opacity: openAccordion === section.key ? 1 : 0,
+                              transition: 'max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease',
+                            }}
+                          >
+                            <Typography
+                              variant="body2"
+                              sx={{
+                                color: 'text.secondary',
+                                lineHeight: 1.85,
+                                pb: 2.5,
+                                px: 0.5,
+                                fontSize: '0.92rem',
+                                whiteSpace: 'pre-line',
+                              }}
+                            >
+                              {section.content}
+                            </Typography>
+                          </Box>
+                        </Box>
+                      ))}
+                    </Box>
+                  ) : null;
+                })()}
 
 
               </Box>
@@ -556,84 +620,9 @@ export default function ProductPage() {
           </Grid>
         </Box>
 
-                
-                  <Box sx={{ py: { xs: 6, md: 10 }, textAlign: 'center' }}>
-                    <Typography variant="h3" sx={{ fontWeight: 600, mb: 3 }}>Our Botanical Promise</Typography>
-                    <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.8, mb: 6, fontSize: '1.1rem', maxWidth: 800, mx: 'auto' }}>
-                      Integrity in every bottle. We stand by our commitment to ethical sourcing, sustainable production, and uncompromising quality.
-                    </Typography>
-                  </Box>
 
-        {/* Product Details Tabs: Description, Ingredients, How to Use */}
-        {(product.description || product.ingredients || product.howToUse) && (() => {
-          const tabs = [
-            { label: 'Description', content: product.description, show: !!product.description },
-            { label: 'Ingredients', content: product.ingredients, show: !!product.ingredients },
-            { label: 'How to Use', content: product.howToUse, show: !!product.howToUse },
-          ].filter(t => t.show);
-          return (
-            <Box sx={{
-              mb: { xs: 6, md: 10 },
-              bgcolor: 'rgba(255,255,255,0.8)',
-              backdropFilter: 'blur(16px)',
-              borderRadius: { xs: '28px', md: '40px' },
-              border: '1px solid rgba(255,255,255,0.7)',
-              boxShadow: '0 20px 60px rgba(0,0,0,0.05)',
-              overflow: 'hidden',
-            }}>
-              <Tabs
-                value={activeTab}
-                onChange={(_, v) => setActiveTab(v)}
-                sx={{
-                  px: { xs: 2, md: 5 },
-                  pt: { xs: 2, md: 3 },
-                  borderBottom: '1px solid rgba(0,0,0,0.06)',
-                  '& .MuiTabs-indicator': {
-                    bgcolor: 'primary.main',
-                    height: 3,
-                    borderRadius: '3px 3px 0 0',
-                  },
-                  '& .MuiTab-root': {
-                    fontWeight: 700,
-                    fontSize: { xs: '0.78rem', md: '0.88rem' },
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.08em',
-                    color: 'text.secondary',
-                    '&.Mui-selected': { color: 'primary.main' },
-                  },
-                }}
-              >
-                {tabs.map((t, i) => (
-                  <Tab key={i} label={t.label} id={`tab-${i}`} aria-controls={`tabpanel-${i}`} />
-                ))}
-              </Tabs>
-              {tabs.map((t, i) => (
-                <Box
-                  key={i}
-                  role="tabpanel"
-                  id={`tabpanel-${i}`}
-                  aria-labelledby={`tab-${i}`}
-                  hidden={activeTab !== i}
-                  sx={{ p: { xs: 3, md: 6 } }}
-                >
-                  {activeTab === i && (
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        color: 'text.secondary',
-                        lineHeight: 2,
-                        fontSize: '1.05rem',
-                        whiteSpace: 'pre-line',
-                      }}
-                    >
-                      {t.content}
-                    </Typography>
-                  )}
-                </Box>
-              ))}
-            </Box>
-          );
-        })()}
+
+        {/* Related Products Section */}
 
 
 
