@@ -285,7 +285,7 @@ export default function HomePage() {
           <Grid container spacing={4} sx={{ minHeight: { md: 650 } }}>
             {/* Main Featured Card: Cosmetics */}
             <Grid component="div" size={{ xs: 12, md: 7 }}>
-              <Link to="/shop?category=cosmetics" style={{ textDecoration: 'none', height: '100%', display: 'block' }}>
+              <Link to="/shop?category=skin care" style={{ textDecoration: 'none', height: '100%', display: 'block' }}>
                  <Box
                    sx={{
                      height: '100%',
@@ -359,7 +359,7 @@ export default function HomePage() {
             <Grid component="div" size={{ xs: 12, md: 5 }}>
               <Stack spacing={4} sx={{ height: '100%' }}>
                 {/* Secondary Card: Inner Beauty */}
-                <Link to="/shop?category=nutrients" style={{ textDecoration: 'none', flex: 1, display: 'block' }}>
+                <Link to="/shop?category=wellness" style={{ textDecoration: 'none', flex: 1, display: 'block' }}>
                    <Box
                     sx={{
                       height: '100%',
