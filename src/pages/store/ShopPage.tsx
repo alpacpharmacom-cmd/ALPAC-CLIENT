@@ -17,68 +17,20 @@ import StoreShopSkeleton from '../../components/skeletons/StoreShopSkeleton';
 import ProductCard from '../../components/store/ProductCard';
 
 const subcategoryMap: Record<string, { value: string; label: string }[]> = {
-  'skin care': [
-    { value: 'dry skin', label: 'Dry Skin' },
-    { value: 'oily skin', label: 'Oily Skin' },
-    { value: 'sensitive skin', label: 'Sensitive Skin' },
-    { value: 'anti aging', label: 'Anti Aging' },
-    { value: 'hydration', label: 'Hydration' },
+  cosmetics: [
+    { value: 'skin care', label: 'Skin Care' },
+    { value: 'hair care', label: 'Hair Care' },
+    { value: 'intimate', label: 'Intimate' },
+    { value: 'kids care', label: 'Kids Care' },
+    { value: 'oral care', label: 'Oral Care' },
+    { value: 'muscles & joints', label: 'Muscles & Joints' },
+    { value: 'antiseptics', label: 'Antiseptics' },
+    { value: 'anti scar', label: 'Anti Scar' },
   ],
-  'hair care': [
-    { value: 'dry hair', label: 'Dry Hair' },
-    { value: 'oily hair', label: 'Oily Hair' },
-    { value: 'dandruff', label: 'Dandruff' },
-    { value: 'hair loss', label: 'Hair Loss' },
-    { value: 'color protection', label: 'Color Protection' },
-  ],
-  'intimate': [
-    { value: 'wash', label: 'Wash' },
-    { value: 'moisturizer', label: 'Moisturizer' },
-    { value: 'soothing', label: 'Soothing' },
-  ],
-  'kids care': [
-    { value: 'skin protection', label: 'Skin Protection' },
-    { value: 'hair wash', label: 'Hair Wash' },
-    { value: 'body wash', label: 'Body Wash' },
-  ],
-  'oral care': [
-    { value: 'whitening', label: 'Whitening' },
-    { value: 'sensitive teeth', label: 'Sensitive Teeth' },
-    { value: 'gum care', label: 'Gum Care' },
-    { value: 'breath freshening', label: 'Breath Freshening' },
-  ],
-  'muscles & joints': [
-    { value: 'pain relief', label: 'Pain Relief' },
-    { value: 'massage', label: 'Massage' },
-    { value: 'soothing', label: 'Soothing' },
-  ],
-  'antiseptics': [
-    { value: 'sanitizer', label: 'Sanitizer' },
-    { value: 'wound care', label: 'Wound Care' },
-    { value: 'skin prep', label: 'Skin Prep' },
-  ],
-  'anti scar': [
-    { value: 'scar reduction', label: 'Scar Reduction' },
-    { value: 'stretch marks', label: 'Stretch Marks' },
-    { value: 'tissue repair', label: 'Tissue Repair' },
-  ],
-  'vitamins': [
-    { value: 'multivitamins', label: 'Multivitamins' },
-    { value: 'immunity', label: 'Immunity' },
-    { value: 'bone health', label: 'Bone Health' },
-    { value: 'energy', label: 'Energy' },
-  ],
-  'supplements': [
-    { value: 'collagen', label: 'Collagen' },
-    { value: 'omega-3', label: 'Omega-3' },
-    { value: 'protein', label: 'Protein' },
-    { value: 'herbal', label: 'Herbal' },
-  ],
-  'wellness': [
-    { value: 'stress relief', label: 'Stress Relief' },
-    { value: 'sleep aid', label: 'Sleep Aid' },
-    { value: 'detox', label: 'Detox' },
-    { value: 'digestion', label: 'Digestion' },
+  nutrients: [
+    { value: 'vitamins', label: 'Vitamins' },
+    { value: 'supplements', label: 'Supplements' },
+    { value: 'wellness', label: 'Wellness' },
   ],
 };
 
@@ -216,7 +168,7 @@ const ShopFilters = memo(({
                 <ListItemText 
                   primary={
                     <Typography sx={{ fontSize: '0.9rem', fontWeight: activeCategory === cat ? 700 : 400 }}>
-                      {cat.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+                      {cat.charAt(0).toUpperCase() + cat.slice(1)}
                     </Typography>
                   }
                 />
@@ -478,7 +430,7 @@ export default function ShopPage() {
             variant="h1"
             sx={{ fontWeight: 600, fontSize: { xs: '2rem', md: '5rem' }, mb: 1 }}
           >
-            {activeCategory === 'all' ? 'All Products' : activeCategory.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+            {activeCategory === 'all' ? 'All Products' : activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)}
           </Typography>
           <Typography sx={{ color: 'rgba(255,255,255,0.7)', maxWidth: 600, mx: 'auto', fontSize: { xs: '1rem', md: '1.2rem' }, lineHeight: 1.6 }}>
             Discover our curated collection of botanical formulations and holistic wellness products.
