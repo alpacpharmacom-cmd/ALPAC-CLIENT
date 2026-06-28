@@ -34,7 +34,7 @@ export default function ProductPage() {
   const { items: wishlistItems, toggleWishlistProduct } = useWishlistStore();
   const { fetchAllProducts } = useProductStore();
   const [relatedProducts, setRelatedProducts] = useState<any[]>([]);
-  const [openAccordion, setOpenAccordion] = useState<string | null>('description');
+  const [openAccordion, setOpenAccordion] = useState<string | null>(null);
   
   const isWishlisted = product ? wishlistItems.some((item) => item._id === product._id) : false;
 
@@ -396,22 +396,6 @@ export default function ProductPage() {
                     </Typography>
                   )}
                 </Box>
-
-                <Divider sx={{ mb: 4 }} />
-
-                <Typography
-                  variant="body1"
-                  sx={{
-                    color: 'text.secondary',
-                    lineHeight: 1.8,
-                    mb: { xs: 2.5, md: 5 },
-                    fontSize: '1.1rem'
-                  }}
-                >
-                  {product.description}
-                </Typography>
-
-
 
                 {/* Stock status */}
                 <Box sx={{ mb: 4 }}>
