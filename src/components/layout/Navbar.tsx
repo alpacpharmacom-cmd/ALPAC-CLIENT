@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import alpacLogo from '../../assets/alpac-logo.png';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
@@ -160,17 +161,17 @@ export default function Navbar() {
               ml: { xs: 0.5, md: 0 },
             }}
           >
-            <Typography
+            <Box
+              component="img"
+              src={alpacLogo}
+              alt="ALPAC Pharmaceuticals"
               sx={{
-                fontFamily: '"Playfair Display", Georgia, serif',
-                fontWeight: 700,
-                fontSize: { xs: '1.35rem', md: '1.5rem' },
-                letterSpacing: '0.12em',
-                color: '#111',
+                height: { xs: 52, md: 60 },
+                width: 'auto',
+                objectFit: 'contain',
+                display: 'block',
               }}
-            >
-              ALPAC
-            </Typography>
+            />
           </Box>
 
           {/* Nav links */}
@@ -623,17 +624,17 @@ export default function Navbar() {
         }}
       >
         <Box sx={{ p: 2.5, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography
+          <Box
+            component="img"
+            src={alpacLogo}
+            alt="ALPAC Pharmaceuticals"
             sx={{
-              fontFamily: '"Playfair Display", serif',
-              fontWeight: 700,
-              fontSize: '1.3rem',
-              letterSpacing: '0.12em',
-              color: '#111',
+              height: 50,
+              width: 'auto',
+              objectFit: 'contain',
+              display: 'block',
             }}
-          >
-            Alpac
-          </Typography>
+          />
           <IconButton onClick={() => setMobileOpen(false)}>
             <Close />
           </IconButton>

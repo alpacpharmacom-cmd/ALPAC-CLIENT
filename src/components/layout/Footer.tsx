@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import alpacLogo from '../../assets/alpac-logo.png';
 import { Box, Container, Grid, Typography, IconButton } from '@mui/material';
 import { Instagram, YouTube, Facebook, X, Pinterest } from '@mui/icons-material';
 
@@ -33,18 +34,19 @@ export default function Footer() {
         <Grid container spacing={{ xs: 4, md: 5 }}>
           {/* Brand */}
           <Grid size={{ xs: 12, md: 3 }}>
-            <Typography
+            <Box
+              component="img"
+              src={alpacLogo}
+              alt="ALPAC Pharmaceuticals"
               sx={{
-                fontFamily: '"Playfair Display", serif',
-                fontSize: '1.6rem',
-                fontWeight: 700,
-                letterSpacing: '0.1em',
-                color: 'white',
+                height: 60,
+                width: 'auto',
+                objectFit: 'contain',
+                display: 'block',
                 mb: 2,
+                filter: 'brightness(0) invert(1)',
               }}
-            >
-              Alpac
-            </Typography>
+            />
             <Typography
               sx={{
                 color: 'rgba(255,255,255,0.5)',

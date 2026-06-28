@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import alpacLogo from '../../assets/alpac-logo.png';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import {
   Box,
@@ -54,18 +55,12 @@ export default function AdminLayout() {
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', bgcolor: 'white' }}>
       <Box sx={{ p: 4, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Box>
-          <Typography
-            sx={{
-              fontFamily: '"Playfair Display", serif',
-              fontWeight: 800,
-              fontSize: '1.6rem',
-              letterSpacing: '0.05em',
-              color: '#111',
-              mb: 0.5
-            }}
-          >
-            ALPAC
-          </Typography>
+          <Box
+            component="img"
+            src={alpacLogo}
+            alt="ALPAC Pharmaceuticals"
+            sx={{ height: 52, width: 'auto', objectFit: 'contain', display: 'block', mb: 0.5 }}
+          />
           <Typography 
             variant="overline" 
             sx={{ 
@@ -222,9 +217,13 @@ export default function AdminLayout() {
               <IconButton onClick={() => setMobileOpen(true)} sx={{ mr: 2 }}>
                 <MenuIcon />
               </IconButton>
-              <Typography variant="h6" sx={{ fontWeight: 800, letterSpacing: '0.05em' }}>
-                ALPAC <Box component="span" sx={{ fontSize: '0.7rem', color: 'primary.main', fontWeight: 600 }}>ADMIN</Box>
-              </Typography>
+              <Box
+                component="img"
+                src={alpacLogo}
+                alt="ALPAC Pharmaceuticals"
+                sx={{ height: 36, width: 'auto', objectFit: 'contain', display: 'block' }}
+              />
+              <Box component="span" sx={{ fontSize: '0.7rem', color: 'primary.main', fontWeight: 700, ml: 1 }}>ADMIN</Box>
             </Toolbar>
           </AppBar>
         )}

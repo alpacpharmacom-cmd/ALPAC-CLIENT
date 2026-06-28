@@ -48,6 +48,8 @@ export default function ProductFormPage() {
     offerGet: '',
     offerIsActive: false,
     isActive: true,
+    ingredients: '',
+    howToUse: '',
   });
   const [uploading, setUploading] = useState(false);
 
@@ -77,6 +79,8 @@ export default function ProductFormPage() {
             offerGet: product.offer?.get?.toString() || '',
             offerIsActive: product.offer?.isActive || false,
             isActive: product.isActive !== undefined ? product.isActive : true,
+            ingredients: product.ingredients || '',
+            howToUse: product.howToUse || '',
           });
         } catch {
           toast.error('Product not found');
@@ -169,6 +173,8 @@ export default function ProductFormPage() {
           isActive: form.offerIsActive,
         },
         isActive: form.isActive,
+        ingredients: form.ingredients,
+        howToUse: form.howToUse,
       };
 
       if (isEdit) {
@@ -432,6 +438,50 @@ export default function ProductFormPage() {
                   required
                   multiline
                   rows={6}
+                  variant="outlined"
+                  slotProps={{ inputLabel: { shrink: true } }}
+                  sx={{ 
+                    '& .MuiOutlinedInput-root': { borderRadius: '16px', bgcolor: '#fbfaf8' },
+                    '& .MuiInputLabel-root': { 
+                      fontSize: '0.85rem', 
+                      fontWeight: 600,
+                      '&.MuiInputLabel-shrink': { transform: 'translate(14px, -11px) scale(0.85)', bgcolor: 'white', px: 0.5 }
+                    }
+                  }}
+                />
+              </Grid>
+
+              <Grid size={12}>
+                <TextField
+                  fullWidth
+                  label="Ingredients"
+                  value={form.ingredients}
+                  onChange={(e) => handleChange('ingredients', e.target.value)}
+                  multiline
+                  rows={5}
+                  placeholder="List the product ingredients..."
+                  variant="outlined"
+                  slotProps={{ inputLabel: { shrink: true } }}
+                  sx={{ 
+                    '& .MuiOutlinedInput-root': { borderRadius: '16px', bgcolor: '#fbfaf8' },
+                    '& .MuiInputLabel-root': { 
+                      fontSize: '0.85rem', 
+                      fontWeight: 600,
+                      '&.MuiInputLabel-shrink': { transform: 'translate(14px, -11px) scale(0.85)', bgcolor: 'white', px: 0.5 }
+                    }
+                  }}
+                />
+              </Grid>
+
+              <Grid size={12}>
+                <TextField
+                  fullWidth
+                  label="How to Use"
+                  value={form.howToUse}
+                  onChange={(e) => handleChange('howToUse', e.target.value)}
+                  multiline
+                  rows={5}
+                  placeholder="Describe how to use this product..."
                   variant="outlined"
                   slotProps={{ inputLabel: { shrink: true } }}
                   sx={{ 

@@ -3,7 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import {
   Box, Container, Typography, Grid, Button, Rating, Divider,
   TextField, Breadcrumbs, Chip, IconButton, Link as MuiLink, Stack, CircularProgress,
-  LinearProgress
+  LinearProgress, Tab, Tabs
 } from '@mui/material';
 import {
   Add, Remove, ShoppingCart, FavoriteBorder, Favorite,
@@ -35,6 +35,7 @@ export default function ProductPage() {
   const { items: wishlistItems, toggleWishlistProduct } = useWishlistStore();
   const { fetchAllProducts } = useProductStore();
   const [relatedProducts, setRelatedProducts] = useState<any[]>([]);
+  const [activeTab, setActiveTab] = useState(0);
   
   const isWishlisted = product ? wishlistItems.some((item) => item._id === product._id) : false;
 
@@ -562,6 +563,77 @@ export default function ProductPage() {
                       Integrity in every bottle. We stand by our commitment to ethical sourcing, sustainable production, and uncompromising quality.
                     </Typography>
                   </Box>
+
+        {/* Product Details Tabs: Description, Ingredients, How to Use */}
+        {(product.description || product.ingredients || product.howToUse) && (() => {
+          const tabs = [
+            { label: 'Description', content: product.description, show: !!product.description },
+            { label: 'Ingredients', content: product.ingredients, show: !!product.ingredients },
+            { label: 'How to Use', content: product.howToUse, show: !!product.howToUse },
+          ].filter(t => t.show);
+          return (
+            <Box sx={{
+              mb: { xs: 6, md: 10 },
+              bgcolor: 'rgba(255,255,255,0.8)',
+              backdropFilter: 'blur(16px)',
+              borderRadius: { xs: '28px', md: '40px' },
+              border: '1px solid rgba(255,255,255,0.7)',
+              boxShadow: '0 20px 60px rgba(0,0,0,0.05)',
+              overflow: 'hidden',
+            }}>
+              <Tabs
+                value={activeTab}
+                onChange={(_, v) => setActiveTab(v)}
+                sx={{
+                  px: { xs: 2, md: 5 },
+                  pt: { xs: 2, md: 3 },
+                  borderBottom: '1px solid rgba(0,0,0,0.06)',
+                  '& .MuiTabs-indicator': {
+                    bgcolor: 'primary.main',
+                    height: 3,
+                    borderRadius: '3px 3px 0 0',
+                  },
+                  '& .MuiTab-root': {
+                    fontWeight: 700,
+                    fontSize: { xs: '0.78rem', md: '0.88rem' },
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.08em',
+                    color: 'text.secondary',
+                    '&.Mui-selected': { color: 'primary.main' },
+                  },
+                }}
+              >
+                {tabs.map((t, i) => (
+                  <Tab key={i} label={t.label} id={`tab-${i}`} aria-controls={`tabpanel-${i}`} />
+                ))}
+              </Tabs>
+              {tabs.map((t, i) => (
+                <Box
+                  key={i}
+                  role="tabpanel"
+                  id={`tabpanel-${i}`}
+                  aria-labelledby={`tab-${i}`}
+                  hidden={activeTab !== i}
+                  sx={{ p: { xs: 3, md: 6 } }}
+                >
+                  {activeTab === i && (
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        color: 'text.secondary',
+                        lineHeight: 2,
+                        fontSize: '1.05rem',
+                        whiteSpace: 'pre-line',
+                      }}
+                    >
+                      {t.content}
+                    </Typography>
+                  )}
+                </Box>
+              ))}
+            </Box>
+          );
+        })()}
 
 
 
