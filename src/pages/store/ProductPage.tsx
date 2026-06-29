@@ -17,6 +17,7 @@ import { useProductStore } from '../../stores/productStore';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import ProductCard from '../../components/store/ProductCard';
 import AmbientBackground from '../../components/common/AmbientBackground';
+import { getParentCategory, slugify } from '../../utils/category.utils';
 
 export default function ProductPage() {
   const { id } = useParams<{ id: string }>();
@@ -157,6 +158,9 @@ export default function ProductPage() {
           <MuiLink component={Link} to="/shop" color="text.secondary" sx={{ textDecoration: 'none', fontSize: '0.85rem', '&:hover': { color: 'primary.main' } }}>
             Shop
           </MuiLink>
+          <MuiLink component={Link} to={`/category/${slugify(product.category)}`} color="text.secondary" sx={{ textDecoration: 'none', fontSize: '0.85rem', textTransform: 'capitalize', '&:hover': { color: 'primary.main' } }}>
+            {product.category}
+          </MuiLink>
           <Typography color="text.primary" sx={{ fontSize: '0.85rem' }}>
             {product.name}
           </Typography>
@@ -249,9 +253,9 @@ export default function ProductPage() {
               <Box
                 sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
               >
-                <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
                   <Chip
-                    label={product.category}
+                    label={getParentCategory(product.category)}
                     size="small"
                     sx={{
                       bgcolor: 'rgba(45,75,56,0.06)',
@@ -262,22 +266,51 @@ export default function ProductPage() {
                       fontSize: '0.65rem',
                     }}
                   />
-                  {product.subcategory && (
+                  <Chip
+                    label={product.category}
+                    size="small"
+                    component={Link}
+                    to={`/category/${slugify(product.category)}`}
+                    sx={{
+                      bgcolor: 'rgba(184,149,106,0.06)',
+                      color: '#B8956A',
+                      fontWeight: 700,
+                      letterSpacing: '0.05em',
+                      textTransform: 'capitalize',
+                      fontSize: '0.65rem',
+                      textDecoration: 'none',
+                      cursor: 'pointer',
+                      border: '1px solid rgba(184,149,106,0.2)'
+                    }}
+                  />
+                  {product.brand && (
                     <Chip
-                      label={product.subcategory}
+                      label={`Brand: ${product.brand}`}
                       size="small"
                       variant="outlined"
                       sx={{
-                        borderColor: 'rgba(184,149,106,0.3)',
-                        color: '#B8956A',
+                        borderColor: 'rgba(0,0,0,0.15)',
+                        color: 'text.primary',
                         fontWeight: 700,
-                        letterSpacing: '0.05em',
+                        fontSize: '0.65rem',
                         textTransform: 'capitalize',
+                      }}
+                    />
+                  )}
+                  {product.healthGoal && (
+                    <Chip
+                      label={`Goal: ${product.healthGoal}`}
+                      size="small"
+                      variant="outlined"
+                      sx={{
+                        borderColor: 'primary.main',
+                        color: 'primary.main',
+                        fontWeight: 700,
                         fontSize: '0.65rem',
                       }}
                     />
                   )}
-                </Stack>
+                </Box>
 
                 <Typography
                   variant="h1"

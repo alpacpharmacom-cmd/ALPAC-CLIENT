@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo, memo } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useParams, Link } from 'react-router-dom';
 import { 
   Box, Container, Typography, Grid, TextField, InputAdornment, MenuItem, Select,
   Drawer, IconButton, Chip, Stack, Button, List, ListItemButton, ListItemText,
@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import { 
   Search, Close, RestartAlt, 
-  Tune, ArrowForwardIos, ShoppingCart
+  Tune, ShoppingCart
 } from '@mui/icons-material';
 import { useAuthStore } from '../../stores/authStore';
 import { useWishlistStore } from '../../stores/wishlistStore';
@@ -15,24 +15,13 @@ import toast from 'react-hot-toast';
 import { useProductStore } from '../../stores/productStore';
 import StoreShopSkeleton from '../../components/skeletons/StoreShopSkeleton';
 import ProductCard from '../../components/store/ProductCard';
-
-const subcategoryMap: Record<string, { value: string; label: string }[]> = {
-  cosmetics: [
-    { value: 'skin care', label: 'Skin Care' },
-    { value: 'hair care', label: 'Hair Care' },
-    { value: 'intimate', label: 'Intimate' },
-    { value: 'kids care', label: 'Kids Care' },
-    { value: 'oral care', label: 'Oral Care' },
-    { value: 'muscles & joints', label: 'Muscles & Joints' },
-    { value: 'antiseptics', label: 'Antiseptics' },
-    { value: 'anti scar', label: 'Anti Scar' },
-  ],
-  nutrients: [
-    { value: 'vitamins', label: 'Vitamins' },
-    { value: 'supplements', label: 'Supplements' },
-    { value: 'wellness', label: 'Wellness' },
-  ],
-};
+import {
+  COSMETICS_CATEGORIES,
+  NUTRIENTS_CATEGORIES,
+  CATEGORY_HEALTH_GOALS,
+  slugify,
+  unslugify
+} from '../../utils/category.utils';
 
 const priceRanges = [
   { value: 'all', label: 'All Prices' },
@@ -53,10 +42,15 @@ interface ShopFiltersProps {
   searchQuery: string;
   setSearchQuery: (val: string) => void;
   activeCategory: string;
-  activeSubcategory: string;
   activePriceRange: string;
   activeSort: string;
+  activeBrands: string[];
+  activeHealthGoals: string[];
+  uniqueBrands: string[];
+  categoryHealthGoals: string[];
   updateFilters: (key: string, value: string) => void;
+  toggleBrand: (brand: string) => void;
+  toggleHealthGoal: (goal: string) => void;
   clearAllFilters: () => void;
   mobile?: boolean;
 }
@@ -65,10 +59,15 @@ const ShopFilters = memo(({
   searchQuery,
   setSearchQuery,
   activeCategory,
-  activeSubcategory,
   activePriceRange,
   activeSort,
+  activeBrands,
+  activeHealthGoals,
+  uniqueBrands,
+  categoryHealthGoals,
   updateFilters,
+  toggleBrand,
+  toggleHealthGoal,
   clearAllFilters,
   mobile
 }: ShopFiltersProps) => (
@@ -128,9 +127,10 @@ const ShopFilters = memo(({
         </Typography>
         <List disablePadding>
           <ListItemButton 
+            component={Link}
+            to="/shop"
             selected={activeCategory === 'all'}
-            onClick={() => updateFilters('category', 'all')}
-            sx={{ borderRadius: '10px', mb: 0.5 }}
+            sx={{ borderRadius: '10px', mb: 1 }}
           >
             <ListItemText 
               primary={
@@ -140,78 +140,106 @@ const ShopFilters = memo(({
               } 
             />
           </ListItemButton>
-          {Object.keys(subcategoryMap).map(cat => (
-            <Box key={cat}>
-              <ListItemButton 
-                selected={activeCategory === cat}
-                onClick={() => updateFilters('category', cat)}
-                sx={{ 
-                  borderRadius: '10px', 
-                  mb: 0.5,
-                  position: 'relative',
-                  pl: activeCategory === cat ? 2.5 : 2,
-                  '&.Mui-selected': {
-                    bgcolor: 'rgba(0,0,0,0.04)',
-                    '&::before': {
-                      content: '""',
-                      position: 'absolute',
-                      left: 0,
-                      top: '25%',
-                      height: '50%',
-                      width: 3,
-                      bgcolor: 'primary.main',
-                      borderRadius: '0 4px 4px 0'
-                    }
-                  }
-                }}
-              >
-                <ListItemText 
-                  primary={
-                    <Typography sx={{ fontSize: '0.9rem', fontWeight: activeCategory === cat ? 700 : 400 }}>
-                      {cat.charAt(0).toUpperCase() + cat.slice(1)}
-                    </Typography>
-                  }
-                />
-                {activeCategory === cat ? <Close sx={{ fontSize: 14, opacity: 0.5 }} /> : <ArrowForwardIos sx={{ fontSize: 10, opacity: 0.3 }} />}
-              </ListItemButton>
-              
-              {activeCategory === cat && (
-                <Box sx={{ pl: 2, mb: 1 }}>
-                  <ListItemButton 
-                    selected={activeSubcategory === 'all'}
-                    onClick={() => updateFilters('subcategory', 'all')}
-                    sx={{ borderRadius: '8px', py: 0.5 }}
-                  >
-                    <ListItemText 
-                      primary={
-                        <Typography sx={{ fontSize: '0.8rem', opacity: 0.7 }}>
-                          All {cat}
-                        </Typography>
-                      } 
-                    />
-                  </ListItemButton>
-                  {subcategoryMap[cat].map(sub => (
-                    <ListItemButton 
-                      key={sub.value}
-                      selected={activeSubcategory === sub.value}
-                      onClick={() => updateFilters('subcategory', sub.value)}
-                      sx={{ borderRadius: '8px', py: 0.5 }}
-                    >
-                      <ListItemText 
-                        primary={
-                          <Typography sx={{ fontSize: '0.8rem', opacity: 0.7 }}>
-                            {sub.label}
-                          </Typography>
-                        } 
-                      />
-                    </ListItemButton>
-                  ))}
-                </Box>
-              )}
-            </Box>
+
+          <Typography variant="caption" sx={{ px: 2, py: 0.5, fontWeight: 700, color: 'text.secondary', display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            Cosmetics
+          </Typography>
+          {COSMETICS_CATEGORIES.map(cat => (
+            <ListItemButton 
+              key={cat}
+              component={Link}
+              to={`/category/${slugify(cat)}`}
+              selected={activeCategory === cat}
+              sx={{ borderRadius: '10px', mb: 0.5, pl: 3 }}
+            >
+              <ListItemText 
+                primary={
+                  <Typography sx={{ fontSize: '0.85rem', fontWeight: activeCategory === cat ? 700 : 400, textTransform: 'capitalize' }}>
+                    {cat}
+                  </Typography>
+                }
+              />
+            </ListItemButton>
+          ))}
+
+          <Typography variant="caption" sx={{ px: 2, py: 1, fontWeight: 700, color: 'text.secondary', display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em', mt: 1.5 }}>
+            Nutrients
+          </Typography>
+          {NUTRIENTS_CATEGORIES.map(cat => (
+            <ListItemButton 
+              key={cat}
+              component={Link}
+              to={`/category/${slugify(cat)}`}
+              selected={activeCategory === cat}
+              sx={{ borderRadius: '10px', mb: 0.5, pl: 3 }}
+            >
+              <ListItemText 
+                primary={
+                  <Typography sx={{ fontSize: '0.85rem', fontWeight: activeCategory === cat ? 700 : 400, textTransform: 'capitalize' }}>
+                    {cat}
+                  </Typography>
+                }
+              />
+            </ListItemButton>
           ))}
         </List>
       </Box>
+
+      {/* Brands (Dynamic checkboxes) */}
+      {uniqueBrands.length > 0 && (
+        <Box>
+          <Typography variant="subtitle2" sx={{ mb: 2, color: 'primary.main', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+            Brands
+          </Typography>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+            {uniqueBrands.map(brand => {
+              const isChecked = activeBrands.includes(brand);
+              return (
+                <Chip
+                  key={brand}
+                  label={brand}
+                  onClick={() => toggleBrand(brand)}
+                  variant={isChecked ? 'filled' : 'outlined'}
+                  color={isChecked ? 'primary' : 'default'}
+                  sx={{ 
+                    borderRadius: '10px',
+                    fontWeight: 600,
+                    cursor: 'pointer'
+                  }}
+                />
+              );
+            })}
+          </Box>
+        </Box>
+      )}
+
+      {/* Health Goals (Predefined Category-Specific checkboxes) */}
+      {categoryHealthGoals.length > 0 && (
+        <Box>
+          <Typography variant="subtitle2" sx={{ mb: 2, color: 'primary.main', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+            Health Goals
+          </Typography>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+            {categoryHealthGoals.map(goal => {
+              const isChecked = activeHealthGoals.includes(goal);
+              return (
+                <Chip
+                  key={goal}
+                  label={goal}
+                  onClick={() => toggleHealthGoal(goal)}
+                  variant={isChecked ? 'filled' : 'outlined'}
+                  color={isChecked ? 'primary' : 'default'}
+                  sx={{ 
+                    borderRadius: '10px',
+                    fontWeight: 600,
+                    cursor: 'pointer'
+                  }}
+                />
+              );
+            })}
+          </Box>
+        </Box>
+      )}
 
       {/* Price Range */}
       <Box>
@@ -275,10 +303,13 @@ const ShopFilters = memo(({
   </Box>
 ));
 
+ShopFilters.displayName = 'ShopFilters';
+
 export default function ShopPage() {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
   const [searchParams, setSearchParams] = useSearchParams();
+  const { categoryName } = useParams<{ categoryName?: string }>();
   
   // State
   const { allProducts, fetchedAll, fetchAllProducts } = useProductStore();
@@ -286,11 +317,20 @@ export default function ShopPage() {
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
   
-  // URL Params
-  const activeCategory = searchParams.get('category') || 'all';
-  const activeSubcategory = searchParams.get('subcategory') || 'all';
+  // URL Params mapping
+  const activeCategory = categoryName ? unslugify(categoryName) : (searchParams.get('category') || 'all');
   const activePriceRange = searchParams.get('price') || 'all';
   const activeSort = searchParams.get('sort') || 'newest';
+
+  const activeBrands = useMemo(() => {
+    const val = searchParams.get('brands');
+    return val ? val.split(',') : [];
+  }, [searchParams]);
+
+  const activeHealthGoals = useMemo(() => {
+    const val = searchParams.get('healthGoals');
+    return val ? val.split(',') : [];
+  }, [searchParams]);
 
   const { isAuthenticated } = useAuthStore();
   const wishlistItems = useWishlistStore(state => state.items);
@@ -314,7 +354,6 @@ export default function ShopPage() {
       toast.error('Failed to update wishlist');
     }
   }, [isAuthenticated, toggleWishlistProduct, wishlistItems]);
-
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -341,8 +380,7 @@ export default function ShopPage() {
     const newParams = new URLSearchParams(searchParams);
     const currentValue = searchParams.get(key) || 'all';
 
-    // If clicking an already active filter (and it's not 'all'), toggle it off
-    const isToggleable = ['category', 'subcategory', 'price'].includes(key);
+    const isToggleable = ['price'].includes(key);
     const finalValue = (isToggleable && value !== 'all' && currentValue === value) ? 'all' : value;
 
     if (finalValue === 'all' || !finalValue) {
@@ -351,13 +389,43 @@ export default function ShopPage() {
       newParams.set(key, finalValue);
     }
     
-    if (key === 'category' && finalValue !== currentValue) {
-      newParams.delete('subcategory');
-    }
-    
     setSearchParams(newParams);
     if (!isDesktop) setMobileFilterOpen(false);
   }, [searchParams, setSearchParams, isDesktop]);
+
+  const toggleBrand = React.useCallback((brand: string) => {
+    const newParams = new URLSearchParams(searchParams);
+    const current = searchParams.get('brands') ? searchParams.get('brands')!.split(',') : [];
+    let updated;
+    if (current.includes(brand)) {
+      updated = current.filter(b => b !== brand);
+    } else {
+      updated = [...current, brand];
+    }
+    if (updated.length === 0) {
+      newParams.delete('brands');
+    } else {
+      newParams.set('brands', updated.join(','));
+    }
+    setSearchParams(newParams);
+  }, [searchParams, setSearchParams]);
+
+  const toggleHealthGoal = React.useCallback((goal: string) => {
+    const newParams = new URLSearchParams(searchParams);
+    const current = searchParams.get('healthGoals') ? searchParams.get('healthGoals')!.split(',') : [];
+    let updated;
+    if (current.includes(goal)) {
+      updated = current.filter(g => g !== goal);
+    } else {
+      updated = [...current, goal];
+    }
+    if (updated.length === 0) {
+      newParams.delete('healthGoals');
+    } else {
+      newParams.set('healthGoals', updated.join(','));
+    }
+    setSearchParams(newParams);
+  }, [searchParams, setSearchParams]);
 
   const clearAllFilters = React.useCallback(() => {
     setSearchParams(new URLSearchParams());
@@ -365,6 +433,22 @@ export default function ShopPage() {
     if (!isDesktop) setMobileFilterOpen(false);
   }, [setSearchParams, isDesktop]);
 
+  const uniqueBrands = useMemo(() => {
+    if (activeCategory === 'all') {
+      const brands = allProducts.map(p => p.brand).filter(Boolean);
+      return Array.from(new Set(brands)).sort();
+    }
+    const brands = allProducts
+      .filter(p => p.category?.toLowerCase() === activeCategory.toLowerCase())
+      .map(p => p.brand)
+      .filter(Boolean);
+    return Array.from(new Set(brands)).sort();
+  }, [allProducts, activeCategory]);
+
+  const categoryHealthGoals = useMemo(() => {
+    if (activeCategory === 'all') return [];
+    return CATEGORY_HEALTH_GOALS[activeCategory.toLowerCase()] || [];
+  }, [activeCategory]);
 
   const filteredProducts = useMemo(() => {
     let result = [...allProducts];
@@ -380,12 +464,17 @@ export default function ShopPage() {
 
     // Category
     if (activeCategory !== 'all') {
-      result = result.filter(p => p.category === activeCategory);
+      result = result.filter(p => p.category?.toLowerCase() === activeCategory.toLowerCase());
     }
 
-    // Subcategory
-    if (activeSubcategory !== 'all') {
-      result = result.filter(p => p.subcategory === activeSubcategory);
+    // Brands
+    if (activeBrands.length > 0) {
+      result = result.filter(p => p.brand && activeBrands.includes(p.brand));
+    }
+
+    // Health Goals
+    if (activeHealthGoals.length > 0) {
+      result = result.filter(p => p.healthGoal && activeHealthGoals.includes(p.healthGoal));
     }
 
     // Price
@@ -401,7 +490,7 @@ export default function ShopPage() {
     else if (activeSort === 'newest') result.sort((a, b) => new Date(b.createdAt || '').getTime() - new Date(a.createdAt || '').getTime());
 
     return result;
-  }, [allProducts, searchParams, activeCategory, activeSubcategory, activePriceRange, activeSort]);
+  }, [allProducts, searchParams, activeCategory, activeBrands, activeHealthGoals, activePriceRange, activeSort]);
 
   if (loading) return <StoreShopSkeleton />;
 
@@ -411,8 +500,8 @@ export default function ShopPage() {
       <Box
         sx={{
           bgcolor: 'primary.dark',
-          pt: { xs: 2, md: 10 },
-          pb: { xs: 2, md: 10 },
+          pt: { xs: 6, md: 10 },
+          pb: { xs: 6, md: 10 },
           textAlign: 'center',
           color: 'white',
           position: 'relative',
@@ -422,15 +511,10 @@ export default function ShopPage() {
       >
         <Container maxWidth="md" sx={{ position: 'relative', zIndex: 1 }}>
           <Typography
-            className="overline"
-            sx={{ color: 'secondary.light', mb: 2, display: 'block' }}
-          >
-          </Typography>
-          <Typography
             variant="h1"
-            sx={{ fontWeight: 600, fontSize: { xs: '2rem', md: '5rem' }, mb: 1 }}
+            sx={{ fontWeight: 600, fontSize: { xs: '2.5rem', md: '4.5rem' }, mb: 1, textTransform: 'capitalize' }}
           >
-            {activeCategory === 'all' ? 'All Products' : activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)}
+            {activeCategory === 'all' ? 'All Products' : activeCategory}
           </Typography>
           <Typography sx={{ color: 'rgba(255,255,255,0.7)', maxWidth: 600, mx: 'auto', fontSize: { xs: '1rem', md: '1.2rem' }, lineHeight: 1.6 }}>
             Discover our curated collection of botanical formulations and holistic wellness products.
@@ -449,10 +533,15 @@ export default function ShopPage() {
                   searchQuery={searchQuery}
                   setSearchQuery={setSearchQuery}
                   activeCategory={activeCategory}
-                  activeSubcategory={activeSubcategory}
                   activePriceRange={activePriceRange}
                   activeSort={activeSort}
+                  activeBrands={activeBrands}
+                  activeHealthGoals={activeHealthGoals}
+                  uniqueBrands={uniqueBrands}
+                  categoryHealthGoals={categoryHealthGoals}
                   updateFilters={updateFilters}
+                  toggleBrand={toggleBrand}
+                  toggleHealthGoal={toggleHealthGoal}
                   clearAllFilters={clearAllFilters}
                 />
               </Box>
@@ -499,7 +588,7 @@ export default function ShopPage() {
                     </Button>
                   )}
                   
-                  {!isDesktop && (activeCategory !== 'all' || activeSubcategory !== 'all' || activePriceRange !== 'all' || searchParams.get('search')) && (
+                  {!isDesktop && (activeCategory !== 'all' || activeBrands.length > 0 || activeHealthGoals.length > 0 || activePriceRange !== 'all' || searchParams.get('search')) && (
                     <Button 
                       size="small" 
                       onClick={clearAllFilters}
@@ -511,7 +600,7 @@ export default function ShopPage() {
                         fontWeight: 800,
                         color: 'error.main',
                         borderColor: 'rgba(211,47,47,0.15)',
-                        height: 38, // Match contained button height roughly
+                        height: 38,
                         px: 2,
                         textTransform: 'uppercase',
                         letterSpacing: '0.05em',
@@ -606,7 +695,7 @@ export default function ShopPage() {
             </Box>
 
             {/* Active Filter Chips */}
-            {(activeCategory !== 'all' || activeSubcategory !== 'all' || activePriceRange !== 'all' || searchParams.get('search')) && (
+            {(activeCategory !== 'all' || activeBrands.length > 0 || activeHealthGoals.length > 0 || activePriceRange !== 'all' || searchParams.get('search')) && (
               <Stack component="div" direction="row" spacing={1} sx={{ mb: 4, gap: 1, flexWrap: 'wrap', alignItems: 'center' }}>
                 {searchParams.get('search') && (
                   <Chip 
@@ -622,9 +711,7 @@ export default function ShopPage() {
                       fontWeight: 700,
                       height: 32,
                       border: '1px solid rgba(0,0,0,0.05)',
-                      '&:hover': {
-                        bgcolor: '#E8E9E6',
-                      },
+                      '&:hover': { bgcolor: '#E8E9E6' },
                       '& .MuiChip-deleteIcon': {
                         color: 'rgba(0,0,0,0.4)',
                         fontSize: 18,
@@ -633,10 +720,11 @@ export default function ShopPage() {
                     }}
                   />
                 )}
-                {activeCategory !== 'all' && (
+                {categoryName && activeCategory !== 'all' && (
                   <Chip 
                     label={`Category: ${activeCategory}`} 
-                    onDelete={() => updateFilters('category', 'all')}
+                    component={Link}
+                    to="/shop"
                     sx={{ 
                       borderRadius: '10px', 
                       bgcolor: '#F0F1EF', 
@@ -644,21 +732,17 @@ export default function ShopPage() {
                       fontWeight: 700,
                       height: 32,
                       border: '1px solid rgba(0,0,0,0.05)',
-                      '&:hover': {
-                        bgcolor: '#E8E9E6',
-                      },
-                      '& .MuiChip-deleteIcon': {
-                        color: 'rgba(0,0,0,0.4)',
-                        fontSize: 18,
-                        '&:hover': { color: 'error.main' }
-                      }
+                      textDecoration: 'none',
+                      '&:hover': { bgcolor: '#E8E9E6' },
+                      '& .MuiChip-label': { cursor: 'pointer' }
                     }}
                   />
                 )}
-                {activeSubcategory !== 'all' && (
+                {activeBrands.map(brand => (
                   <Chip 
-                    label={`Type: ${activeSubcategory}`} 
-                    onDelete={() => updateFilters('subcategory', 'all')}
+                    key={brand}
+                    label={`Brand: ${brand}`} 
+                    onDelete={() => toggleBrand(brand)}
                     sx={{ 
                       borderRadius: '10px', 
                       bgcolor: '#F0F1EF', 
@@ -666,9 +750,7 @@ export default function ShopPage() {
                       fontWeight: 700,
                       height: 32,
                       border: '1px solid rgba(0,0,0,0.05)',
-                      '&:hover': {
-                        bgcolor: '#E8E9E6',
-                      },
+                      '&:hover': { bgcolor: '#E8E9E6' },
                       '& .MuiChip-deleteIcon': {
                         color: 'rgba(0,0,0,0.4)',
                         fontSize: 18,
@@ -676,7 +758,28 @@ export default function ShopPage() {
                       }
                     }}
                   />
-                )}
+                ))}
+                {activeHealthGoals.map(goal => (
+                  <Chip 
+                    key={goal}
+                    label={`Goal: ${goal}`} 
+                    onDelete={() => toggleHealthGoal(goal)}
+                    sx={{ 
+                      borderRadius: '10px', 
+                      bgcolor: '#F0F1EF', 
+                      color: 'primary.dark', 
+                      fontWeight: 700,
+                      height: 32,
+                      border: '1px solid rgba(0,0,0,0.05)',
+                      '&:hover': { bgcolor: '#E8E9E6' },
+                      '& .MuiChip-deleteIcon': {
+                        color: 'rgba(0,0,0,0.4)',
+                        fontSize: 18,
+                        '&:hover': { color: 'error.main' }
+                      }
+                    }}
+                  />
+                ))}
                 {activePriceRange !== 'all' && (
                   <Chip 
                     label={priceRanges.find(r => r.value === activePriceRange)?.label} 
@@ -688,9 +791,7 @@ export default function ShopPage() {
                       fontWeight: 700,
                       height: 32,
                       border: '1px solid rgba(0,0,0,0.05)',
-                      '&:hover': {
-                        bgcolor: '#E8E9E6',
-                      },
+                      '&:hover': { bgcolor: '#E8E9E6' },
                       '& .MuiChip-deleteIcon': {
                         color: 'rgba(0,0,0,0.4)',
                         fontSize: 18,
@@ -700,7 +801,7 @@ export default function ShopPage() {
                   />
                 )}
                 
-                {/* Desktop-only Clear All button (Mobile has it in the toolbar) */}
+                {/* Desktop-only Clear All button */}
                 {isDesktop && (
                   <Button 
                     size="small" 
@@ -788,7 +889,7 @@ export default function ShopPage() {
           }
         }}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 4 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyIntent: 'space-between', mb: 4 }}>
           <Typography variant="h6" sx={{ fontWeight: 700 }}>Filters</Typography>
           <IconButton onClick={() => setMobileFilterOpen(false)}>
             <Close />
@@ -798,10 +899,15 @@ export default function ShopPage() {
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           activeCategory={activeCategory}
-          activeSubcategory={activeSubcategory}
           activePriceRange={activePriceRange}
           activeSort={activeSort}
+          activeBrands={activeBrands}
+          activeHealthGoals={activeHealthGoals}
+          uniqueBrands={uniqueBrands}
+          categoryHealthGoals={categoryHealthGoals}
           updateFilters={updateFilters}
+          toggleBrand={toggleBrand}
+          toggleHealthGoal={toggleHealthGoal}
           clearAllFilters={clearAllFilters}
           mobile
         />

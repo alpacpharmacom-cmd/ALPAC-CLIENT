@@ -11,23 +11,11 @@ import { useAdminStore } from '../../stores/adminStore';
 import TableSkeleton from '../../components/skeletons/TableSkeleton';
 import { exportToCSV } from '../../utils/export';
 
-const subcategoryMap: Record<string, { value: string; label: string }[]> = {
-  cosmetics: [
-    { value: 'skin care', label: 'Skin Care' },
-    { value: 'hair care', label: 'Hair Care' },
-    { value: 'intimate', label: 'Intimate' },
-    { value: 'kids care', label: 'Kids Care' },
-    { value: 'oral care', label: 'Oral Care' },
-    { value: 'muscles & joints', label: 'Muscles & Joints' },
-    { value: 'antiseptics', label: 'Antiseptics' },
-    { value: 'anti scar', label: 'Anti Scar' },
-  ],
-  nutrients: [
-    { value: 'vitamins', label: 'Vitamins' },
-    { value: 'supplements', label: 'Supplements' },
-    { value: 'wellness', label: 'Wellness' },
-  ],
-};
+import {
+  COSMETICS_CATEGORIES,
+  NUTRIENTS_CATEGORIES,
+  getParentCategory
+} from '../../utils/category.utils';
 
 export default function AdminProductsPage() {
   const navigate = useNavigate();
@@ -39,7 +27,6 @@ export default function AdminProductsPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [stockFilter, setStockFilter] = useState('All'); // All, In Stock, Out of Stock, Low Stock
-  const [subcategoryFilter, setSubcategoryFilter] = useState('All');
   const [statusFilter, setStatusFilter] = useState('All'); // All, Active, Inactive
   const [sortBy, setSortBy] = useState('newest'); // newest, price-low, price-high
 
@@ -75,7 +62,6 @@ export default function AdminProductsPage() {
     .filter((product) => {
       const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesCategory = categoryFilter === 'All' || product.category === categoryFilter;
-      const matchesSubcategory = subcategoryFilter === 'All' || product.subcategory === subcategoryFilter;
       
       let matchesStock = true;
       if (stockFilter === 'In Stock') matchesStock = product.countInStock > 0;
@@ -86,7 +72,7 @@ export default function AdminProductsPage() {
       if (statusFilter === 'Active') matchesStatus = product.isActive !== false;
       else if (statusFilter === 'Inactive') matchesStatus = product.isActive === false;
 
-      return matchesSearch && matchesCategory && matchesSubcategory && matchesStock && matchesStatus;
+      return matchesSearch && matchesCategory && matchesStock && matchesStatus;
     })
     .sort((a, b) => {
       if (sortBy === 'price-low') return a.price - b.price;
@@ -100,7 +86,9 @@ export default function AdminProductsPage() {
       ID: p._id,
       Name: p.name,
       Category: p.category,
-      Subcategory: p.subcategory,
+      Parent: getParentCategory(p.category),
+      Brand: p.brand || '',
+      HealthGoal: p.healthGoal || '',
       Price: p.price,
       Stock: p.countInStock,
       Status: p.countInStock === 0 ? 'Out of Stock' : p.countInStock < 5 ? 'Low Stock' : 'In Stock',
@@ -193,7 +181,7 @@ export default function AdminProductsPage() {
           size="small"
           label="Category"
           value={categoryFilter}
-          onChange={(e) => { setCategoryFilter(e.target.value); setSubcategoryFilter('All'); }}
+          onChange={(e) => setCategoryFilter(e.target.value)}
           sx={{ 
             minWidth: 150,
             '& .MuiOutlinedInput-root': {
@@ -221,40 +209,15 @@ export default function AdminProductsPage() {
           }}
         >
           <MenuItem value="All">All Categories</MenuItem>
-          <MenuItem value="cosmetics">Cosmetics</MenuItem>
-          <MenuItem value="nutrients">Nutrients</MenuItem>
+          <MenuItem disabled sx={{ fontWeight: 800, color: 'text.secondary', opacity: 1, '&.Mui-disabled': { opacity: 1 } }}>Cosmetics</MenuItem>
+          {COSMETICS_CATEGORIES.map((cat) => (
+            <MenuItem key={cat} value={cat} sx={{ pl: 4, textTransform: 'capitalize' }}>{cat}</MenuItem>
+          ))}
+          <MenuItem disabled sx={{ fontWeight: 800, color: 'text.secondary', opacity: 1, mt: 1, '&.Mui-disabled': { opacity: 1 } }}>Nutrients</MenuItem>
+          {NUTRIENTS_CATEGORIES.map((cat) => (
+            <MenuItem key={cat} value={cat} sx={{ pl: 4, textTransform: 'capitalize' }}>{cat}</MenuItem>
+          ))}
         </TextField>
-
-        {categoryFilter !== 'All' && subcategoryMap[categoryFilter] && (
-          <TextField
-            select
-            size="small"
-            label="Subcategory"
-            value={subcategoryFilter}
-            onChange={(e) => setSubcategoryFilter(e.target.value)}
-            sx={{ 
-              minWidth: 160,
-              '& .MuiOutlinedInput-root': {
-                borderRadius: '12px',
-                bgcolor: '#fbfaf8',
-                height: 40,
-                fontSize: '0.875rem',
-                '& fieldset': { borderColor: 'rgba(0,0,0,0.06)' },
-              },
-              '& .MuiInputLabel-root': {
-                fontSize: '0.8rem',
-                fontWeight: 700,
-                '&.MuiInputLabel-shrink': { transform: 'translate(14px, -10px) scale(0.85)', bgcolor: 'white', px: 0.5 }
-              }
-            }}
-            slotProps={{ inputLabel: { shrink: true } }}
-          >
-            <MenuItem value="All">All Subcategories</MenuItem>
-            {subcategoryMap[categoryFilter].map((sub) => (
-              <MenuItem key={sub.value} value={sub.value}>{sub.label}</MenuItem>
-            ))}
-          </TextField>
-        )}
 
         <TextField
           select
@@ -357,7 +320,8 @@ export default function AdminProductsPage() {
           columns={[
             { flex: 3, align: 'left',   variant: 'image'   },  // Product thumbnail + name
             { flex: 1, align: 'center', variant: 'chip'    },  // Category
-            { flex: 1, align: 'center', variant: 'chip'    },  // Subcategory
+            { flex: 1, align: 'center', variant: 'chip'    },  // Parent Group
+            { flex: 1, align: 'center', variant: 'text'    },  // Brand
             { flex: 1, align: 'center', variant: 'text'    },  // Price
             { flex: 1.2, align: 'center', variant: 'chip'  },  // Stock
             { flex: 0.8, align: 'center', variant: 'chip'  },  // Status
@@ -376,7 +340,8 @@ export default function AdminProductsPage() {
           <Box sx={{ display: 'flex', px: 3, py: 1.5, bgcolor: 'rgba(0,0,0,0.01)', borderBottom: '1px solid rgba(0,0,0,0.06)', minWidth: 900 }}>
             <Typography variant="caption"  sx={{ fontWeight: 800,  flex: 3, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.7rem' }}>Product</Typography>
             <Typography variant="caption"  sx={{ fontWeight: 800,  flex: 1, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.7rem', textAlign: 'center' }}>Category</Typography>
-            <Typography variant="caption"  sx={{ fontWeight: 800,  flex: 1, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.7rem', textAlign: 'center' }}>Subcategory</Typography>
+            <Typography variant="caption"  sx={{ fontWeight: 800,  flex: 1, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.7rem', textAlign: 'center' }}>Group</Typography>
+            <Typography variant="caption"  sx={{ fontWeight: 800,  flex: 1, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.7rem', textAlign: 'center' }}>Brand</Typography>
             <Typography variant="caption"  sx={{ fontWeight: 800,  flex: 1, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.7rem', textAlign: 'center' }}>Price</Typography>
             <Typography variant="caption"  sx={{ fontWeight: 800,  flex: 1.2, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.7rem', textAlign: 'center' }}>Stock</Typography>
             <Typography variant="caption"  sx={{ fontWeight: 800,  flex: 0.8, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.7rem', textAlign: 'center' }}>Status</Typography>
@@ -443,7 +408,10 @@ export default function AdminProductsPage() {
                   <Chip label={product.category} size="small" sx={{ fontSize: '0.65rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }} />
                 </Box>
                 <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
-                  <Chip label={product.subcategory} size="small" variant="outlined" sx={{ fontSize: '0.65rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }} />
+                  <Chip label={getParentCategory(product.category)} size="small" variant="outlined" sx={{ fontSize: '0.65rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }} />
+                </Box>
+                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+                  <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.85rem' }}>{product.brand || '—'}</Typography>
                 </Box>
                 <Typography variant="body2"  sx={{ fontWeight: 800,  flex: 1, color: 'primary.main', textAlign: 'center' }}>
                   ${product.price?.toFixed(2)}

@@ -238,7 +238,7 @@ const ProductCard = memo(({
                 opacity: 0.9,
               }}
             >
-              {product.subcategory || product.category}
+              {product.brand ? `${product.brand} · ${product.category}` : product.category}
             </Typography>
             <Typography
               className="product-name"

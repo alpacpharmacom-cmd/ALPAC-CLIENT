@@ -49,25 +49,25 @@ const navLinks = [
   { label: 'Shop', path: '/shop' },
   { 
     label: 'Cosmetics', 
-    path: '/shop?category=cosmetics',
+    path: '#',
     subLinks: [
-      { label: 'Skin Care', path: '/shop?category=cosmetics&subcategory=skin care' },
-      { label: 'Hair Care', path: '/shop?category=cosmetics&subcategory=hair care' },
-      { label: 'Intimate', path: '/shop?category=cosmetics&subcategory=intimate' },
-      { label: 'Kids Care', path: '/shop?category=cosmetics&subcategory=kids care' },
-      { label: 'Oral Care', path: '/shop?category=cosmetics&subcategory=oral care' },
-      { label: 'Muscles & Joints', path: '/shop?category=cosmetics&subcategory=muscles & joints' },
-      { label: 'Antiseptics', path: '/shop?category=cosmetics&subcategory=antiseptics' },
-      { label: 'Anti Scar', path: '/shop?category=cosmetics&subcategory=anti scar' },
+      { label: 'Skin Care', path: '/category/skin-care' },
+      { label: 'Hair Care', path: '/category/hair-care' },
+      { label: 'Intimate', path: '/category/intimate' },
+      { label: 'Kids Care', path: '/category/kids-care' },
+      { label: 'Oral Care', path: '/category/oral-care' },
+      { label: 'Muscles & Joints', path: '/category/muscles-&-joints' },
+      { label: 'Antiseptics', path: '/category/antiseptics' },
+      { label: 'Anti Scar', path: '/category/anti-scar' },
     ]
   },
   { 
     label: 'Nutrients', 
-    path: '/shop?category=nutrients',
+    path: '#',
     subLinks: [
-      { label: 'Vitamins', path: '/shop?category=nutrients&subcategory=vitamins' },
-      { label: 'Supplements', path: '/shop?category=nutrients&subcategory=supplements' },
-      { label: 'Wellness', path: '/shop?category=nutrients&subcategory=wellness' },
+      { label: 'Vitamins', path: '/category/vitamins' },
+      { label: 'Supplements', path: '/category/supplements' },
+      { label: 'Wellness', path: '/category/wellness' },
     ]
   },
   { label: 'About', path: '/about' },
@@ -179,7 +179,8 @@ export default function Navbar() {
             {navLinks.map((link) => {
               const isShopRoot = link.path === '/shop' && (location.pathname === '/shop' && location.search === '');
               const isExactMatch = location.pathname + location.search === link.path;
-              const isActive = isShopRoot || isExactMatch;
+              const isSubLinkActive = link.subLinks && link.subLinks.some(sub => location.pathname === sub.path);
+              const isActive = isShopRoot || isExactMatch || isSubLinkActive;
 
               return (
                 <Box
@@ -194,9 +195,10 @@ export default function Navbar() {
                   }}
                 >
                   <Button
-                    component={Link}
-                    to={link.path}
+                    component={link.path === '#' ? 'div' : Link}
+                    {...(link.path !== '#' ? { to: link.path } : {})}
                     sx={{
+                      cursor: link.path === '#' ? 'default' : 'pointer',
                       color: isActive ? '#3d6b4f' : '#333',
                       fontWeight: isActive ? 600 : 500,
                       fontSize: '0.82rem',
@@ -646,39 +648,73 @@ export default function Navbar() {
             const isExpanded = mobileExpanded[link.label];
             const isShopRoot = link.path === '/shop' && (location.pathname === '/shop' && location.search === '');
             const isExactMatch = location.pathname + location.search === link.path;
-            const isActive = isShopRoot || isExactMatch;
+            const isSubLinkActive = link.subLinks && link.subLinks.some(sub => location.pathname === sub.path);
+            const isActive = isShopRoot || isExactMatch || isSubLinkActive;
 
             return (
               <Box key={link.label}>
                 <ListItem disablePadding>
                   <Box sx={{ display: 'flex', width: '100%', alignItems: 'center' }}>
-                    <ListItemButton
-                      component={Link}
-                      to={link.path}
-                      onClick={() => setMobileOpen(false)}
-                      sx={{ 
-                        py: 1.8, 
-                        px: 3, 
-                        flexGrow: 1,
-                        bgcolor: isActive ? 'rgba(61, 107, 79, 0.04)' : 'transparent',
-                        color: isActive ? '#3d6b4f' : 'inherit',
-                        borderLeft: isActive ? '4px solid #3d6b4f' : '4px solid transparent',
-                      }}
-                    >
-                      <ListItemText
-                        primary={link.label}
-                        slotProps={{
-                          primary: {
-                            sx: {
-                              fontSize: '0.9rem',
-                              letterSpacing: '0.06em',
-                              textTransform: 'uppercase',
-                              fontWeight: isActive ? 700 : 500,
-                            }
-                          }
+                    {link.path === '#' ? (
+                      <ListItemButton
+                        component="div"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          toggleMobileExpanded(link.label);
                         }}
-                      />
-                    </ListItemButton>
+                        sx={{ 
+                          py: 1.8, 
+                          px: 3, 
+                          flexGrow: 1,
+                          bgcolor: isActive ? 'rgba(61, 107, 79, 0.04)' : 'transparent',
+                          color: isActive ? '#3d6b4f' : 'inherit',
+                          borderLeft: isActive ? '4px solid #3d6b4f' : '4px solid transparent',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        <ListItemText
+                          primary={link.label}
+                          slotProps={{
+                            primary: {
+                              sx: {
+                                fontSize: '0.9rem',
+                                letterSpacing: '0.06em',
+                                textTransform: 'uppercase',
+                                fontWeight: isActive ? 700 : 500,
+                              }
+                            }
+                          }}
+                        />
+                      </ListItemButton>
+                    ) : (
+                      <ListItemButton
+                        component={Link}
+                        to={link.path}
+                        onClick={() => setMobileOpen(false)}
+                        sx={{ 
+                          py: 1.8, 
+                          px: 3, 
+                          flexGrow: 1,
+                          bgcolor: isActive ? 'rgba(61, 107, 79, 0.04)' : 'transparent',
+                          color: isActive ? '#3d6b4f' : 'inherit',
+                          borderLeft: isActive ? '4px solid #3d6b4f' : '4px solid transparent',
+                        }}
+                      >
+                        <ListItemText
+                          primary={link.label}
+                          slotProps={{
+                            primary: {
+                              sx: {
+                                fontSize: '0.9rem',
+                                letterSpacing: '0.06em',
+                                textTransform: 'uppercase',
+                                fontWeight: isActive ? 700 : 500,
+                              }
+                            }
+                          }}
+                        />
+                      </ListItemButton>
+                    )}
                     {hasSubLinks && (
                       <IconButton 
                         onClick={(e) => {

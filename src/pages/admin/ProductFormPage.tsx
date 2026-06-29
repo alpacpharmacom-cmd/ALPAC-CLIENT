@@ -9,23 +9,11 @@ import { productsAPI } from '../../api/products.api';
 import { useAdminStore } from '../../stores/adminStore';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 
-const subcategoryMap: Record<string, { value: string; label: string }[]> = {
-  cosmetics: [
-    { value: 'skin care', label: 'Skin Care' },
-    { value: 'hair care', label: 'Hair Care' },
-    { value: 'intimate', label: 'Intimate' },
-    { value: 'kids care', label: 'Kids Care' },
-    { value: 'oral care', label: 'Oral Care' },
-    { value: 'muscles & joints', label: 'Muscles & Joints' },
-    { value: 'antiseptics', label: 'Antiseptics' },
-    { value: 'anti scar', label: 'Anti Scar' },
-  ],
-  nutrients: [
-    { value: 'vitamins', label: 'Vitamins' },
-    { value: 'supplements', label: 'Supplements' },
-    { value: 'wellness', label: 'Wellness' },
-  ],
-};
+import {
+  COSMETICS_CATEGORIES,
+  NUTRIENTS_CATEGORIES,
+  CATEGORY_HEALTH_GOALS
+} from '../../utils/category.utils';
 
 export default function ProductFormPage() {
   const { invalidateProducts } = useAdminStore();
@@ -42,7 +30,8 @@ export default function ProductFormPage() {
     description: '',
     image: '',
     category: '',
-    subcategory: '',
+    brand: '',
+    healthGoal: '',
     countInStock: '',
     offerBuy: '',
     offerGet: '',
@@ -73,7 +62,8 @@ export default function ProductFormPage() {
             description: product.description || '',
             image: product.image || '',
             category: product.category || '',
-            subcategory: product.subcategory || '',
+            brand: product.brand || '',
+            healthGoal: product.healthGoal || '',
             countInStock: product.countInStock?.toString() || '',
             offerBuy: product.offer?.buy?.toString() || '',
             offerGet: product.offer?.get?.toString() || '',
@@ -95,7 +85,7 @@ export default function ProductFormPage() {
 
   const handleChange = (field: string, value: string) => {
     if (field === 'category') {
-      setForm({ ...form, category: value, subcategory: '' });
+      setForm({ ...form, category: value, healthGoal: '' });
       return;
     }
 
@@ -150,7 +140,7 @@ export default function ProductFormPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!form.name || form.price === '' || !form.description || !form.image || !form.category || !form.subcategory || form.countInStock === '') {
+    if (!form.name || form.price === '' || !form.description || !form.image || !form.category || !form.brand || !form.healthGoal || form.countInStock === '') {
       toast.error('Please fill in all fields');
       return;
     }
@@ -165,7 +155,8 @@ export default function ProductFormPage() {
         description: form.description,
         image: form.image,
         category: form.category,
-        subcategory: form.subcategory,
+        brand: form.brand,
+        healthGoal: form.healthGoal,
         countInStock: Number(form.countInStock),
         offer: {
           buy: Number(form.offerBuy) || 0,
@@ -377,7 +368,7 @@ export default function ProductFormPage() {
                 />
               </Grid>
 
-              <Grid size={6}>
+              <Grid size={{ xs: 12, md: 4 }}>
                 <TextField
                   select
                   fullWidth
@@ -397,19 +388,46 @@ export default function ProductFormPage() {
                     }
                   }}
                 >
-                  <MenuItem value="cosmetics">Cosmetics</MenuItem>
-                  <MenuItem value="nutrients">Nutrients</MenuItem>
+                  <MenuItem disabled sx={{ fontWeight: 800, color: 'text.secondary', opacity: 1, '&.Mui-disabled': { opacity: 1 } }}>Cosmetics</MenuItem>
+                  {COSMETICS_CATEGORIES.map((cat) => (
+                    <MenuItem key={cat} value={cat} sx={{ pl: 4, textTransform: 'capitalize' }}>{cat}</MenuItem>
+                  ))}
+                  <MenuItem disabled sx={{ fontWeight: 800, color: 'text.secondary', opacity: 1, mt: 1, '&.Mui-disabled': { opacity: 1 } }}>Nutrients</MenuItem>
+                  {NUTRIENTS_CATEGORIES.map((cat) => (
+                    <MenuItem key={cat} value={cat} sx={{ pl: 4, textTransform: 'capitalize' }}>{cat}</MenuItem>
+                  ))}
                 </TextField>
               </Grid>
 
-              <Grid size={6}>
+              <Grid size={{ xs: 12, md: 4 }}>
+                <TextField
+                  fullWidth
+                  size="small"
+                  label="Brand"
+                  value={form.brand}
+                  onChange={(e) => handleChange('brand', e.target.value)}
+                  required
+                  variant="outlined"
+                  slotProps={{ inputLabel: { shrink: true } }}
+                  sx={{ 
+                    '& .MuiOutlinedInput-root': { borderRadius: '12px', bgcolor: '#fbfaf8' },
+                    '& .MuiInputLabel-root': { 
+                      fontSize: '0.85rem', 
+                      fontWeight: 600,
+                      '&.MuiInputLabel-shrink': { transform: 'translate(14px, -11px) scale(0.85)', bgcolor: 'white', px: 0.5 }
+                    }
+                  }}
+                />
+              </Grid>
+
+              <Grid size={{ xs: 12, md: 4 }}>
                 <TextField
                   select
                   fullWidth
                   size="small"
-                  label="Subcategory"
-                  value={form.subcategory}
-                  onChange={(e) => handleChange('subcategory', e.target.value)}
+                  label="Health Goal"
+                  value={form.healthGoal}
+                  onChange={(e) => handleChange('healthGoal', e.target.value)}
                   required
                   variant="outlined"
                   disabled={!form.category}
@@ -423,8 +441,8 @@ export default function ProductFormPage() {
                     }
                   }}
                 >
-                  {form.category && subcategoryMap[form.category]?.map((sub) => (
-                    <MenuItem key={sub.value} value={sub.value}>{sub.label}</MenuItem>
+                  {form.category && CATEGORY_HEALTH_GOALS[form.category]?.map((goal) => (
+                    <MenuItem key={goal} value={goal}>{goal}</MenuItem>
                   ))}
                 </TextField>
               </Grid>

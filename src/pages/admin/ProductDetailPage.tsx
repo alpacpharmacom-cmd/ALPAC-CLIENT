@@ -6,6 +6,7 @@ import {
 } from '@mui/material';
 import { Avatar, Stack } from '@mui/material';
 import { ArrowBack, Edit, Delete } from '@mui/icons-material';
+import { getParentCategory } from '../../utils/category.utils';
 import toast from 'react-hot-toast';
 import { productsAPI } from '../../api/products.api';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
@@ -154,9 +155,9 @@ export default function AdminProductDetailPage() {
           {/* Descriptive Content */}
           <Grid size={{ xs: 12, md: 8 }}>
             <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-              <Stack direction="row" spacing={1.5} sx={{ mb: 3 }}>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, mb: 3 }}>
                 <Chip 
-                  label={product.category} 
+                  label={getParentCategory(product.category)} 
                   sx={{ 
                     borderRadius: '8px', 
                     bgcolor: 'rgba(45,75,56,0.08)', 
@@ -169,7 +170,7 @@ export default function AdminProductDetailPage() {
                   }} 
                 />
                 <Chip 
-                  label={product.subcategory} 
+                  label={product.category} 
                   variant="outlined" 
                   sx={{ 
                     borderRadius: '8px', 
@@ -182,7 +183,36 @@ export default function AdminProductDetailPage() {
                     textTransform: 'uppercase'
                   }} 
                 />
-              </Stack>
+                {product.brand && (
+                  <Chip 
+                    label={`Brand: ${product.brand}`} 
+                    variant="outlined" 
+                    sx={{ 
+                      borderRadius: '8px', 
+                      borderColor: 'rgba(0,0,0,0.15)', 
+                      color: 'text.primary', 
+                      fontWeight: 800, 
+                      fontSize: '0.65rem', 
+                      height: 24,
+                      textTransform: 'uppercase'
+                    }} 
+                  />
+                )}
+                {product.healthGoal && (
+                  <Chip 
+                    label={`Goal: ${product.healthGoal}`} 
+                    variant="outlined" 
+                    sx={{ 
+                      borderRadius: '8px', 
+                      borderColor: 'primary.main', 
+                      color: 'primary.main', 
+                      fontWeight: 800, 
+                      fontSize: '0.65rem', 
+                      height: 24,
+                    }} 
+                  />
+                )}
+              </Box>
               
               <Typography 
                 variant="h2" 

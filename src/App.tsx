@@ -109,6 +109,7 @@ function App() {
             <Route element={<StoreLayout />}>
               <Route path="/" element={<HomePage />} />
               <Route path="/shop" element={<ShopPage />} />
+              <Route path="/category/:categoryName" element={<ShopPage />} />
               <Route path="/products/:id" element={<ProductPage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/login" element={<LoginPage />} />
