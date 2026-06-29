@@ -1,3 +1,21 @@
+import skincareAcne from '../assets/images/concerns/skincare_acne.png';
+import skincareAntiAging from '../assets/images/concerns/skincare_anti_aging.png';
+import skincareHydration from '../assets/images/concerns/skincare_hydration.png';
+import skincareBrightening from '../assets/images/concerns/skincare_brightening.png';
+import skincareSensitive from '../assets/images/concerns/skincare_sensitive.png';
+
+export const CONCERN_IMAGES: Record<string, string> = {
+  'acne & blemish': skincareAcne,
+  'anti-aging': skincareAntiAging,
+  'hydration': skincareHydration,
+  'brightening': skincareBrightening,
+  'sensitive skin': skincareSensitive,
+};
+
+export const getConcernImage = (goal: string): string | null => {
+  return CONCERN_IMAGES[goal.toLowerCase()] || null;
+};
+
 export const COSMETICS_CATEGORIES = [
   'skin care',
   'hair care',

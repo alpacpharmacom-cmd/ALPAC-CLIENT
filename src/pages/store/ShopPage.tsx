@@ -19,6 +19,7 @@ import {
   COSMETICS_CATEGORIES,
   NUTRIENTS_CATEGORIES,
   CATEGORY_HEALTH_GOALS,
+  getConcernImage,
   slugify,
   unslugify
 } from '../../utils/category.utils';
@@ -45,12 +46,9 @@ interface ShopFiltersProps {
   activePriceRange: string;
   activeSort: string;
   activeBrands: string[];
-  activeHealthGoals: string[];
   uniqueBrands: string[];
-  categoryHealthGoals: string[];
   updateFilters: (key: string, value: string) => void;
   toggleBrand: (brand: string) => void;
-  toggleHealthGoal: (goal: string) => void;
   clearAllFilters: () => void;
   mobile?: boolean;
 }
@@ -62,12 +60,9 @@ const ShopFilters = memo(({
   activePriceRange,
   activeSort,
   activeBrands,
-  activeHealthGoals,
   uniqueBrands,
-  categoryHealthGoals,
   updateFilters,
   toggleBrand,
-  toggleHealthGoal,
   clearAllFilters,
   mobile
 }: ShopFiltersProps) => (
@@ -199,34 +194,6 @@ const ShopFilters = memo(({
                   key={brand}
                   label={brand}
                   onClick={() => toggleBrand(brand)}
-                  variant={isChecked ? 'filled' : 'outlined'}
-                  color={isChecked ? 'primary' : 'default'}
-                  sx={{ 
-                    borderRadius: '10px',
-                    fontWeight: 600,
-                    cursor: 'pointer'
-                  }}
-                />
-              );
-            })}
-          </Box>
-        </Box>
-      )}
-
-      {/* Health Goals (Predefined Category-Specific checkboxes) */}
-      {categoryHealthGoals.length > 0 && (
-        <Box>
-          <Typography variant="subtitle2" sx={{ mb: 2, color: 'primary.main', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-            Health Goals
-          </Typography>
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-            {categoryHealthGoals.map(goal => {
-              const isChecked = activeHealthGoals.includes(goal);
-              return (
-                <Chip
-                  key={goal}
-                  label={goal}
-                  onClick={() => toggleHealthGoal(goal)}
                   variant={isChecked ? 'filled' : 'outlined'}
                   color={isChecked ? 'primary' : 'default'}
                   sx={{ 
@@ -522,6 +489,132 @@ export default function ShopPage() {
         </Container>
       </Box>
 
+      {/* Visual Shop By Concern Grid (Header concern section, shown on Category page) */}
+      {activeCategory !== 'all' && categoryHealthGoals.length > 0 && (
+        <Box sx={{ py: 6, bgcolor: 'rgba(247, 244, 239, 0.4)', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
+          <Typography 
+            variant="h3" 
+            align="center"
+            sx={{ 
+              fontWeight: 700, 
+              fontSize: { xs: '1.5rem', md: '2.2rem' }, 
+              color: 'primary.dark', 
+              fontFamily: '"Playfair Display", serif',
+              textAlign: 'center',
+              letterSpacing: '0.02em',
+              mb: 1
+            }}
+          >
+            Shop By Concern
+          </Typography>
+          {/* Reference wavy divider line */}
+          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 5, mt: -1 }}>
+            <Box sx={{ width: 60, height: 8, overflow: 'hidden' }}>
+              <svg width="60" height="8" viewBox="0 0 60 8" fill="none">
+                <path d="M1 6C3 4.5 5 3 8 3C11 3 13 4.5 15 6C17 7.5 19 6 22 6C25 6 27 4.5 29 3C31 1.5 33 3 36 3C39 3 41 4.5 43 6C45 7.5 47 6 50 6C53 6 55 4.5 57 3" stroke="#47c3be" strokeWidth="3" strokeLinecap="round" />
+              </svg>
+            </Box>
+          </Box>
+
+          <Grid 
+            container 
+            spacing={{ xs: 2, md: 3 }} 
+            sx={{ justifyContent: 'center', maxWidth: 1200, mx: 'auto', px: { xs: 2, md: 6 } }}
+          >
+            {categoryHealthGoals.map(goal => {
+              const isSelected = activeHealthGoals.includes(goal);
+              const img = getConcernImage(goal);
+
+              return (
+                <Grid size={{ xs: 6, sm: 4, md: 2.4 }} key={goal}>
+                  <Box
+                    onClick={() => toggleHealthGoal(goal)}
+                    sx={{
+                      cursor: 'pointer',
+                      borderRadius: '12px',
+                      overflow: 'hidden',
+                      bgcolor: 'white',
+                      border: isSelected ? '3px solid #3d6b4f' : '1px solid rgba(0,0,0,0.06)',
+                      boxShadow: isSelected ? '0 10px 30px rgba(61,107,79,0.15)' : '0 4px 16px rgba(0,0,0,0.03)',
+                      transform: isSelected ? 'scale(1.02)' : 'none',
+                      transition: 'all 0.25s cubic-bezier(0.22, 1, 0.36, 1)',
+                      position: 'relative',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      '&:hover': {
+                        transform: 'translateY(-6px)',
+                        boxShadow: '0 12px 24px rgba(0,0,0,0.08)'
+                      }
+                    }}
+                  >
+                    {/* Concern Image Frame */}
+                    <Box sx={{ width: '100%', aspectRatio: '1/1', overflow: 'hidden', position: 'relative', bgcolor: '#f7f6f2' }}>
+                      {img ? (
+                        <Box 
+                          component="img" 
+                          src={img} 
+                          alt={goal} 
+                          sx={{ 
+                            width: '100%', 
+                            height: '100%', 
+                            objectFit: 'cover',
+                            transition: 'transform 0.4s ease',
+                            '&:hover': { transform: 'scale(1.04)' }
+                          }} 
+                        />
+                      ) : (
+                        <Box 
+                          sx={{ 
+                            width: '100%', 
+                            height: '100%', 
+                            backgroundImage: 'linear-gradient(135deg, #f5ecd7 0%, #d8caa7 100%)', 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            justifyContent: 'center' 
+                          }}
+                        >
+                          <Typography variant="caption" sx={{ color: '#886d49', fontWeight: 800, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                            ALPAC
+                          </Typography>
+                        </Box>
+                      )}
+                    </Box>
+
+                    {/* Concern Teal Label Block (Teal styling as requested) */}
+                    <Box 
+                      sx={{ 
+                        bgcolor: isSelected ? '#3d6b4f' : '#47c3be', 
+                        py: 1.8, 
+                        px: 1.5, 
+                        textAlign: 'center',
+                        transition: 'background-color 0.2s ease',
+                        minHeight: '52px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      <Typography 
+                        sx={{ 
+                          color: 'white', 
+                          fontSize: '0.85rem', 
+                          fontWeight: 700, 
+                          letterSpacing: '0.02em',
+                          lineHeight: 1.2,
+                          textTransform: 'capitalize'
+                        }}
+                      >
+                        {goal}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Grid>
+              );
+            })}
+          </Grid>
+        </Box>
+      )}
+
       {/* Main Content Area */}
       <Container maxWidth={false} sx={{ px: { xs: 1.5, md: 6, lg: 8 }, py: { xs: 2, md: 6 } }}>
         <Grid container spacing={{ xs: 2, md: 6 }}>
@@ -536,12 +629,9 @@ export default function ShopPage() {
                   activePriceRange={activePriceRange}
                   activeSort={activeSort}
                   activeBrands={activeBrands}
-                  activeHealthGoals={activeHealthGoals}
                   uniqueBrands={uniqueBrands}
-                  categoryHealthGoals={categoryHealthGoals}
                   updateFilters={updateFilters}
                   toggleBrand={toggleBrand}
-                  toggleHealthGoal={toggleHealthGoal}
                   clearAllFilters={clearAllFilters}
                 />
               </Box>
@@ -889,7 +979,7 @@ export default function ShopPage() {
           }
         }}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyIntent: 'space-between', mb: 4 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 4 }}>
           <Typography variant="h6" sx={{ fontWeight: 700 }}>Filters</Typography>
           <IconButton onClick={() => setMobileFilterOpen(false)}>
             <Close />
@@ -902,12 +992,9 @@ export default function ShopPage() {
           activePriceRange={activePriceRange}
           activeSort={activeSort}
           activeBrands={activeBrands}
-          activeHealthGoals={activeHealthGoals}
           uniqueBrands={uniqueBrands}
-          categoryHealthGoals={categoryHealthGoals}
           updateFilters={updateFilters}
           toggleBrand={toggleBrand}
-          toggleHealthGoal={toggleHealthGoal}
           clearAllFilters={clearAllFilters}
           mobile
         />
