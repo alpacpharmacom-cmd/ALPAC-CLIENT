@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import alpacLogo from '../../assets/alpac-logo.png';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
   Box,
   Drawer,
@@ -229,19 +229,16 @@ export default function AdminLayout() {
           </AppBar>
         )}
 
-        <Box sx={{ p: { xs: 3, md: 6 }, maxWidth: 1600, mx: 'auto', flex: 1, display: 'flex', flexDirection: 'column', width: '100%', overflow: 'hidden' }}>
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={location.pathname}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.22, ease: 'easeInOut' }}
-              style={{ flex: 1, display: 'flex', flexDirection: 'column' }}
-            >
-              <Outlet />
-            </motion.div>
-          </AnimatePresence>
+        <Box sx={{ p: { xs: 3, md: 6 }, maxWidth: 1600, mx: 'auto', flex: 1, display: 'flex', flexDirection: 'column', width: '100%' }}>
+          <motion.div
+            key={location.pathname}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.15, ease: 'easeOut' }}
+            style={{ flex: 1, display: 'flex', flexDirection: 'column' }}
+          >
+            <Outlet />
+          </motion.div>
         </Box>
       </Box>
     </Box>
