@@ -121,3 +121,17 @@ img {
   outline: 2px solid var(--sage);
   outline-offset: 2px;
 }
+
+/* Page transition native fade-in */
+@keyframes pageFadeIn {
+  from {
+    opacity: 0.85;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.page-transition {
+  animation: pageFadeIn 0.12s ease-out forwards;
+}

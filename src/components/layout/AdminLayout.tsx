@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import alpacLogo from '../../assets/alpac-logo.png';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import {
   Box,
   Drawer,
@@ -229,16 +228,12 @@ export default function AdminLayout() {
           </AppBar>
         )}
 
-        <Box sx={{ p: { xs: 3, md: 6 }, maxWidth: 1600, mx: 'auto', flex: 1, display: 'flex', flexDirection: 'column', width: '100%' }}>
-          <motion.div
-            key={location.pathname}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.15, ease: 'easeOut' }}
-            style={{ flex: 1, display: 'flex', flexDirection: 'column' }}
-          >
-            <Outlet />
-          </motion.div>
+        <Box 
+          key={location.pathname}
+          className="page-transition"
+          sx={{ p: { xs: 3, md: 6 }, maxWidth: 1600, mx: 'auto', flex: 1, display: 'flex', flexDirection: 'column', width: '100%' }}
+        >
+          <Outlet />
         </Box>
       </Box>
     </Box>
