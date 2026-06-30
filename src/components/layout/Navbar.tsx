@@ -61,15 +61,7 @@ const navLinks = [
       { label: 'Anti Scar', path: '/category/anti-scar' },
     ]
   },
-  { 
-    label: 'Nutrients', 
-    path: '#',
-    subLinks: [
-      { label: 'Vitamins', path: '/category/vitamins' },
-      { label: 'Supplements', path: '/category/supplements' },
-      { label: 'Wellness', path: '/category/wellness' },
-    ]
-  },
+  { label: 'Nutrients', path: '/category/nutrients' },
   { label: 'About', path: '/about' },
 ];
 

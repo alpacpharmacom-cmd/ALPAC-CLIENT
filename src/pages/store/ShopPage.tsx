@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo, memo } from 'react';
-import { useSearchParams, useParams, Link } from 'react-router-dom';
+import { useSearchParams, useParams, Link, useNavigate } from 'react-router-dom';
 import { 
   Box, Container, Typography, Grid, TextField, InputAdornment, MenuItem, Select,
   Drawer, IconButton, Chip, Stack, Button, List, ListItemButton, ListItemText,
@@ -23,6 +23,7 @@ import {
   slugify,
   unslugify
 } from '../../utils/category.utils';
+import { HealthGoalIcon } from '../../components/store/HealthGoalIcons';
 
 const priceRanges = [
   { value: 'all', label: 'All Prices' },
@@ -274,9 +275,10 @@ ShopFilters.displayName = 'ShopFilters';
 
 export default function ShopPage() {
   const theme = useTheme();
+  const navigate = useNavigate();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
   const [searchParams, setSearchParams] = useSearchParams();
-  const { categoryName } = useParams<{ categoryName?: string }>();
+  const { categoryName, goalName } = useParams<{ categoryName?: string; goalName?: string }>();
   
   // State
   const { allProducts, fetchedAll, fetchAllProducts } = useProductStore();
@@ -286,6 +288,7 @@ export default function ShopPage() {
   
   // URL Params mapping
   const activeCategory = categoryName ? unslugify(categoryName) : (searchParams.get('category') || 'all');
+  const activeGoal = goalName ? unslugify(goalName) : null;
   const activePriceRange = searchParams.get('price') || 'all';
   const activeSort = searchParams.get('sort') || 'newest';
 
@@ -295,9 +298,10 @@ export default function ShopPage() {
   }, [searchParams]);
 
   const activeHealthGoals = useMemo(() => {
+    if (activeGoal) return [activeGoal];
     const val = searchParams.get('healthGoals');
     return val ? val.split(',') : [];
-  }, [searchParams]);
+  }, [searchParams, activeGoal]);
 
   const { isAuthenticated } = useAuthStore();
   const wishlistItems = useWishlistStore(state => state.items);
@@ -378,27 +382,55 @@ export default function ShopPage() {
   }, [searchParams, setSearchParams]);
 
   const toggleHealthGoal = React.useCallback((goal: string) => {
-    const newParams = new URLSearchParams(searchParams);
-    const current = searchParams.get('healthGoals') ? searchParams.get('healthGoals')!.split(',') : [];
-    let updated;
-    if (current.includes(goal)) {
-      updated = current.filter(g => g !== goal);
-    } else {
-      updated = [...current, goal];
+    if (goalName) {
+      navigate(`/category/${slugify(activeCategory)}`);
+      return;
     }
-    if (updated.length === 0) {
-      newParams.delete('healthGoals');
+
+    const newParams = new URLSearchParams(searchParams);
+    const isNutrient = activeCategory.toLowerCase() === 'nutrients';
+
+    if (isNutrient) {
+      const current = searchParams.get('healthGoals') ? searchParams.get('healthGoals')!.split(',') : [];
+      if (current.includes(goal) && current.length === 1) {
+        newParams.delete('healthGoals');
+      } else {
+        newParams.set('healthGoals', goal);
+      }
     } else {
-      newParams.set('healthGoals', updated.join(','));
+      const current = searchParams.get('healthGoals') ? searchParams.get('healthGoals')!.split(',') : [];
+      let updated;
+      if (current.includes(goal)) {
+        updated = current.filter(g => g !== goal);
+      } else {
+        updated = [...current, goal];
+      }
+      if (updated.length === 0) {
+        newParams.delete('healthGoals');
+      } else {
+        newParams.set('healthGoals', updated.join(','));
+      }
     }
     setSearchParams(newParams);
-  }, [searchParams, setSearchParams]);
+  }, [searchParams, setSearchParams, activeCategory, goalName, navigate]);
+
+  const handleConcernClick = React.useCallback((goal: string) => {
+    if (categoryName) {
+      navigate(`/category/${slugify(categoryName)}/goal/${slugify(goal)}`);
+    } else {
+      toggleHealthGoal(goal);
+    }
+  }, [categoryName, navigate, toggleHealthGoal]);
 
   const clearAllFilters = React.useCallback(() => {
-    setSearchParams(new URLSearchParams());
-    setSearchQuery('');
+    if (goalName) {
+      navigate(`/category/${slugify(activeCategory)}`);
+    } else {
+      setSearchParams(new URLSearchParams());
+      setSearchQuery('');
+    }
     if (!isDesktop) setMobileFilterOpen(false);
-  }, [setSearchParams, isDesktop]);
+  }, [setSearchParams, isDesktop, goalName, activeCategory, navigate]);
 
   const uniqueBrands = useMemo(() => {
     if (activeCategory === 'all') {
@@ -477,20 +509,51 @@ export default function ShopPage() {
         }}
       >
         <Container maxWidth="md" sx={{ position: 'relative', zIndex: 1 }}>
+          {activeGoal && (
+            <Box sx={{ mb: 3 }}>
+              <Button
+                component={Link}
+                to={`/category/${slugify(activeCategory)}`}
+                sx={{
+                  color: 'rgba(255,255,255,0.85)',
+                  textTransform: 'uppercase',
+                  fontSize: '0.75rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.06em',
+                  border: '1px solid rgba(255,255,255,0.25)',
+                  borderRadius: '100px',
+                  px: 3,
+                  py: 0.8,
+                  backdropFilter: 'blur(4px)',
+                  transition: 'all 0.2s ease',
+                  '&:hover': {
+                    bgcolor: 'rgba(255,255,255,0.1)',
+                    borderColor: 'white',
+                    transform: 'translateX(-2px)'
+                  }
+                }}
+              >
+                ← Back to {activeCategory}
+              </Button>
+            </Box>
+          )}
           <Typography
             variant="h1"
             sx={{ fontWeight: 600, fontSize: { xs: '2.5rem', md: '4.5rem' }, mb: 1, textTransform: 'capitalize' }}
           >
-            {activeCategory === 'all' ? 'All Products' : activeCategory}
+            {activeGoal ? activeGoal : (activeCategory === 'all' ? 'All Products' : activeCategory)}
           </Typography>
           <Typography sx={{ color: 'rgba(255,255,255,0.7)', maxWidth: 600, mx: 'auto', fontSize: { xs: '1rem', md: '1.2rem' }, lineHeight: 1.6 }}>
-            Discover our curated collection of botanical formulations and holistic wellness products.
+            {activeGoal 
+              ? `Discover our specialized formulations for ${activeGoal.toLowerCase()}.` 
+              : 'Discover our curated collection of botanical formulations and holistic wellness products.'
+            }
           </Typography>
         </Container>
       </Box>
 
       {/* Visual Shop By Concern Grid (Header concern section, shown on Category page) */}
-      {activeCategory !== 'all' && categoryHealthGoals.length > 0 && (
+      {activeCategory !== 'all' && !activeGoal && categoryHealthGoals.length > 0 && (
         <Box sx={{ py: 6, bgcolor: 'rgba(247, 244, 239, 0.4)', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
           <Typography 
             variant="h3" 
@@ -505,7 +568,7 @@ export default function ShopPage() {
               mb: 1
             }}
           >
-            Shop By Concern
+            {activeCategory.toLowerCase() === 'nutrients' ? 'Shop by Health Goal' : 'Shop By Concern'}
           </Typography>
           {/* Reference wavy divider line */}
           <Box sx={{ display: 'flex', justifyContent: 'center', mb: 5, mt: -1 }}>
@@ -524,11 +587,12 @@ export default function ShopPage() {
             {categoryHealthGoals.map(goal => {
               const isSelected = activeHealthGoals.includes(goal);
               const img = getConcernImage(goal);
+              const isNutrient = activeCategory.toLowerCase() === 'nutrients';
 
               return (
-                <Grid size={{ xs: 6, sm: 4, md: 2.4 }} key={goal}>
+                <Grid size={isNutrient ? { xs: 6, sm: 4, md: 2 } : { xs: 6, sm: 4, md: 2.4 }} key={goal}>
                   <Box
-                    onClick={() => toggleHealthGoal(goal)}
+                    onClick={() => handleConcernClick(goal)}
                     sx={{
                       cursor: 'pointer',
                       borderRadius: '12px',
@@ -549,7 +613,23 @@ export default function ShopPage() {
                   >
                     {/* Concern Image Frame */}
                     <Box sx={{ width: '100%', aspectRatio: '1/1', overflow: 'hidden', position: 'relative', bgcolor: '#f7f6f2' }}>
-                      {img ? (
+                      {isNutrient ? (
+                        <Box
+                          sx={{
+                            width: '100%',
+                            height: '100%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            bgcolor: isSelected ? 'rgba(61, 107, 79, 0.04)' : 'white',
+                            color: isSelected ? '#3d6b4f' : '#111111',
+                            p: 2.5,
+                            transition: 'all 0.25s ease'
+                          }}
+                        >
+                          <HealthGoalIcon goal={goal} size="70%" />
+                        </Box>
+                      ) : img ? (
                         <Box 
                           component="img" 
                           src={img} 

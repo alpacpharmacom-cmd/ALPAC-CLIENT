@@ -28,9 +28,7 @@ export const COSMETICS_CATEGORIES = [
 ];
 
 export const NUTRIENTS_CATEGORIES = [
-  'vitamins',
-  'supplements',
-  'wellness'
+  'nutrients'
 ];
 
 export const ALL_CATEGORIES = [...COSMETICS_CATEGORIES, ...NUTRIENTS_CATEGORIES];
@@ -44,9 +42,19 @@ export const CATEGORY_HEALTH_GOALS: Record<string, string[]> = {
   'muscles & joints': ['Pain Relief', 'Joint Support', 'Muscle Recovery'],
   'antiseptics': ['First Aid', 'Infection Protection', 'Sanitization'],
   'anti scar': ['Scar Reduction', 'Stretch Marks', 'Skin Healing'],
-  'vitamins': ['Immunity Boost', 'Energy Support', 'Daily Wellness', 'Bone & Joint'],
-  'supplements': ['Muscle Building', 'Weight Management', 'Heart Health', 'Digestive Health'],
-  'wellness': ['Sleep Support', 'Stress Relief', 'Relaxation & Calm'],
+  'nutrients': [
+    'Bone & Joints Health',
+    'Brain & Focus',
+    'Beauty & Weight Loss',
+    'Immunity Support',
+    'Pregnancy & Maternal Care',
+    'Kids & Family Health',
+    'Fitness & Sports Nutrition',
+    'Relaxation & Sleep',
+    'Digestive & Gut Health',
+    'Energy & Vitality',
+    'Hydration & Electrolytes'
+  ],
 };
 
 export const getParentCategory = (category: string): 'cosmetics' | 'nutrients' => {
