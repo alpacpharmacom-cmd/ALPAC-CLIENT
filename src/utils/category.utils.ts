@@ -47,13 +47,9 @@ export const CATEGORY_HEALTH_GOALS: Record<string, string[]> = {
     'Brain & Focus',
     'Beauty & Weight Loss',
     'Immunity Support',
-    'Pregnancy & Maternal Care',
     'Kids & Family Health',
-    'Fitness & Sports Nutrition',
     'Relaxation & Sleep',
-    'Digestive & Gut Health',
-    'Energy & Vitality',
-    'Hydration & Electrolytes'
+    'Digestive & Gut Health'
   ],
 };
 
