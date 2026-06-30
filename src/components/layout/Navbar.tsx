@@ -61,7 +61,19 @@ const navLinks = [
       { label: 'Anti Scar', path: '/category/anti-scar' },
     ]
   },
-  { label: 'Nutrients', path: '/category/nutrients' },
+  { 
+    label: 'Nutrients', 
+    path: '/category/nutrients',
+    subLinks: [
+      { label: 'Bone & Joints Health', path: '/category/nutrients/goal/bone-&-joints-health' },
+      { label: 'Brain & Focus', path: '/category/nutrients/goal/brain-&-focus' },
+      { label: 'Beauty & Weight Loss', path: '/category/nutrients/goal/beauty-&-weight-loss' },
+      { label: 'Immunity Support', path: '/category/nutrients/goal/immunity-support' },
+      { label: 'Kids & Family Health', path: '/category/nutrients/goal/kids-&-family-health' },
+      { label: 'Relaxation & Sleep', path: '/category/nutrients/goal/relaxation-&-sleep' },
+      { label: 'Digestive & Gut Health', path: '/category/nutrients/goal/digestive-&-gut-health' },
+    ]
+  },
   { label: 'About', path: '/about' },
 ];
 
@@ -321,24 +333,22 @@ export default function Navbar() {
                 transition: 'width 0.3s cubic-bezier(0.22, 1, 0.36, 1)',
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '100px',
-                  bgcolor: 'rgba(0,0,0,0.03)',
+                  bgcolor: 'white',
                   height: 38,
                   fontSize: '0.82rem',
                   fontFamily: '"DM Sans", sans-serif',
                   transition: 'background-color 0.3s ease, border-color 0.3s ease',
                   '& fieldset': {
-                    borderColor: 'rgba(0,0,0,0.08)',
+                    borderColor: 'rgba(0,0,0,0.18)',
                   },
                   '&:hover fieldset': {
-                    borderColor: 'rgba(0,0,0,0.15)',
+                    borderColor: 'rgba(0,0,0,0.3)',
                   },
                   '&.Mui-focused fieldset': {
                     borderColor: '#3d6b4f',
-                    borderWidth: '1px',
+                    borderWidth: '1.5px',
                   },
-                  '&.Mui-focused': {
-                    bgcolor: 'white',
-                  },
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
                 },
                 '& input::placeholder': {
                   color: '#999',

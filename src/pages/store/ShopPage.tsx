@@ -89,10 +89,17 @@ const ShopFilters = memo(({
                   ),
                   sx: { 
                     borderRadius: '12px', 
-                    bgcolor: 'rgba(255,255,255,0.5)',
-                    border: '1px solid rgba(0,0,0,0.5)',
+                    bgcolor: 'white',
+                    border: '1.5px solid rgba(0,0,0,0.18)',
                     '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
-                    boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.02)'
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                    transition: 'all 0.2s ease',
+                    '&:hover': {
+                      borderColor: 'rgba(0,0,0,0.3)',
+                    },
+                    '&.Mui-focused': {
+                      borderColor: '#3d6b4f',
+                    }
                   }
                 }
               }}
@@ -499,8 +506,8 @@ export default function ShopPage() {
       <Box
         sx={{
           bgcolor: 'primary.dark',
-          pt: { xs: 6, md: 10 },
-          pb: { xs: 6, md: 10 },
+          pt: activeGoal ? { xs: 3.5, md: 5 } : { xs: 5, md: 7 },
+          pb: activeGoal ? { xs: 3.5, md: 5 } : { xs: 5, md: 7 },
           textAlign: 'center',
           color: 'white',
           position: 'relative',
@@ -510,20 +517,20 @@ export default function ShopPage() {
       >
         <Container maxWidth="md" sx={{ position: 'relative', zIndex: 1 }}>
           {activeGoal && (
-            <Box sx={{ mb: 3 }}>
+            <Box sx={{ mb: 2.5 }}>
               <Button
                 component={Link}
                 to={`/category/${slugify(activeCategory)}`}
                 sx={{
                   color: 'rgba(255,255,255,0.85)',
                   textTransform: 'uppercase',
-                  fontSize: '0.75rem',
+                  fontSize: '0.72rem',
                   fontWeight: 700,
                   letterSpacing: '0.06em',
-                  border: '1px solid rgba(255,255,255,0.25)',
+                  border: '1.5px solid rgba(255,255,255,0.25)',
                   borderRadius: '100px',
-                  px: 3,
-                  py: 0.8,
+                  px: 2.5,
+                  py: 0.6,
                   backdropFilter: 'blur(4px)',
                   transition: 'all 0.2s ease',
                   '&:hover': {
@@ -539,11 +546,11 @@ export default function ShopPage() {
           )}
           <Typography
             variant="h1"
-            sx={{ fontWeight: 600, fontSize: { xs: '2.5rem', md: '4.5rem' }, mb: 1, textTransform: 'capitalize' }}
+            sx={{ fontWeight: 600, fontSize: activeGoal ? { xs: '2rem', md: '3.2rem' } : { xs: '2.5rem', md: '4rem' }, mb: 1, textTransform: 'capitalize' }}
           >
             {activeGoal ? activeGoal : (activeCategory === 'all' ? 'All Products' : activeCategory)}
           </Typography>
-          <Typography sx={{ color: 'rgba(255,255,255,0.7)', maxWidth: 600, mx: 'auto', fontSize: { xs: '1rem', md: '1.2rem' }, lineHeight: 1.6 }}>
+          <Typography sx={{ color: 'rgba(255,255,255,0.65)', maxWidth: 600, mx: 'auto', fontSize: activeGoal ? { xs: '0.9rem', md: '1.05rem' } : { xs: '1rem', md: '1.15rem' }, lineHeight: 1.5 }}>
             {activeGoal 
               ? `Discover our specialized formulations for ${activeGoal.toLowerCase()}.` 
               : 'Discover our curated collection of botanical formulations and holistic wellness products.'
@@ -554,13 +561,13 @@ export default function ShopPage() {
 
       {/* Visual Shop By Concern Grid (Header concern section, shown on Category page) */}
       {activeCategory !== 'all' && !activeGoal && categoryHealthGoals.length > 0 && (
-        <Box sx={{ py: 6, bgcolor: 'rgba(247, 244, 239, 0.4)', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
+        <Box sx={{ py: 5, bgcolor: 'rgba(247, 244, 239, 0.3)', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
           <Typography 
             variant="h3" 
             align="center"
             sx={{ 
               fontWeight: 700, 
-              fontSize: { xs: '1.5rem', md: '2.2rem' }, 
+              fontSize: { xs: '1.35rem', md: '1.85rem' }, 
               color: 'primary.dark', 
               fontFamily: '"Playfair Display", serif',
               textAlign: 'center',
@@ -571,7 +578,7 @@ export default function ShopPage() {
             {activeCategory.toLowerCase() === 'nutrients' ? 'Shop by Health Goal' : 'Shop By Concern'}
           </Typography>
           {/* Reference wavy divider line */}
-          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 5, mt: -1 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4, mt: -1 }}>
             <Box sx={{ width: 60, height: 8, overflow: 'hidden' }}>
               <svg width="60" height="8" viewBox="0 0 60 8" fill="none">
                 <path d="M1 6C3 4.5 5 3 8 3C11 3 13 4.5 15 6C17 7.5 19 6 22 6C25 6 27 4.5 29 3C31 1.5 33 3 36 3C39 3 41 4.5 43 6C45 7.5 47 6 50 6C53 6 55 4.5 57 3" stroke="#47c3be" strokeWidth="3" strokeLinecap="round" />
@@ -581,7 +588,7 @@ export default function ShopPage() {
 
           <Grid 
             container 
-            spacing={{ xs: 2, md: 3 }} 
+            spacing={{ xs: 3, md: 4 }} 
             sx={{ justifyContent: 'center', maxWidth: 1200, mx: 'auto', px: { xs: 2, md: 6 } }}
           >
             {categoryHealthGoals.map(goal => {
@@ -590,45 +597,49 @@ export default function ShopPage() {
               const isNutrient = activeCategory.toLowerCase() === 'nutrients';
 
               return (
-                <Grid size={isNutrient ? { xs: 6, sm: 4, md: 2 } : { xs: 6, sm: 4, md: 2.4 }} key={goal}>
+                <Grid size={isNutrient ? { xs: 6, sm: 4, md: 1.7 } : { xs: 6, sm: 4, md: 2.4 }} key={goal} sx={{ display: 'flex', justifyContent: 'center' }}>
                   <Box
                     onClick={() => handleConcernClick(goal)}
                     sx={{
                       cursor: 'pointer',
-                      borderRadius: '12px',
-                      overflow: 'hidden',
-                      bgcolor: 'white',
-                      border: isSelected ? '3px solid #3d6b4f' : '1px solid rgba(0,0,0,0.06)',
-                      boxShadow: isSelected ? '0 10px 30px rgba(61,107,79,0.15)' : '0 4px 16px rgba(0,0,0,0.03)',
-                      transform: isSelected ? 'scale(1.02)' : 'none',
-                      transition: 'all 0.25s cubic-bezier(0.22, 1, 0.36, 1)',
-                      position: 'relative',
                       display: 'flex',
                       flexDirection: 'column',
+                      alignItems: 'center',
+                      textAlign: 'center',
+                      width: '100%',
+                      maxWidth: '140px',
+                      transition: 'transform 0.2s ease-in-out',
                       '&:hover': {
-                        transform: 'translateY(-6px)',
-                        boxShadow: '0 12px 24px rgba(0,0,0,0.08)'
+                        transform: 'translateY(-4px)'
                       }
                     }}
                   >
-                    {/* Concern Image Frame */}
-                    <Box sx={{ width: '100%', aspectRatio: '1/1', overflow: 'hidden', position: 'relative', bgcolor: '#f7f6f2' }}>
+                    {/* Clean Circular Container */}
+                    <Box
+                      sx={{
+                        width: '84px',
+                        height: '84px',
+                        borderRadius: '50%',
+                        overflow: 'hidden',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        bgcolor: isSelected ? 'rgba(61,107,79,0.06)' : 'rgba(0,0,0,0.02)',
+                        color: isSelected ? '#3d6b4f' : '#222222',
+                        border: isSelected ? '2.5px solid #3d6b4f' : '1.5px solid rgba(0,0,0,0.08)',
+                        boxShadow: isSelected ? '0 4px 12px rgba(61,107,79,0.1)' : 'none',
+                        p: isNutrient ? 2.2 : 0,
+                        mb: 1.5,
+                        transition: 'all 0.2s ease',
+                        '&:hover': {
+                          borderColor: '#3d6b4f',
+                          color: '#3d6b4f',
+                          bgcolor: 'rgba(61,107,79,0.03)'
+                        }
+                      }}
+                    >
                       {isNutrient ? (
-                        <Box
-                          sx={{
-                            width: '100%',
-                            height: '100%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            bgcolor: isSelected ? 'rgba(61, 107, 79, 0.04)' : 'white',
-                            color: isSelected ? '#3d6b4f' : '#111111',
-                            p: 2.5,
-                            transition: 'all 0.25s ease'
-                          }}
-                        >
-                          <HealthGoalIcon goal={goal} size="70%" />
-                        </Box>
+                        <HealthGoalIcon goal={goal} size="100%" />
                       ) : img ? (
                         <Box 
                           component="img" 
@@ -637,56 +648,29 @@ export default function ShopPage() {
                           sx={{ 
                             width: '100%', 
                             height: '100%', 
-                            objectFit: 'cover',
-                            transition: 'transform 0.4s ease',
-                            '&:hover': { transform: 'scale(1.04)' }
+                            objectFit: 'cover'
                           }} 
                         />
                       ) : (
-                        <Box 
-                          sx={{ 
-                            width: '100%', 
-                            height: '100%', 
-                            backgroundImage: 'linear-gradient(135deg, #f5ecd7 0%, #d8caa7 100%)', 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            justifyContent: 'center' 
-                          }}
-                        >
-                          <Typography variant="caption" sx={{ color: '#886d49', fontWeight: 800, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                            ALPAC
-                          </Typography>
-                        </Box>
+                        <Typography variant="caption" sx={{ color: '#886d49', fontWeight: 800, fontSize: '0.65rem' }}>
+                          ALPAC
+                        </Typography>
                       )}
                     </Box>
 
-                    {/* Concern Teal Label Block (Teal styling as requested) */}
-                    <Box 
+                    {/* Centered label directly below icon */}
+                    <Typography 
                       sx={{ 
-                        bgcolor: isSelected ? '#3d6b4f' : '#47c3be', 
-                        py: 1.8, 
-                        px: 1.5, 
-                        textAlign: 'center',
-                        transition: 'background-color 0.2s ease',
-                        minHeight: '52px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
+                        color: isSelected ? '#3d6b4f' : '#222222', 
+                        fontSize: '0.82rem', 
+                        fontWeight: isSelected ? 700 : 500, 
+                        lineHeight: 1.3,
+                        textTransform: 'capitalize',
+                        transition: 'color 0.2s ease'
                       }}
                     >
-                      <Typography 
-                        sx={{ 
-                          color: 'white', 
-                          fontSize: '0.85rem', 
-                          fontWeight: 700, 
-                          letterSpacing: '0.02em',
-                          lineHeight: 1.2,
-                          textTransform: 'capitalize'
-                        }}
-                      >
-                        {goal}
-                      </Typography>
-                    </Box>
+                      {goal}
+                    </Typography>
                   </Box>
                 </Grid>
               );
