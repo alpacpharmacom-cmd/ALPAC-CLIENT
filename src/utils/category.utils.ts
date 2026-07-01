@@ -19,8 +19,6 @@ export const getConcernImage = (goal: string): string | null => {
 export const COSMETICS_CATEGORIES = [
   'skin care',
   'hair care',
-  'intimate',
-  'kids care',
   'oral care',
   'muscles & joints',
   'antiseptics',
@@ -34,14 +32,12 @@ export const NUTRIENTS_CATEGORIES = [
 export const ALL_CATEGORIES = [...COSMETICS_CATEGORIES, ...NUTRIENTS_CATEGORIES];
 
 export const CATEGORY_HEALTH_GOALS: Record<string, string[]> = {
-  'skin care': ['Acne & Blemish', 'Anti-Aging', 'Hydration', 'Brightening', 'Sensitive Skin'],
-  'hair care': ['Hair Loss', 'Anti-Dandruff', 'Dry & Damaged', 'Volumizing'],
-  'intimate': ['Daily Freshness', 'pH Balance', 'Sensitive Care'],
-  'kids care': ['Gentle Protection', 'Rash & Eczema Relief', 'Nourishing'],
-  'oral care': ['Teeth Whitening', 'Gum Care', 'Fresh Breath', 'Sensitive Teeth'],
-  'muscles & joints': ['Pain Relief', 'Joint Support', 'Muscle Recovery'],
-  'antiseptics': ['First Aid', 'Infection Protection', 'Sanitization'],
-  'anti scar': ['Scar Reduction', 'Stretch Marks', 'Skin Healing'],
+  'skin care': ['E-Majestic Skin Care', 'Skin Healing', 'Foot Care', 'Diodrant'],
+  'hair care': ['Hair Loss', 'Anti-Dandruff', 'Dry & Damaged'],
+  'oral care': ['Tooth Paste', 'Mouse Wash', 'Fresh Breath'],
+  'muscles & joints': ['Pain Relief', 'Muscle Recovery'],
+  'antiseptics': [],
+  'anti scar': ['Scar Reduction', 'Stretch Marks'],
   'nutrients': [
     'Bone & Joints Health',
     'Brain & Focus',

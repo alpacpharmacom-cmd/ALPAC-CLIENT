@@ -6,47 +6,22 @@ import {
   Shield as LucideShield, 
   Baby as LucideBaby, 
   Moon as LucideMoon, 
-  Activity as LucideActivity 
+  Activity as LucideActivity,
+  Crown as LucideCrown,
+  Leaf as LucideLeaf,
+  Footprints as LucideFootprints,
+  Wind as LucideWind,
+  Smile as LucideSmile,
+  Scissors as LucideScissors,
+  Droplet as LucideDroplet,
+  Dumbbell as LucideDumbbell,
+  Sparkle as LucideSparkle,
+  Waves as LucideWaves
 } from 'lucide-react';
 
 interface IconProps extends React.SVGProps<SVGSVGElement> {
   size?: number | string;
 }
-
-// 1. Bone & Joints Health
-export const BoneJointsIcon: React.FC<IconProps> = ({ size = 64, ...props }) => (
-  <LucideBone size={size} strokeWidth={1.75} {...(props as any)} />
-);
-
-// 2. Brain & Focus
-export const BrainFocusIcon: React.FC<IconProps> = ({ size = 64, ...props }) => (
-  <LucideBrain size={size} strokeWidth={1.75} {...(props as any)} />
-);
-
-// 3. Beauty & Weight Loss
-export const BeautyWeightLossIcon: React.FC<IconProps> = ({ size = 64, ...props }) => (
-  <LucideSparkles size={size} strokeWidth={1.75} {...(props as any)} />
-);
-
-// 4. Immunity Support
-export const ImmunitySupportIcon: React.FC<IconProps> = ({ size = 64, ...props }) => (
-  <LucideShield size={size} strokeWidth={1.75} {...(props as any)} />
-);
-
-// 5. Kids & Family Health
-export const KidsFamilyIcon: React.FC<IconProps> = ({ size = 64, ...props }) => (
-  <LucideBaby size={size} strokeWidth={1.75} {...(props as any)} />
-);
-
-// 6. Relaxation & Sleep
-export const RelaxationSleepIcon: React.FC<IconProps> = ({ size = 64, ...props }) => (
-  <LucideMoon size={size} strokeWidth={1.75} {...(props as any)} />
-);
-
-// 7. Digestive & Gut Health
-export const DigestiveGutIcon: React.FC<IconProps> = ({ size = 64, ...props }) => (
-  <LucideActivity size={size} strokeWidth={1.75} {...(props as any)} />
-);
 
 interface HealthGoalIconWrapperProps extends IconProps {
   goal: string;
@@ -55,26 +30,79 @@ interface HealthGoalIconWrapperProps extends IconProps {
 export const HealthGoalIcon: React.FC<HealthGoalIconWrapperProps> = ({ goal, ...props }) => {
   const normalized = goal.toLowerCase();
 
+  // Nutrients Goals
   if (normalized.includes('bone') || normalized.includes('joint')) {
-    return <BoneJointsIcon {...props} />;
+    return <LucideBone size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;
   }
   if (normalized.includes('brain') || normalized.includes('focus')) {
-    return <BrainFocusIcon {...props} />;
+    return <LucideBrain size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;
   }
   if (normalized.includes('beauty') || normalized.includes('weight')) {
-    return <BeautyWeightLossIcon {...props} />;
+    return <LucideSparkles size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;
   }
   if (normalized.includes('immun')) {
-    return <ImmunitySupportIcon {...props} />;
+    return <LucideShield size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;
   }
   if (normalized.includes('kid') || normalized.includes('famil')) {
-    return <KidsFamilyIcon {...props} />;
+    return <LucideBaby size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;
   }
   if (normalized.includes('sleep') || normalized.includes('relax')) {
-    return <RelaxationSleepIcon {...props} />;
+    return <LucideMoon size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;
   }
   if (normalized.includes('digest') || normalized.includes('gut')) {
-    return <DigestiveGutIcon {...props} />;
+    return <LucideActivity size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;
+  }
+
+  // Skin Care Concerns
+  if (normalized.includes('majestic')) {
+    return <LucideCrown size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;
+  }
+  if (normalized.includes('healing')) {
+    return <LucideLeaf size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;
+  }
+  if (normalized.includes('foot')) {
+    return <LucideFootprints size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;
+  }
+  if (normalized.includes('diodrant') || normalized.includes('deodorant')) {
+    return <LucideWind size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;
+  }
+
+  // Hair Care Concerns
+  if (normalized.includes('hair loss')) {
+    return <LucideScissors size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;
+  }
+  if (normalized.includes('dandruff')) {
+    return <LucideSparkle size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;
+  }
+  if (normalized.includes('dry') || normalized.includes('damaged')) {
+    return <LucideDroplet size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;
+  }
+
+  // Oral Care Concerns
+  if (normalized.includes('tooth paste') || normalized.includes('toothpaste')) {
+    return <LucideSmile size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;
+  }
+  if (normalized.includes('mouse wash') || normalized.includes('mouthwash') || normalized.includes('mouth wash')) {
+    return <LucideDroplet size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;
+  }
+  if (normalized.includes('fresh breath')) {
+    return <LucideWind size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;
+  }
+
+  // Muscles Concerns
+  if (normalized.includes('pain relief')) {
+    return <LucideActivity size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;
+  }
+  if (normalized.includes('muscle recovery')) {
+    return <LucideDumbbell size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;
+  }
+
+  // Anti Scar Concerns
+  if (normalized.includes('scar')) {
+    return <LucideSparkle size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;
+  }
+  if (normalized.includes('stretch')) {
+    return <LucideWaves size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;
   }
 
   // Fallback

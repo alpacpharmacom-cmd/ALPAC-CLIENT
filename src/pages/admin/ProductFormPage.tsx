@@ -140,7 +140,8 @@ export default function ProductFormPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!form.name || form.price === '' || !form.description || !form.image || !form.category || !form.brand || !form.healthGoal || form.countInStock === '') {
+    const isGoalRequired = CATEGORY_HEALTH_GOALS[form.category]?.length > 0;
+    if (!form.name || form.price === '' || !form.description || !form.image || !form.category || !form.brand || (isGoalRequired && !form.healthGoal) || form.countInStock === '') {
       toast.error('Please fill in all fields');
       return;
     }
@@ -428,9 +429,9 @@ export default function ProductFormPage() {
                   label="Health Goal"
                   value={form.healthGoal}
                   onChange={(e) => handleChange('healthGoal', e.target.value)}
-                  required
+                  required={CATEGORY_HEALTH_GOALS[form.category]?.length > 0}
                   variant="outlined"
-                  disabled={!form.category}
+                  disabled={!form.category || CATEGORY_HEALTH_GOALS[form.category]?.length === 0}
                   slotProps={{ inputLabel: { shrink: true } }}
                   sx={{ 
                     '& .MuiOutlinedInput-root': { borderRadius: '12px', bgcolor: '#fbfaf8' },

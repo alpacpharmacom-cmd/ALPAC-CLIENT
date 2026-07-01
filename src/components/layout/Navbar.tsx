@@ -53,8 +53,6 @@ const navLinks = [
     subLinks: [
       { label: 'Skin Care', path: '/category/skin-care' },
       { label: 'Hair Care', path: '/category/hair-care' },
-      { label: 'Intimate', path: '/category/intimate' },
-      { label: 'Kids Care', path: '/category/kids-care' },
       { label: 'Oral Care', path: '/category/oral-care' },
       { label: 'Muscles & Joints', path: '/category/muscles-&-joints' },
       { label: 'Antiseptics', path: '/category/antiseptics' },
@@ -210,31 +208,41 @@ export default function Navbar() {
                       textTransform: 'uppercase',
                       px: 2.2,
                       py: 1,
-                      position: 'relative',
                       display: 'flex',
                       alignItems: 'center',
                       gap: 0.5,
                       transition: 'none',
-                      '&::after': {
-                        content: '""',
-                        position: 'absolute',
-                        bottom: 4,
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        width: isActive ? '50%' : 0,
-                        height: '2px',
-                        bgcolor: '#3d6b4f',
-                      },
                       '&:hover': {
                         bgcolor: 'transparent',
                         color: '#3d6b4f',
-                        '&::after': {
-                          width: '50%',
+                        '& .nav-link-text::after': {
+                          width: '100%',
                         },
                       },
                     }}
                   >
-                    {link.label}
+                    <Box
+                      component="span"
+                      className="nav-link-text"
+                      sx={{
+                        position: 'relative',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        '&::after': {
+                          content: '""',
+                          position: 'absolute',
+                          bottom: -4,
+                          left: '50%',
+                          transform: 'translateX(-50%)',
+                          width: isActive ? '100%' : 0,
+                          height: '2px',
+                          bgcolor: '#3d6b4f',
+                          transition: 'width 0.2s ease-in-out',
+                        },
+                      }}
+                    >
+                      {link.label}
+                    </Box>
                     {link.subLinks && <KeyboardArrowDown sx={{ fontSize: 16, opacity: 0.7 }} />}
                   </Button>
 

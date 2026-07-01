@@ -19,7 +19,6 @@ import {
   COSMETICS_CATEGORIES,
   NUTRIENTS_CATEGORIES,
   CATEGORY_HEALTH_GOALS,
-  getConcernImage,
   slugify,
   unslugify
 } from '../../utils/category.utils';
@@ -593,7 +592,6 @@ export default function ShopPage() {
           >
             {categoryHealthGoals.map(goal => {
               const isSelected = activeHealthGoals.includes(goal);
-              const img = getConcernImage(goal);
               const isNutrient = activeCategory.toLowerCase() === 'nutrients';
 
               return (
@@ -628,7 +626,7 @@ export default function ShopPage() {
                         color: isSelected ? '#3d6b4f' : '#222222',
                         border: isSelected ? '2.5px solid #3d6b4f' : '1.5px solid rgba(0,0,0,0.08)',
                         boxShadow: isSelected ? '0 4px 12px rgba(61,107,79,0.1)' : 'none',
-                        p: isNutrient ? 2.2 : 0,
+                        p: 2.2,
                         mb: 1.5,
                         transition: 'all 0.2s ease',
                         '&:hover': {
@@ -638,24 +636,7 @@ export default function ShopPage() {
                         }
                       }}
                     >
-                      {isNutrient ? (
-                        <HealthGoalIcon goal={goal} size="100%" />
-                      ) : img ? (
-                        <Box 
-                          component="img" 
-                          src={img} 
-                          alt={goal} 
-                          sx={{ 
-                            width: '100%', 
-                            height: '100%', 
-                            objectFit: 'cover'
-                          }} 
-                        />
-                      ) : (
-                        <Typography variant="caption" sx={{ color: '#886d49', fontWeight: 800, fontSize: '0.65rem' }}>
-                          ALPAC
-                        </Typography>
-                      )}
+                      <HealthGoalIcon goal={goal} size="100%" />
                     </Box>
 
                     {/* Centered label directly below icon */}
