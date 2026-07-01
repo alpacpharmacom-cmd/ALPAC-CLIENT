@@ -294,7 +294,14 @@ export default function ShopPage() {
   
   // URL Params mapping
   const activeCategory = categoryName ? unslugify(categoryName) : (searchParams.get('category') || 'all');
-  const activeGoal = goalName ? unslugify(goalName) : null;
+  const activeGoalRaw = goalName ? unslugify(goalName) : null;
+  const activeGoal = useMemo(() => {
+    if (!activeGoalRaw) return null;
+    const goals = CATEGORY_HEALTH_GOALS[activeCategory.toLowerCase()] || [];
+    const found = goals.find(g => g.toLowerCase() === activeGoalRaw.toLowerCase());
+    return found || activeGoalRaw;
+  }, [activeGoalRaw, activeCategory]);
+  
   const activePriceRange = searchParams.get('price') || 'all';
   const activeSort = searchParams.get('sort') || 'newest';
 
@@ -304,10 +311,19 @@ export default function ShopPage() {
   }, [searchParams]);
 
   const activeHealthGoals = useMemo(() => {
-    if (activeGoal) return [activeGoal];
-    const val = searchParams.get('healthGoals');
-    return val ? val.split(',') : [];
-  }, [searchParams, activeGoal]);
+    let rawGoals: string[] = [];
+    if (activeGoal) {
+      rawGoals = [activeGoal];
+    } else {
+      const val = searchParams.get('healthGoals');
+      rawGoals = val ? val.split(',') : [];
+    }
+    const allowedGoals = CATEGORY_HEALTH_GOALS[activeCategory.toLowerCase()] || [];
+    return rawGoals.map(rg => {
+      const found = allowedGoals.find(g => g.toLowerCase() === rg.toLowerCase());
+      return found || rg;
+    });
+  }, [searchParams, activeGoal, activeCategory]);
 
   const { isAuthenticated } = useAuthStore();
   const wishlistItems = useWishlistStore(state => state.items);
