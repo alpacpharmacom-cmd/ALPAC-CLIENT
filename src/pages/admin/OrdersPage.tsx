@@ -451,7 +451,7 @@ export default function AdminOrdersPage() {
                     />
                   </Box>
                   <Typography variant="body2"  sx={{ fontWeight: 800,  flex: 1, color: 'primary.main', textAlign: 'center' }}>
-                    ${order.totalPrice?.toFixed(2)}
+                    L.E {order.totalPrice?.toFixed(2)}
                   </Typography>
                   <Box sx={{ flex: 1, display: 'flex', gap: 0.5, justifyContent: 'flex-end' }}>
                     {order.status === 'pending' && (

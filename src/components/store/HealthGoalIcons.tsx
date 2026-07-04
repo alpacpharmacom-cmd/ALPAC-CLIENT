@@ -7,7 +7,6 @@ import {
   Baby as LucideBaby, 
   Moon as LucideMoon, 
   Activity as LucideActivity,
-  Crown as LucideCrown,
   Leaf as LucideLeaf,
   Footprints as LucideFootprints,
   Wind as LucideWind,
@@ -16,7 +15,11 @@ import {
   Droplet as LucideDroplet,
   Dumbbell as LucideDumbbell,
   Sparkle as LucideSparkle,
-  Waves as LucideWaves
+  Waves as LucideWaves,
+  Sun as LucideSun,
+  Droplets as LucideDroplets,
+  Hourglass as LucideHourglass,
+  Heart as LucideHeart
 } from 'lucide-react';
 
 interface IconProps extends React.SVGProps<SVGSVGElement> {
@@ -54,8 +57,23 @@ export const HealthGoalIcon: React.FC<HealthGoalIconWrapperProps> = ({ goal, ...
   }
 
   // Skin Care Concerns
-  if (normalized.includes('majestic')) {
-    return <LucideCrown size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;
+  if (normalized.includes('oily') || normalized.includes('combined')) {
+    return <LucideDroplets size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;
+  }
+  if (normalized.includes('dry skin') || (normalized === 'dry skin')) {
+    return <LucideDroplet size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;
+  }
+  if (normalized.includes('anti-aging') || normalized.includes('aging')) {
+    return <LucideHourglass size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;
+  }
+  if (normalized.includes('brightening') || normalized.includes('even tone')) {
+    return <LucideSparkles size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;
+  }
+  if (normalized.includes('body care')) {
+    return <LucideHeart size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;
+  }
+  if (normalized.includes('sunscreen') || normalized.includes('sunscreens')) {
+    return <LucideSun size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;
   }
   if (normalized.includes('healing')) {
     return <LucideLeaf size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;

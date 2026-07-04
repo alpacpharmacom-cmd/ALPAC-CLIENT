@@ -456,7 +456,7 @@ export default function OrdersPage() {
                           Total Price
                         </Typography>
                         <Typography variant="h4" sx={{ fontWeight: 800, color: 'primary.dark', fontFamily: '"DM Sans", sans-serif', fontSize: { xs: '1.75rem', sm: '1.5rem' } }}>
-                          ${order.totalPrice?.toFixed(2)}
+                          L.E {order.totalPrice?.toFixed(2)}
                         </Typography>
                       </Box>
                     </Box>

@@ -88,7 +88,7 @@ export default function AdminDashboard() {
   if (!stats) return null;
 
   const statCards = [
-    { label: 'Revenue', value: `$${stats.totalRevenue.toFixed(2)}`, icon: <AttachMoney />, color: '#2D4B38', bg: 'rgba(45, 75, 56, 0.08)'},
+    { label: 'Revenue', value: `L.E ${stats.totalRevenue.toFixed(2)}`, icon: <AttachMoney />, color: '#2D4B38', bg: 'rgba(45, 75, 56, 0.08)'},
     { label: 'Orders', value: stats.totalOrders, icon: <ShoppingCart />, color: '#5b7fa5', bg: 'rgba(91, 127, 165, 0.08)'},
     { label: 'Products', value: stats.totalProducts, icon: <Inventory2 />, color: '#B8956A', bg: 'rgba(184, 149, 106, 0.08)'},
     { label: 'Users', value: stats.totalUsers, icon: <People />, color: '#6c5ce7', bg: 'rgba(108, 92, 231, 0.08)'},
@@ -350,7 +350,7 @@ export default function AdminDashboard() {
                     axisLine={false} 
                     tickLine={false} 
                     tick={{ fontSize: 11, fill: '#666', fontWeight: 600 }}
-                    tickFormatter={(val) => `$${val}`}
+                    tickFormatter={(val) => `L.E ${val}`}
                   />
                   <Tooltip 
                     content={({ active, payload, label }: any) => {
@@ -367,7 +367,7 @@ export default function AdminDashboard() {
                               {new Date(label).toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}
                             </Typography>
                             <Typography variant="h6" sx={{ fontWeight: 800, color: 'primary.main' }}>
-                              ${payload[0].value.toFixed(2)}
+                              L.E {payload[0].value.toFixed(2)}
                             </Typography>
                           </Box>
                         );
@@ -535,7 +535,7 @@ export default function AdminDashboard() {
                         />
                       </Box>
                       <Typography variant="body2" sx={{ fontWeight: 800, flex: 1, textAlign: 'right', px: 2, color: 'primary.main' }}>
-                        ${order.totalPrice?.toFixed(2)}
+                        L.E {order.totalPrice?.toFixed(2)}
                       </Typography>
                     </Box>
                   ))}
@@ -606,7 +606,7 @@ export default function AdminDashboard() {
                       </Typography>
                     </Box>
                     <Typography variant="body2" sx={{ fontWeight: 800, color: 'primary.main', ml: 1 }}>
-                      ${product.totalRevenue.toFixed(0)}
+                      L.E {product.totalRevenue.toFixed(0)}
                     </Typography>
                   </Box>
                 ))}

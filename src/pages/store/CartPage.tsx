@@ -241,7 +241,7 @@ export default function CartPage() {
                               {item.product.name}
                             </Typography>
                             <Typography variant="body2" sx={{ fontWeight: 800, color: 'text.secondary', display: 'block' }}>
-                              ${item.product.price?.toFixed(2)} / unit
+                              L.E {item.product.price?.toFixed(2)} / unit
                             </Typography>
                             {item.product.offer && item.product.offer.isActive && (
                               <Chip 
@@ -321,7 +321,7 @@ export default function CartPage() {
                                 fontFamily: '"DM Sans", sans-serif'
                               }}
                             >
-                              ${(() => {
+                              L.E {(() => {
                                   const { price, offer } = item.product;
                                   const qty = item.quantity;
                                   if (offer && offer.isActive && offer.buy > 0 && offer.get > 0) {
@@ -347,7 +347,7 @@ export default function CartPage() {
                                 if (savings > 0) {
                                   return (
                                     <Typography variant="caption" sx={{ display: 'block', color: '#27ae60', fontWeight: 800, mt: 0.5 }}>
-                                      −${savings.toFixed(2)} saved
+                                      −L.E {savings.toFixed(2)} saved
                                     </Typography>
                                   );
                                 }
@@ -395,18 +395,18 @@ export default function CartPage() {
                     <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                       <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 600 }}>Subtotal</Typography>
                       <Typography variant="body2" sx={{ fontWeight: 800 }}>
-                        ${items.reduce((sum, item) => sum + item.product.price * item.quantity, 0).toFixed(2)}
+                        L.E {items.reduce((sum, item) => sum + item.product.price * item.quantity, 0).toFixed(2)}
                       </Typography>
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                       <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 600 }}>Shipping & Handling</Typography>
                       <Typography variant="body2" sx={{ fontWeight: 800, color: 'text.primary' }}>
-                        $0.00
+                        L.E 0.00
                       </Typography>
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                       <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 600 }}>Archival Tax (0%)</Typography>
-                      <Typography variant="body2" sx={{ fontWeight: 800 }}>$0.00</Typography>
+                      <Typography variant="body2" sx={{ fontWeight: 800 }}>L.E 0.00</Typography>
                     </Box>
                     {(() => {
                       const subtotalNoOffers = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
@@ -415,7 +415,7 @@ export default function CartPage() {
                         return (
                           <Box sx={{ display: 'flex', justifyContent: 'space-between', color: '#27ae60' }}>
                             <Typography variant="body2" sx={{ fontWeight: 700 }}>Offer Savings</Typography>
-                            <Typography variant="body2" sx={{ fontWeight: 900 }}>-${savings.toFixed(2)}</Typography>
+                            <Typography variant="body2" sx={{ fontWeight: 900 }}>-L.E {savings.toFixed(2)}</Typography>
                           </Box>
                         );
                       }
@@ -427,7 +427,7 @@ export default function CartPage() {
 
                   <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', mb: 4 }}>
                     <Typography variant="h3" sx={{ fontWeight: 900, color: 'primary.main', fontFamily: '"DM Sans", sans-serif' }}>
-                      ${totalPrice.toFixed(2)}
+                      L.E {totalPrice.toFixed(2)}
                     </Typography>
                   </Box>
 

@@ -161,12 +161,12 @@ export default function AdminOrderDetailPage() {
                   <Box>
                     <Typography variant="body1" sx={{ fontWeight: 700, mb: 0.5 }}>{item.name}</Typography>
                     <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 600 }}>
-                      ${item.price?.toFixed(2)} <Box component="span" sx={{ color: 'rgba(0,0,0,0.2)', mx: 1 }}>|</Box> Quantity: {item.quantity}
+                      L.E {item.price?.toFixed(2)} <Box component="span" sx={{ color: 'rgba(0,0,0,0.2)', mx: 1 }}>|</Box> Quantity: {item.quantity}
                     </Typography>
                   </Box>
                 </Box>
                 <Typography variant="h6" sx={{ fontWeight: 800, color: 'primary.main' }}>
-                  ${(item.price * item.quantity).toFixed(2)}
+                  L.E {(item.price * item.quantity).toFixed(2)}
                 </Typography>
               </Box>
             ))}
@@ -245,14 +245,14 @@ export default function AdminOrderDetailPage() {
               <Box key={row.label} sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                 <Typography variant="body2" sx={{ color: row.color || 'text.secondary', fontWeight: 600 }}>{row.label}</Typography>
                 <Typography variant="body2" sx={{ fontWeight: 700, color: row.color || 'text.primary' }}>
-                  {row.value < 0 ? `-$${Math.abs(row.value).toFixed(2)}` : `$${row.value?.toFixed(2)}`}
+                  {row.value < 0 ? `-L.E ${Math.abs(row.value).toFixed(2)}` : `L.E ${row.value?.toFixed(2)}`}
                 </Typography>
               </Box>
             ))}
             <Divider sx={{ my: 2, borderStyle: 'dashed' }} />
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <Typography variant="h6" sx={{ fontWeight: 800 }}>Total Amount</Typography>
-              <Typography variant="h5" sx={{ fontWeight: 900, color: 'primary.main' }}>${order.totalPrice?.toFixed(2)}</Typography>
+              <Typography variant="h5" sx={{ fontWeight: 900, color: 'primary.main' }}>L.E {order.totalPrice?.toFixed(2)}</Typography>
             </Box>
           </Box>
 

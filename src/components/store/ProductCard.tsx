@@ -276,7 +276,7 @@ const ProductCard = memo(({
                 <Typography
                   sx={{ fontWeight: 800, color: 'primary.main', fontSize: { xs: '0.95rem', sm: '1.25rem' } }}
                 >
-                  ${product.price?.toFixed(2)}
+                  L.E {product.price?.toFixed(2)}
                 </Typography>
                 {product.oldPrice > product.price && (
                   <Typography
@@ -288,7 +288,7 @@ const ProductCard = memo(({
                       opacity: 0.6
                     }}
                   >
-                    ${product.oldPrice.toFixed(2)}
+                    L.E {product.oldPrice.toFixed(2)}
                   </Typography>
                 )}
               </Box>

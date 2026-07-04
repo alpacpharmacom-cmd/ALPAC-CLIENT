@@ -32,7 +32,17 @@ export const NUTRIENTS_CATEGORIES = [
 export const ALL_CATEGORIES = [...COSMETICS_CATEGORIES, ...NUTRIENTS_CATEGORIES];
 
 export const CATEGORY_HEALTH_GOALS: Record<string, string[]> = {
-  'skin care': ['E-Majestic Skin Care', 'Skin Healing', 'Foot Care', 'Diodrant'],
+  'skin care': [
+    'Oily & Combined Skin',
+    'Dry Skin',
+    'Anti-Aging',
+    'Brightening & Even Tone',
+    'Body Care',
+    'Sunscreens',
+    'Skin Healing',
+    'Foot Care',
+    'Deodorant'
+  ],
   'hair care': ['Hair Loss', 'Anti-Dandruff', 'Dry & Damaged'],
   'oral care': ['Tooth Paste', 'Mouse Wash', 'Fresh Breath'],
   'muscles & joints': ['Pain Relief', 'Muscle Recovery'],

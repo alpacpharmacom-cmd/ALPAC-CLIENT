@@ -408,11 +408,11 @@ export default function CheckoutPage() {
                         <Box sx={{ textAlign: 'right' }}>
                           {lineTotal < price * qty && (
                             <Typography variant="caption" sx={{ display: 'block', color: 'success.main', fontWeight: 800 }}>
-                              −${(price * qty - lineTotal).toFixed(2)} saved
+                              −L.E ${(price * qty - lineTotal).toFixed(2)} saved
                             </Typography>
                           )}
                           <Typography variant="body2" sx={{ fontWeight: 800 }}>
-                            ${lineTotal.toFixed(2)}
+                            L.E {lineTotal.toFixed(2)}
                           </Typography>
                         </Box>
                       </Box>
@@ -426,7 +426,7 @@ export default function CheckoutPage() {
                   <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 600 }}>Subtotal</Typography>
                     <Typography variant="body2" sx={{ fontWeight: 800 }}>
-                      ${items.reduce((sum, item) => sum + item.product.price * item.quantity, 0).toFixed(2)}
+                      L.E {items.reduce((sum, item) => sum + item.product.price * item.quantity, 0).toFixed(2)}
                     </Typography>
                   </Box>
                   {(() => {
@@ -436,7 +436,7 @@ export default function CheckoutPage() {
                       return (
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', color: '#27ae60' }}>
                           <Typography variant="body2" sx={{ fontWeight: 700 }}>Offer Savings</Typography>
-                          <Typography variant="body2" sx={{ fontWeight: 900 }}>−${offerSavings.toFixed(2)}</Typography>
+                          <Typography variant="body2" sx={{ fontWeight: 900 }}>−L.E {offerSavings.toFixed(2)}</Typography>
                         </Box>
                       );
                     }
@@ -455,7 +455,7 @@ export default function CheckoutPage() {
                       <Typography variant="body2" sx={{ color: 'primary.main', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 1 }}>
                         <LocalOffer sx={{ fontSize: 16 }} /> First Order Reward
                       </Typography>
-                      <Typography variant="body2" sx={{ fontWeight: 900, color: 'primary.main' }}>-${discountPrice.toFixed(2)}</Typography>
+                      <Typography variant="body2" sx={{ fontWeight: 900, color: 'primary.main' }}>-L.E {discountPrice.toFixed(2)}</Typography>
                     </Box>
                   )}
                   <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -466,7 +466,7 @@ export default function CheckoutPage() {
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 600 }}>Archival Tax (0%)</Typography>
-                    <Typography variant="body2" sx={{ fontWeight: 800 }}>$0.00</Typography>
+                    <Typography variant="body2" sx={{ fontWeight: 800 }}>L.E 0.00</Typography>
                   </Box>
                 </Stack>
 
@@ -477,7 +477,7 @@ export default function CheckoutPage() {
                     Total Price
                   </Typography>
                   <Typography variant="h3" sx={{ fontWeight: 900, color: 'primary.main', fontFamily: '"DM Sans", sans-serif' }}>
-                    ${total.toFixed(2)}
+                    L.E {total.toFixed(2)}
                   </Typography>
                 </Box>
 

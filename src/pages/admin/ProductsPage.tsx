@@ -414,7 +414,7 @@ export default function AdminProductsPage() {
                   <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.85rem' }}>{product.brand || '—'}</Typography>
                 </Box>
                 <Typography variant="body2"  sx={{ fontWeight: 800,  flex: 1, color: 'primary.main', textAlign: 'center' }}>
-                  ${product.price?.toFixed(2)}
+                  L.E {product.price?.toFixed(2)}
                 </Typography>
                 <Box sx={{ flex: 1.2, display: 'flex', justifyContent: 'center' }}>
                   <Chip

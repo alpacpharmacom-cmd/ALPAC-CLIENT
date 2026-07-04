@@ -246,7 +246,7 @@ export default function AdminProductDetailPage() {
                     gap: 0.5
                   }}
                 >
-                  <Box component="span" sx={{ fontSize: '0.5em', fontWeight: 700, color: 'text.secondary', mb: 0.5 }}>$</Box>
+                  <Box component="span" sx={{ fontSize: '0.5em', fontWeight: 700, color: 'text.secondary', mb: 0.5 }}>L.E </Box>
                   {product.price?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </Typography>
               </Box>

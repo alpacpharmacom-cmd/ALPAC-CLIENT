@@ -270,14 +270,14 @@ export default function OrderDetailPage() {
                           }}>
                             <Box sx={{ px: { xs: 1.5, md: 1.5 }, py: 0.5, bgcolor: '#fbfaf8', borderRadius: '8px', border: '1px solid rgba(0,0,0,0.05)', display: 'inline-block' }}>
                               <Typography variant="caption" sx={{ fontWeight: 800, color: 'text.secondary', whiteSpace: 'nowrap' }}>
-                                <Box component="span" sx={{ color: 'primary.main', fontWeight: 900 }}>{item.quantity} UNIT{item.quantity > 1 ? 'S' : ''}</Box> &nbsp;×&nbsp; ${item.price?.toFixed(2)}
+                                <Box component="span" sx={{ color: 'primary.main', fontWeight: 900 }}>{item.quantity} UNIT{item.quantity > 1 ? 'S' : ''}</Box> &nbsp;×&nbsp; L.E {item.price?.toFixed(2)}
                               </Typography>
                             </Box>
                             <Box sx={{ textAlign: 'right', alignSelf: 'flex-end', pb: { md: 1 } }}>
                               {/* Show offer savings if totalItemPrice is less than full price */}
                               {item.totalItemPrice < item.price * item.quantity && (
                                 <Typography variant="caption" sx={{ display: 'block', color: 'success.main', fontWeight: 800, mb: 0.5 }}>
-                                  -{`$${(item.price * item.quantity - item.totalItemPrice).toFixed(2)}`} offer savings
+                                  -{`L.E ${(item.price * item.quantity - item.totalItemPrice).toFixed(2)}`} offer savings
                                 </Typography>
                               )}
                               <Typography variant="h5" sx={{
@@ -285,7 +285,7 @@ export default function OrderDetailPage() {
                                 color: 'primary.dark',
                                 fontFamily: '"DM Sans", sans-serif',
                               }}>
-                                ${item.totalItemPrice?.toFixed(2)}
+                                L.E {item.totalItemPrice?.toFixed(2)}
                               </Typography>
                             </Box>
                           </Box>
@@ -348,7 +348,7 @@ export default function OrderDetailPage() {
                             <Box key={row.label} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                               <Typography variant="caption" sx={{ color: row.color || 'text.secondary', fontWeight: 600, fontSize: '0.85rem' }}>{row.label}</Typography>
                               <Typography variant="body1" sx={{ fontWeight: 800, color: row.color || 'text.primary' }}>
-                                {row.value < 0 ? `-$${Math.abs(row.value).toFixed(2)}` : `$${row.value?.toFixed(2)}`}
+                                {row.value < 0 ? `-L.E ${Math.abs(row.value).toFixed(2)}` : `L.E ${row.value?.toFixed(2)}`}
                               </Typography>
                             </Box>
                           ))}
@@ -372,7 +372,7 @@ export default function OrderDetailPage() {
                               textAlign: 'right',
                               fontSize: { xs: '2rem', md: '2.5rem' }
                             }}>
-                              ${order.totalPrice?.toFixed(2)}
+                              L.E {order.totalPrice?.toFixed(2)}
                             </Typography>
                           </Box>
                         </Stack>

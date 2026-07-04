@@ -413,7 +413,7 @@ export default function ProductPage() {
                       color: 'primary.main',
                     }}
                   >
-                    ${product.price?.toFixed(2)}
+                    L.E {product.price?.toFixed(2)}
                   </Typography>
                   {product.oldPrice > product.price && (
                     <Typography
@@ -425,7 +425,7 @@ export default function ProductPage() {
                         fontWeight: 500
                       }}
                     >
-                      ${product.oldPrice.toFixed(2)}
+                      L.E {product.oldPrice.toFixed(2)}
                     </Typography>
                   )}
                 </Box>

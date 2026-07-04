@@ -26,9 +26,9 @@ import { HealthGoalIcon } from '../../components/store/HealthGoalIcons';
 
 const priceRanges = [
   { value: 'all', label: 'All Prices' },
-  { value: 'under-50', label: 'Under $50' },
-  { value: '50-100', label: '$50 – $100' },
-  { value: 'over-100', label: 'Over $100' },
+  { value: 'under-50', label: 'Under L.E 50' },
+  { value: '50-100', label: 'L.E 50 – L.E 100' },
+  { value: 'over-100', label: 'Over L.E 100' },
 ];
 
 const sortOptions = [
@@ -682,7 +682,7 @@ export default function ShopPage() {
           {/* Sidebar - Desktop */}
           {isDesktop && (
             <Grid component="div" size={{ lg: 3, xl: 2.5 }}>
-              <Box sx={{ position: 'sticky', top: 100 }}>
+              <Box>
                 <ShopFilters 
                   searchQuery={searchQuery}
                   setSearchQuery={setSearchQuery}
