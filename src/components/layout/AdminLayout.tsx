@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import alpacLogo from '../../assets/alpac-logo.png';
 import { Outlet, Link, useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import {
   Box,
   Drawer,
@@ -31,6 +32,7 @@ import { useAuthStore } from '../../stores/authStore';
 import AmbientBackground from '../common/AmbientBackground';
 
 const DRAWER_WIDTH = 280; // Slightly wider for premium feel
+const MotionBox = motion.create(Box);
 
 const menuItems = [
   { label: 'Admin Overview', path: '/admin', icon: <Dashboard /> },
@@ -228,13 +230,24 @@ export default function AdminLayout() {
           </AppBar>
         )}
 
-        <Box 
+        <MotionBox 
           key={location.pathname}
-          className="page-transition"
-          sx={{ p: { xs: 3, md: 6 }, maxWidth: 1600, mx: 'auto', flex: 1, display: 'flex', flexDirection: 'column', width: '100%' }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1.0] }}
+          sx={{ 
+            p: { xs: 3, md: 6 }, 
+            maxWidth: 1600, 
+            mx: 'auto', 
+            flex: 1, 
+            display: 'flex', 
+            flexDirection: 'column', 
+            width: '100%',
+            willChange: 'transform, opacity'
+          }}
         >
           <Outlet />
-        </Box>
+        </MotionBox>
       </Box>
     </Box>
   );

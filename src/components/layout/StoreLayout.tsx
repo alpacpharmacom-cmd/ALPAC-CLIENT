@@ -1,5 +1,6 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import { Box } from '@mui/material';
+import { motion } from 'framer-motion';
 import AnnouncementBar from './AnnouncementBar';
 import Navbar from './Navbar';
 import Footer from './Footer';
@@ -14,12 +15,18 @@ export default function StoreLayout() {
       <AnnouncementBar />
       <Navbar />
       <Box 
-        key={location.pathname}
         component="main" 
-        className="page-transition"
         sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}
       >
-        <Outlet />
+        <motion.div
+          key={location.pathname}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1.0] }}
+          style={{ flex: 1, display: 'flex', flexDirection: 'column', willChange: 'transform, opacity' }}
+        >
+          <Outlet />
+        </motion.div>
       </Box>
       <Footer />
     </Box>
