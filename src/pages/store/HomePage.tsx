@@ -247,28 +247,6 @@ export default function HomePage() {
                     >
                       {SLIDES[currentSlide].btn1Text}
                     </Button>
-                    <Button
-                      component={Link}
-                      to={SLIDES[currentSlide].btn2Link}
-                      variant="outlined"
-                      size="large"
-                      sx={{ 
-                        borderColor: 'rgba(255,255,255,0.8)', 
-                        color: 'white', 
-                        px: { xs: 2.5, sm: 5 }, 
-                        py: { xs: 1, sm: 1.8 },
-                        fontWeight: 600,
-                        fontSize: { xs: '0.8rem', sm: '1.1rem' },
-                        borderRadius: 2,
-                        backdropFilter: 'blur(8px)',
-                        boxShadow: '0px 4px 15px rgba(0,0,0,0.2)',
-                        background: 'rgba(0,0,0,0.1)',
-                        width: 'auto',
-                        '&:hover': { borderColor: 'white', background: 'rgba(255,255,255,0.15)' }
-                      }}
-                    >
-                      {SLIDES[currentSlide].btn2Text}
-                    </Button>
                   </Box>
                 </Box>
               </Box>
@@ -315,11 +293,11 @@ export default function HomePage() {
         <Box
           sx={{
             position: 'absolute',
-            bottom: 24,
+            bottom: { xs: 10, md: 24 },
             left: '50%',
             transform: 'translateX(-50%)',
             display: 'flex',
-            gap: 1.5,
+            gap: { xs: 1, md: 1.5 },
             zIndex: 3,
           }}
         >
@@ -328,8 +306,8 @@ export default function HomePage() {
               key={index}
               onClick={() => handleSelectSlide(index)}
               sx={{
-                width: 12,
-                height: 12,
+                width: { xs: 6, md: 10 },
+                height: { xs: 6, md: 10 },
                 borderRadius: '50%',
                 bgcolor: currentSlide === index ? 'secondary.main' : 'rgba(255,255,255,0.4)',
                 cursor: 'pointer',
@@ -346,11 +324,12 @@ export default function HomePage() {
 
 
       {/* New Arrivals Section - Boxed */}
-      <Box sx={{ py: { xs: 8, md: 12 } }}>
+      <Box sx={{ pt: { xs: 2, md: 12 }, pb: { xs: 8, md: 12 } }}>
         <Container maxWidth={false} disableGutters>
           <Box sx={{ 
             bgcolor: 'rgba(244, 242, 238, 0)', 
-            py: { xs: 6, md: 10 },
+            pt: { xs: 0, md: 10 },
+            pb: { xs: 6, md: 10 },
             px: { xs: 2, md: 4, lg: 6 },
           }}>
             <Stack 
