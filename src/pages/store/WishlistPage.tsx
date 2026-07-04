@@ -46,19 +46,55 @@ export default function WishlistPage() {
 
   if (loading && !initialized) {
     return (
-      <Container maxWidth="xl" sx={{ py: { xs: 2, md: 8 }, px: { xs: 1.5, md: 6 } }}>
-        <Box sx={{ mb: { xs: 4, md: 6 }, textAlign: 'center' }}>
-          <Skeleton variant="text" width={300} height={40} sx={{ mx: 'auto', mb: 2 }} />
-          <Skeleton variant="text" width={200} height={20} sx={{ mx: 'auto' }} />
+      <Box sx={{ minHeight: '100vh', bgcolor: 'transparent' }}>
+        {/* Premium Header Sanctuary */}
+        <Box 
+          sx={{ 
+            bgcolor: 'primary.dark', 
+            pt: { xs: 6, md: 12 }, 
+            pb: { xs: 6, md: 12 }, 
+            textAlign: 'center', 
+            color: 'white', 
+            position: 'relative', 
+            overflow: 'hidden',
+            backgroundImage: 'linear-gradient(180deg, rgba(26,46,31,1) 0%, rgba(45,75,56,0.95) 100%)',
+          }}
+        >
+          <Box sx={{ position: 'relative', zIndex: 2 }}>
+            <Skeleton
+              variant="rounded"
+              width={240}
+              sx={{ height: { xs: 40, md: 56 }, mx: 'auto', mb: 2, bgcolor: 'rgba(255,255,255,0.1)', borderRadius: '8px' }}
+              animation="wave"
+            />
+            <Skeleton
+              variant="rounded"
+              width={320}
+              sx={{ height: { xs: 16, md: 20 }, mx: 'auto', bgcolor: 'rgba(255,255,255,0.06)', borderRadius: '4px' }}
+              animation="wave"
+            />
+          </Box>
+          <Box 
+            sx={{ 
+              position: 'absolute', 
+              top: 0, left: 0, right: 0, bottom: 0, 
+              background: 'radial-gradient(circle, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 70%)', 
+              pointerEvents: 'none',
+              opacity: 0.1
+            }} 
+          />
         </Box>
-        <Grid container spacing={{ xs: 2, md: 4 }}>
-          {[...Array(4)].map((_, i) => (
-            <Grid size={{ xs: 6, md: 3 }} key={i}>
-              <CardSkeleton />
-            </Grid>
-          ))}
-        </Grid>
-      </Container>
+
+        <Container maxWidth={false} sx={{ px: { xs: 1.5, md: 6, lg: 10 }, py: { xs: 4, md: 10 } }}>
+          <Grid container spacing={{ xs: 2, md: 4 }}>
+            {[...Array(4)].map((_, i) => (
+              <Grid size={{ xs: 6, sm: 4, md: 3 }} key={i}>
+                <CardSkeleton />
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </Box>
     );
   }
 

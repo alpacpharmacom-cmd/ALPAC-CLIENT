@@ -58,10 +58,31 @@ export default function StoreShopSkeleton() {
                 <Box>
                   <Skeleton variant="text" width={90} height={20} sx={{ mb: 1.5 }} animation="wave" />
                   <Stack spacing={0.5}>
+                    {/* All Products button */}
+                    <Skeleton variant="rounded" height={40} sx={{ borderRadius: '10px' }} animation="wave" />
+                    
+                    {/* Cosmetics section */}
+                    <Skeleton variant="text" width={80} height={14} sx={{ px: 2, py: 0.5, mb: 0.5, mt: 1.5 }} animation="wave" />
+                    {[...Array(4)].map((_, i) => (
+                      <Skeleton key={`cosm-${i}`} variant="rounded" height={36} sx={{ borderRadius: '10px', ml: 3 }} animation="wave" />
+                    ))}
+                    
+                    {/* Nutrients section */}
+                    <Skeleton variant="text" width={80} height={14} sx={{ px: 2, py: 0.5, mb: 0.5, mt: 1.5 }} animation="wave" />
                     {[...Array(5)].map((_, i) => (
-                      <Skeleton key={i} variant="rounded" height={40} sx={{ borderRadius: '10px' }} animation="wave" />
+                      <Skeleton key={`nutr-${i}`} variant="rounded" height={36} sx={{ borderRadius: '10px', ml: 3 }} animation="wave" />
                     ))}
                   </Stack>
+                </Box>
+
+                {/* Brands */}
+                <Box>
+                  <Skeleton variant="text" width={65} height={20} sx={{ mb: 1.5 }} animation="wave" />
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                    {[...Array(4)].map((_, i) => (
+                      <Skeleton key={i} variant="rounded" width={80} height={32} sx={{ borderRadius: '10px' }} animation="wave" />
+                    ))}
+                  </Box>
                 </Box>
 
                 {/* Price range */}

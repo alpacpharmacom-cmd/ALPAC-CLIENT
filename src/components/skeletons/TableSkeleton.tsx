@@ -4,8 +4,8 @@ interface ColumnConfig {
   /** Label used only as semantic key */
   flex: number;
   align?: 'left' | 'center' | 'right';
-  /** 'image' = small rect thumbnail; 'chip' = pill badge; 'text' = plain text; 'actions' = icon buttons */
-  variant?: 'text' | 'image' | 'chip' | 'actions';
+  /** 'image' = small rect thumbnail; 'chip' = pill badge; 'text' = plain text; 'actions' = icon buttons; 'avatar' = circular avatar + name */
+  variant?: 'text' | 'image' | 'chip' | 'actions' | 'avatar';
 }
 
 interface TableSkeletonProps {
@@ -123,6 +123,18 @@ export default function TableSkeleton({
                         <Skeleton variant="text" width={120} height={20} sx={{ bgcolor: 'rgba(0,0,0,0.04)' }} animation="wave" />
                         <Skeleton variant="text" width={80} height={14} sx={{ bgcolor: 'rgba(0,0,0,0.02)' }} animation="wave" />
                       </Box>
+                    </>
+                  ) : col.variant === 'avatar' ? (
+                    /* Circular avatar + 1 line of text */
+                    <>
+                      <Skeleton
+                        variant="circular"
+                        width={38}
+                        height={38}
+                        sx={{ borderRadius: '50%', bgcolor: 'rgba(0,0,0,0.04)', flexShrink: 0 }}
+                        animation="wave"
+                      />
+                      <Skeleton variant="text" width={120} height={20} sx={{ bgcolor: 'rgba(0,0,0,0.04)' }} animation="wave" />
                     </>
                   ) : col.variant === 'chip' ? (
                     /* Coloured badge / status chip */

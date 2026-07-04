@@ -119,23 +119,25 @@ export default function CardSkeleton() {
             animation="wave"
           />
         </Box>
-      </CardContent>
 
-      {/* ── 3. "Add to Cart" button — flush bottom ── */}
-      <Skeleton
-        variant="rectangular"
-        animation="wave"
-        sx={{
-          width: '100%',
-          height: { xs: 40, sm: 48 },
-          mt: 'auto',
-          bgcolor: 'rgba(45, 75, 56, 0.12)',
-          borderRadius: 0,
-          borderBottomLeftRadius: { xs: '16px', sm: '20px' },
-          borderBottomRightRadius: { xs: '16px', sm: '20px' },
-          transform: 'none',
-        }}
-      />
+        {/* ── 3. "Add to Cart" button — flush bottom ── */}
+        <Skeleton
+          variant="rectangular"
+          animation="wave"
+          sx={{
+            width: '100%',
+            height: { xs: 40, sm: 48 },
+            mt: 'auto',
+            mb: { xs: -2, sm: -1.5 },
+            bgcolor: 'rgba(45, 75, 56, 0.12)',
+            borderRadius: 0,
+            borderBottomLeftRadius: { xs: '16px', sm: '20px' },
+            borderBottomRightRadius: { xs: '16px', sm: '20px' },
+            transform: 'none',
+            mx: 0,
+          }}
+        />
+      </CardContent>
     </Card>
   );
 }

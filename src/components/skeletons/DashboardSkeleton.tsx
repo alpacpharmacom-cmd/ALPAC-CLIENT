@@ -124,19 +124,22 @@ export default function DashboardSkeleton() {
             </Box>
             {/* Order rows */}
             {[...Array(5)].map((_, i) => (
-              <Box key={i} sx={{ display: 'flex', px: 1, py: 2, alignItems: 'center', borderRadius: '12px', mb: 0.5 }}>
-                <Box sx={{ flex: 1, px: 1 }}>
+              <Box key={i} sx={{ display: 'flex', px: 1, py: 2.5, alignItems: 'center', borderRadius: '12px', mb: 1 }}>
+                <Box sx={{ flex: 1, px: 2 }}>
                   <Skeleton variant="text" width="80%" height={20} sx={{ bgcolor: 'rgba(0,0,0,0.03)' }} animation="wave" />
                   <Skeleton variant="text" width="60%" height={14} sx={{ bgcolor: 'rgba(0,0,0,0.02)' }} animation="wave" />
                 </Box>
-                <Box sx={{ flex: 1.5, px: 1, display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                <Box sx={{ flex: 1.5, px: 2, display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'flex-start' }}>
                   <Skeleton variant="circular" width={32} height={32} sx={{ bgcolor: 'rgba(0,0,0,0.03)', flexShrink: 0 }} animation="wave" />
-                  <Skeleton variant="text" width="60%" height={20} sx={{ bgcolor: 'rgba(0,0,0,0.03)' }} animation="wave" />
+                  <Box>
+                    <Skeleton variant="text" width={100} height={20} sx={{ bgcolor: 'rgba(0,0,0,0.03)' }} animation="wave" />
+                    <Skeleton variant="text" width={60} height={14} sx={{ bgcolor: 'rgba(0,0,0,0.02)', mt: -0.5 }} animation="wave" />
+                  </Box>
                 </Box>
                 <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
                   <Skeleton variant="rounded" width={140} height={32} sx={{ borderRadius: '8px', bgcolor: 'rgba(0,0,0,0.03)' }} animation="wave" />
                 </Box>
-                <Box sx={{ flex: 1, px: 1, display: 'flex', justifyContent: 'flex-end' }}>
+                <Box sx={{ flex: 1, px: 2, display: 'flex', justifyContent: 'flex-end' }}>
                   <Skeleton variant="text" width="60%" height={20} sx={{ bgcolor: 'rgba(0,0,0,0.03)' }} animation="wave" />
                 </Box>
               </Box>
