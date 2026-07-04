@@ -19,13 +19,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 const SLIDES = [
   {
     pcImage: '/images/hero/hero-1-pc.PNG',
-    mobileImage: '/images/hero/hero-1-mobile.PNG',
-    subtitle: 'Hydrating Sunscreen',
-    title: (
-      <>
-        Advanced Daily <Box component="span" sx={{ color: 'secondary.main', fontStyle: 'italic', textShadow: '0px 4px 20px rgba(0,0,0,0.8), 0px 2px 5px rgba(0,0,0,0.9)' }}>UV Defense</Box>
-      </>
-    ),
+    mobileImage: '/images/hero/hero-1-pc.PNG',
+
     btn1Text: 'Shop Now',
     btn1Link: '/shop',
     btn2Text: 'Our Story',
@@ -33,13 +28,8 @@ const SLIDES = [
   },
   {
     pcImage: '/images/hero/hero-2-pc.PNG',
-    mobileImage: '/images/hero/hero-2-mobile.PNG',
-    subtitle: 'Feel Fresh, All Day',
-    title: (
-      <>
-        Confidence in <Box component="span" sx={{ color: 'secondary.main', fontStyle: 'italic', textShadow: '0px 4px 20px rgba(0,0,0,0.8), 0px 2px 5px rgba(0,0,0,0.9)' }}>Every Move</Box>
-      </>
-    ),
+    mobileImage: '/images/hero/hero-2-pc.PNG',
+
     btn1Text: 'Shop Now',
     btn1Link: '/shop',
     btn2Text: 'Our Story',
@@ -145,14 +135,15 @@ export default function HomePage() {
       {/* Hero Section */}
       <Box
         sx={{
-          height: '100vh', // Full viewport height
+          height: { xs: 'auto', md: '100vh' },
+          aspectRatio: { xs: '2/1', md: 'auto' },
           display: 'flex',
           alignItems: 'center',
           position: 'relative',
           bgcolor: 'primary.main',
           color: 'white',
           overflow: 'hidden',
-          mt: '-80px', // Pull up to overlap with transparent navbar
+          mt: { xs: '0px', md: '-80px' }, // Pull up to overlap with transparent navbar on desktop only
         }}
       >
         <AnimatePresence initial={false} custom={direction}>
@@ -177,7 +168,7 @@ export default function HomePage() {
             <Box
               component="img"
               src={SLIDES[currentSlide].pcImage}
-              alt="Alpac Hero Desktop"
+              alt="Alpac Hero"
               sx={{
                 position: 'absolute',
                 inset: 0,
@@ -186,24 +177,6 @@ export default function HomePage() {
                 objectFit: 'cover',
                 objectPosition: 'center 20%',
                 zIndex: 0,
-                display: { xs: 'none', md: 'block' },
-              }}
-              loading="eager"
-              decoding="async"
-            />
-            <Box
-              component="img"
-              src={SLIDES[currentSlide].mobileImage}
-              alt="Alpac Hero Mobile"
-              sx={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                objectPosition: 'center top',
-                zIndex: 0,
-                display: { xs: 'block', md: 'none' },
               }}
               loading="eager"
               decoding="async"
@@ -213,8 +186,8 @@ export default function HomePage() {
                 position: 'absolute',
                 inset: 0,
                 background: {
-                  xs: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, transparent 100%)',
-                  md: 'linear-gradient(90deg, rgba(20,30,22,0.8) 0%, rgba(45,75,56,0.1) 60%, transparent 100%)',
+                  xs: 'radial-gradient(ellipse at center, rgba(0,0,0,0) 20%, rgba(0,0,0,0.55) 100%), rgba(0,0,0,0.2)',
+                  md: 'radial-gradient(ellipse at center, rgba(0,0,0,0) 30%, rgba(0,0,0,0.45) 100%), rgba(0,0,0,0.15)',
                 },
                 zIndex: 1,
               }}
@@ -224,10 +197,9 @@ export default function HomePage() {
               <Box
                 sx={{
                   position: 'absolute',
-                  top: { xs: 'auto', md: '62%' },
-                  bottom: { xs: '52px', md: 'auto' },
+                  top: { xs: '75%', md: '80%' },
                   left: '50%',
-                  transform: { xs: 'translateX(-50%)', md: 'translate(-50%, -50%)' },
+                  transform: 'translate(-50%, -50%)',
                   width: '100%',
                   textAlign: 'center',
                   display: 'flex',
@@ -245,41 +217,14 @@ export default function HomePage() {
                     width: 'fit-content',
                   }}
                 >
-                  <Typography
-                    sx={{
-                      color: 'secondary.main',
-                      letterSpacing: '0.25em',
-                      fontSize: { xs: '0.85rem', md: '1rem' },
-                      fontWeight: 700,
-                      mb: 1.5,
-                      textTransform: 'uppercase',
-                      textShadow: '0px 2px 8px rgba(0,0,0,0.9), 0px 1px 2px rgba(0,0,0,0.8)',
-                    }}
-                  >
-                    {SLIDES[currentSlide].subtitle}
-                  </Typography>
-                  <Typography
-                    variant="h1"
-                    sx={{
-                      fontWeight: 600,
-                      fontSize: { xs: '1.8rem', sm: '2.2rem', md: '3.2rem', lg: '3.8rem' },
-                      lineHeight: 1.1,
-                      mb: { xs: 2.5, md: 4 },
-                      color: 'white',
-                      textShadow: '0px 4px 20px rgba(0,0,0,0.8), 0px 2px 5px rgba(0,0,0,0.9)',
-                    }}
-                  >
-                    {SLIDES[currentSlide].title}
-                  </Typography>
                   <Box 
                     sx={{ 
                       display: 'flex', 
-                      flexDirection: { xs: 'column', sm: 'row' },
+                      flexDirection: 'row',
                       justifyContent: 'center', 
                       alignItems: 'center',
                       gap: { xs: 1.5, sm: 3 }, 
-                      width: '100%',
-                      maxWidth: { xs: '260px', sm: '100%' },
+                      width: 'fit-content',
                       mx: 'auto',
                     }}
                   >
@@ -290,14 +235,14 @@ export default function HomePage() {
                       size="large"
                       color="secondary"
                       sx={{ 
-                        px: { xs: 3, sm: 5 }, 
-                        py: { xs: 1.2, sm: 1.8 }, 
+                        px: { xs: 2.5, sm: 5 }, 
+                        py: { xs: 1, sm: 1.8 }, 
                         color: 'white', 
                         fontWeight: 600, 
-                        fontSize: { xs: '0.9rem', sm: '1.1rem' }, 
+                        fontSize: { xs: '0.8rem', sm: '1.1rem' }, 
                         borderRadius: 2,
                         boxShadow: '0px 4px 15px rgba(0,0,0,0.3)',
-                        width: { xs: '100%', sm: 'auto' },
+                        width: 'auto',
                       }}
                     >
                       {SLIDES[currentSlide].btn1Text}
@@ -310,15 +255,15 @@ export default function HomePage() {
                       sx={{ 
                         borderColor: 'rgba(255,255,255,0.8)', 
                         color: 'white', 
-                        px: { xs: 3, sm: 5 }, 
-                        py: { xs: 1.2, sm: 1.8 },
+                        px: { xs: 2.5, sm: 5 }, 
+                        py: { xs: 1, sm: 1.8 },
                         fontWeight: 600,
-                        fontSize: { xs: '0.9rem', sm: '1.1rem' },
+                        fontSize: { xs: '0.8rem', sm: '1.1rem' },
                         borderRadius: 2,
                         backdropFilter: 'blur(8px)',
                         boxShadow: '0px 4px 15px rgba(0,0,0,0.2)',
                         background: 'rgba(0,0,0,0.1)',
-                        width: { xs: '100%', sm: 'auto' },
+                        width: 'auto',
                         '&:hover': { borderColor: 'white', background: 'rgba(255,255,255,0.15)' }
                       }}
                     >
