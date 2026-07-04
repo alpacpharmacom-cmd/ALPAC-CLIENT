@@ -55,6 +55,9 @@ export const HealthGoalIcon: React.FC<HealthGoalIconWrapperProps> = ({ goal, ...
   if (normalized.includes('digest') || normalized.includes('gut')) {
     return <LucideActivity size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;
   }
+  if (normalized.includes('sport')) {
+    return <LucideDumbbell size={props.size || 64} strokeWidth={1.75} {...(props as any)} />;
+  }
 
   // Skin Care Concerns
   if (normalized.includes('oily') || normalized.includes('combined')) {

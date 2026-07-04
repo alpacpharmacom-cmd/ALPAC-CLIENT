@@ -70,6 +70,7 @@ const navLinks = [
       { label: 'Kids & Family Health', path: '/category/nutrients/goal/kids-&-family-health' },
       { label: 'Relaxation & Sleep', path: '/category/nutrients/goal/relaxation-&-sleep' },
       { label: 'Digestive & Gut Health', path: '/category/nutrients/goal/digestive-&-gut-health' },
+      { label: 'Sports', path: '/category/nutrients/goal/sports' },
     ]
   },
   { label: 'About', path: '/about' },

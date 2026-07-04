@@ -55,7 +55,8 @@ export const CATEGORY_HEALTH_GOALS: Record<string, string[]> = {
     'Immunity Support',
     'Kids & Family Health',
     'Relaxation & Sleep',
-    'Digestive & Gut Health'
+    'Digestive & Gut Health',
+    'Sports'
   ],
 };
 
