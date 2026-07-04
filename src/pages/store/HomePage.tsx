@@ -197,13 +197,15 @@ export default function HomePage() {
               <Box
                 sx={{
                   position: 'absolute',
-                  top: { xs: '75%', md: '80%' },
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  width: '100%',
-                  textAlign: 'center',
+                  top: { xs: 'auto', md: '80%' },
+                  bottom: { xs: '8px', md: 'auto' },
+                  left: { xs: 'auto', md: '50%' },
+                  right: { xs: '16px', md: 'auto' },
+                  transform: { xs: 'none', md: 'translate(-50%, -50%)' },
+                  width: { xs: 'auto', md: '100%' },
+                  textAlign: { xs: 'right', md: 'center' },
                   display: 'flex',
-                  justifyContent: 'center',
+                  justifyContent: { xs: 'flex-end', md: 'center' },
                 }}
               >
                 <Box
@@ -221,11 +223,11 @@ export default function HomePage() {
                     sx={{ 
                       display: 'flex', 
                       flexDirection: 'row',
-                      justifyContent: 'center', 
+                      justifyContent: { xs: 'flex-end', md: 'center' }, 
                       alignItems: 'center',
                       gap: { xs: 1.5, sm: 3 }, 
                       width: 'fit-content',
-                      mx: 'auto',
+                      mx: { xs: 0, md: 'auto' },
                     }}
                   >
                     <Button
@@ -246,6 +248,32 @@ export default function HomePage() {
                       }}
                     >
                       {SLIDES[currentSlide].btn1Text}
+                    </Button>
+                    <Button
+                      component={Link}
+                      to={SLIDES[currentSlide].btn2Link}
+                      variant="outlined"
+                      size="large"
+                      sx={{ 
+                        display: { xs: 'none', md: 'inline-flex' },
+                        px: { xs: 2.5, sm: 5 }, 
+                        py: { xs: 1, sm: 1.8 }, 
+                        color: 'white', 
+                        borderColor: 'white',
+                        borderWidth: '2px',
+                        fontWeight: 600, 
+                        fontSize: { xs: '0.8rem', sm: '1.1rem' }, 
+                        borderRadius: 2,
+                        boxShadow: '0px 4px 15px rgba(0,0,0,0.2)',
+                        width: 'auto',
+                        '&:hover': {
+                          bgcolor: 'rgba(255,255,255,0.1)',
+                          borderColor: 'white',
+                          borderWidth: '2px',
+                        }
+                      }}
+                    >
+                      {SLIDES[currentSlide].btn2Text}
                     </Button>
                   </Box>
                 </Box>
