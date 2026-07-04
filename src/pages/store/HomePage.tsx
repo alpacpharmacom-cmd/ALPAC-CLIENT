@@ -7,10 +7,60 @@ import {
   Button, 
   Grid,
   Stack,
+  IconButton,
 } from '@mui/material';
 import { 
   East, 
+  ChevronLeft,
+  ChevronRight,
 } from '@mui/icons-material';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const SLIDES = [
+  {
+    pcImage: '/images/hero/hero-1-pc.PNG',
+    mobileImage: '/images/hero/hero-1-mobile.PNG',
+    subtitle: 'Hydrating Sunscreen',
+    title: (
+      <>
+        Advanced Daily <Box component="span" sx={{ color: 'secondary.main', fontStyle: 'italic', textShadow: '0px 4px 20px rgba(0,0,0,0.8), 0px 2px 5px rgba(0,0,0,0.9)' }}>UV Defense</Box>
+      </>
+    ),
+    btn1Text: 'Shop Now',
+    btn1Link: '/shop',
+    btn2Text: 'Our Story',
+    btn2Link: '/about',
+  },
+  {
+    pcImage: '/images/hero/hero-2-pc.PNG',
+    mobileImage: '/images/hero/hero-2-mobile.PNG',
+    subtitle: 'Feel Fresh, All Day',
+    title: (
+      <>
+        Confidence in <Box component="span" sx={{ color: 'secondary.main', fontStyle: 'italic', textShadow: '0px 4px 20px rgba(0,0,0,0.8), 0px 2px 5px rgba(0,0,0,0.9)' }}>Every Move</Box>
+      </>
+    ),
+    btn1Text: 'Shop Now',
+    btn1Link: '/shop',
+    btn2Text: 'Our Story',
+    btn2Link: '/about',
+  },
+];
+
+const slideVariants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? '100%' : '-100%',
+    opacity: 0,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+  },
+  exit: (direction: number) => ({
+    x: direction < 0 ? '100%' : '-100%',
+    opacity: 0,
+  }),
+};
 
 import { useAuthStore } from '../../stores/authStore';
 import { useWishlistStore } from '../../stores/wishlistStore';
@@ -62,6 +112,34 @@ export default function HomePage() {
     }
   }, [isAuthenticated, toggleWishlistProduct, wishlistItems]);
 
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [direction, setDirection] = useState(1);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setDirection(1);
+      setCurrentSlide((prev) => (prev + 1) % SLIDES.length);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const handlePrevSlide = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setDirection(-1);
+    setCurrentSlide((prev) => (prev - 1 + SLIDES.length) % SLIDES.length);
+  };
+
+  const handleNextSlide = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setDirection(1);
+    setCurrentSlide((prev) => (prev + 1) % SLIDES.length);
+  };
+
+  const handleSelectSlide = (index: number) => {
+    setDirection(index > currentSlide ? 1 : -1);
+    setCurrentSlide(index);
+  };
+
   return (
     <Box sx={{ position: 'relative' }}>
       {/* Hero Section */}
@@ -77,122 +155,248 @@ export default function HomePage() {
           mt: '-80px', // Pull up to overlap with transparent navbar
         }}
       >
-        <Box
-          component="img"
-          src="/images/hero/hero_banner_v2.png"
-          alt="Alpac Hero"
-          sx={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            objectPosition: 'center',
-            zIndex: 0,
-          }}
-          loading="eager"
-          decoding="async"
-        />
-        <Box
-          sx={{
-            position: 'absolute',
-            inset: 0,
-            background: 'linear-gradient(90deg, rgba(20,30,22,0.8) 0%, rgba(45,75,56,0.1) 60%, transparent 100%)',
-            zIndex: 1,
-          }}
-        />
-
-        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, px: { xs: 3, md: 6, lg: 8 }, height: '100%' }}>
-          <Box
-            sx={{
+        <AnimatePresence initial={false} custom={direction}>
+          <motion.div
+            key={currentSlide}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              x: { type: 'spring', stiffness: 300, damping: 30 },
+              opacity: { duration: 0.2 },
+            }}
+            style={{
               position: 'absolute',
-              top: { xs: '58%', md: '62%' },
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
+              inset: 0,
               width: '100%',
-              textAlign: 'center',
-              display: 'flex',
-              justifyContent: 'center',
+              height: '100%',
             }}
           >
             <Box
+              component="img"
+              src={SLIDES[currentSlide].pcImage}
+              alt="Alpac Hero Desktop"
               sx={{
-                background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0) 70%)',
-                px: { xs: 2, md: 8 },
-                py: { xs: 4, md: 6 },
-                width: 'fit-content',
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                objectPosition: 'center 20%',
+                zIndex: 0,
+                display: { xs: 'none', md: 'block' },
               }}
-            >
-              <Typography
+              loading="eager"
+              decoding="async"
+            />
+            <Box
+              component="img"
+              src={SLIDES[currentSlide].mobileImage}
+              alt="Alpac Hero Mobile"
+              sx={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                objectPosition: 'center top',
+                zIndex: 0,
+                display: { xs: 'block', md: 'none' },
+              }}
+              loading="eager"
+              decoding="async"
+            />
+            <Box
+              sx={{
+                position: 'absolute',
+                inset: 0,
+                background: {
+                  xs: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, transparent 100%)',
+                  md: 'linear-gradient(90deg, rgba(20,30,22,0.8) 0%, rgba(45,75,56,0.1) 60%, transparent 100%)',
+                },
+                zIndex: 1,
+              }}
+            />
+
+            <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, px: { xs: 3, md: 6, lg: 8 }, height: '100%' }}>
+              <Box
                 sx={{
-                  color: 'secondary.main',
-                  letterSpacing: '0.25em',
-                  fontSize: { xs: '0.85rem', md: '1rem' },
-                  fontWeight: 700,
-                  mb: 1.5,
-                  textTransform: 'uppercase',
-                  textShadow: '0px 2px 8px rgba(0,0,0,0.9), 0px 1px 2px rgba(0,0,0,0.8)',
+                  position: 'absolute',
+                  top: { xs: 'auto', md: '62%' },
+                  bottom: { xs: '52px', md: 'auto' },
+                  left: '50%',
+                  transform: { xs: 'translateX(-50%)', md: 'translate(-50%, -50%)' },
+                  width: '100%',
+                  textAlign: 'center',
+                  display: 'flex',
+                  justifyContent: 'center',
                 }}
               >
-                Health & Beauty
-              </Typography>
-              <Typography
-                variant="h1"
-                sx={{
-                  fontWeight: 600,
-                  fontSize: { xs: '2.2rem', md: '3.2rem', lg: '3.8rem' },
-                  lineHeight: 1.1,
-                  mb: 4,
-                  color: 'white',
-                  textShadow: '0px 4px 20px rgba(0,0,0,0.8), 0px 2px 5px rgba(0,0,0,0.9)',
-                }}
-              >
-                Reveal Your <Box component="span" sx={{ color: 'secondary.main', fontStyle: 'italic', textShadow: '0px 4px 20px rgba(0,0,0,0.8), 0px 2px 5px rgba(0,0,0,0.9)' }}>Natural</Box> Glow
-              </Typography>
-              <Box sx={{ display: 'flex', justifyContent: 'center', gap: 3, width: '100%' }}>
-                <Button
-                  component={Link}
-                  to="/shop"
-                  variant="contained"
-                  size="large"
-                  color="secondary"
-                  sx={{ 
-                    px: 5, 
-                    py: 1.8, 
-                    color: 'white', 
-                    fontWeight: 600, 
-                    fontSize: '1.1rem', 
-                    borderRadius: 2,
-                    boxShadow: '0px 4px 15px rgba(0,0,0,0.3)',
+                <Box
+                  sx={{
+                    background: {
+                      xs: 'none',
+                      md: 'radial-gradient(ellipse at center, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0) 70%)',
+                    },
+                    px: { xs: 2, md: 8 },
+                    py: { xs: 1, md: 6 },
+                    width: 'fit-content',
                   }}
                 >
-                  Shop Now
-                </Button>
-                <Button
-                  component={Link}
-                  to="/about"
-                  variant="outlined"
-                  size="large"
-                  sx={{ 
-                    borderColor: 'rgba(255,255,255,0.8)', 
-                    color: 'white', 
-                    px: 5, 
-                    py: 1.8,
-                    fontWeight: 600,
-                    fontSize: '1.1rem',
-                    borderRadius: 2,
-                    backdropFilter: 'blur(8px)',
-                    boxShadow: '0px 4px 15px rgba(0,0,0,0.2)',
-                    background: 'rgba(0,0,0,0.1)',
-                    '&:hover': { borderColor: 'white', background: 'rgba(255,255,255,0.15)' }
-                  }}
-                >
-                  Our Story
-                </Button>
+                  <Typography
+                    sx={{
+                      color: 'secondary.main',
+                      letterSpacing: '0.25em',
+                      fontSize: { xs: '0.85rem', md: '1rem' },
+                      fontWeight: 700,
+                      mb: 1.5,
+                      textTransform: 'uppercase',
+                      textShadow: '0px 2px 8px rgba(0,0,0,0.9), 0px 1px 2px rgba(0,0,0,0.8)',
+                    }}
+                  >
+                    {SLIDES[currentSlide].subtitle}
+                  </Typography>
+                  <Typography
+                    variant="h1"
+                    sx={{
+                      fontWeight: 600,
+                      fontSize: { xs: '1.8rem', sm: '2.2rem', md: '3.2rem', lg: '3.8rem' },
+                      lineHeight: 1.1,
+                      mb: { xs: 2.5, md: 4 },
+                      color: 'white',
+                      textShadow: '0px 4px 20px rgba(0,0,0,0.8), 0px 2px 5px rgba(0,0,0,0.9)',
+                    }}
+                  >
+                    {SLIDES[currentSlide].title}
+                  </Typography>
+                  <Box 
+                    sx={{ 
+                      display: 'flex', 
+                      flexDirection: { xs: 'column', sm: 'row' },
+                      justifyContent: 'center', 
+                      alignItems: 'center',
+                      gap: { xs: 1.5, sm: 3 }, 
+                      width: '100%',
+                      maxWidth: { xs: '260px', sm: '100%' },
+                      mx: 'auto',
+                    }}
+                  >
+                    <Button
+                      component={Link}
+                      to={SLIDES[currentSlide].btn1Link}
+                      variant="contained"
+                      size="large"
+                      color="secondary"
+                      sx={{ 
+                        px: { xs: 3, sm: 5 }, 
+                        py: { xs: 1.2, sm: 1.8 }, 
+                        color: 'white', 
+                        fontWeight: 600, 
+                        fontSize: { xs: '0.9rem', sm: '1.1rem' }, 
+                        borderRadius: 2,
+                        boxShadow: '0px 4px 15px rgba(0,0,0,0.3)',
+                        width: { xs: '100%', sm: 'auto' },
+                      }}
+                    >
+                      {SLIDES[currentSlide].btn1Text}
+                    </Button>
+                    <Button
+                      component={Link}
+                      to={SLIDES[currentSlide].btn2Link}
+                      variant="outlined"
+                      size="large"
+                      sx={{ 
+                        borderColor: 'rgba(255,255,255,0.8)', 
+                        color: 'white', 
+                        px: { xs: 3, sm: 5 }, 
+                        py: { xs: 1.2, sm: 1.8 },
+                        fontWeight: 600,
+                        fontSize: { xs: '0.9rem', sm: '1.1rem' },
+                        borderRadius: 2,
+                        backdropFilter: 'blur(8px)',
+                        boxShadow: '0px 4px 15px rgba(0,0,0,0.2)',
+                        background: 'rgba(0,0,0,0.1)',
+                        width: { xs: '100%', sm: 'auto' },
+                        '&:hover': { borderColor: 'white', background: 'rgba(255,255,255,0.15)' }
+                      }}
+                    >
+                      {SLIDES[currentSlide].btn2Text}
+                    </Button>
+                  </Box>
+                </Box>
               </Box>
-            </Box>
-          </Box>
-        </Container>
+            </Container>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Navigation Arrows */}
+        <IconButton
+          onClick={handlePrevSlide}
+          sx={{
+            position: 'absolute',
+            left: { xs: 8, md: 24 },
+            top: '50%',
+            transform: 'translateY(-50%)',
+            color: 'white',
+            bgcolor: 'rgba(0,0,0,0.3)',
+            '&:hover': { bgcolor: 'rgba(0,0,0,0.5)' },
+            zIndex: 3,
+            display: { xs: 'none', sm: 'inline-flex' },
+          }}
+        >
+          <ChevronLeft sx={{ fontSize: { xs: 30, md: 40 } }} />
+        </IconButton>
+
+        <IconButton
+          onClick={handleNextSlide}
+          sx={{
+            position: 'absolute',
+            right: { xs: 8, md: 24 },
+            top: '50%',
+            transform: 'translateY(-50%)',
+            color: 'white',
+            bgcolor: 'rgba(0,0,0,0.3)',
+            '&:hover': { bgcolor: 'rgba(0,0,0,0.5)' },
+            zIndex: 3,
+            display: { xs: 'none', sm: 'inline-flex' },
+          }}
+        >
+          <ChevronRight sx={{ fontSize: { xs: 30, md: 40 } }} />
+        </IconButton>
+
+        {/* Slide Indicators */}
+        <Box
+          sx={{
+            position: 'absolute',
+            bottom: 24,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            display: 'flex',
+            gap: 1.5,
+            zIndex: 3,
+          }}
+        >
+          {SLIDES.map((_, index) => (
+            <Box
+              key={index}
+              onClick={() => handleSelectSlide(index)}
+              sx={{
+                width: 12,
+                height: 12,
+                borderRadius: '50%',
+                bgcolor: currentSlide === index ? 'secondary.main' : 'rgba(255,255,255,0.4)',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                '&:hover': {
+                  bgcolor: currentSlide === index ? 'secondary.main' : 'rgba(255,255,255,0.8)',
+                  transform: 'scale(1.2)',
+                },
+              }}
+            />
+          ))}
+        </Box>
       </Box>
 
 
