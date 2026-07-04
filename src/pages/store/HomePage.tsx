@@ -18,8 +18,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const SLIDES = [
   {
-    pcImage: '/images/hero/hero-1-pc.PNG',
-    mobileImage: '/images/hero/hero-1-pc.PNG',
+    pcImage: '/images/hero/hero-1-pc.jpg',
+    mobileImage: '/images/hero/hero-1-pc.jpg',
 
     btn1Text: 'Shop Now',
     btn1Link: '/shop',
@@ -27,8 +27,8 @@ const SLIDES = [
     btn2Link: '/about',
   },
   {
-    pcImage: '/images/hero/hero-2-pc.PNG',
-    mobileImage: '/images/hero/hero-2-pc.PNG',
+    pcImage: '/images/hero/hero-2-pc.jpg',
+    mobileImage: '/images/hero/hero-2-pc.jpg',
 
     btn1Text: 'Shop Now',
     btn1Link: '/shop',
