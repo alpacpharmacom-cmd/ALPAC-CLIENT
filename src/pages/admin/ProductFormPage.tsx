@@ -141,7 +141,7 @@ export default function ProductFormPage() {
     e.preventDefault();
 
     const isGoalRequired = CATEGORY_HEALTH_GOALS[form.category]?.length > 0;
-    if (!form.name || form.price === '' || !form.description || !form.image || !form.category || !form.brand || (isGoalRequired && !form.healthGoal) || form.countInStock === '') {
+    if (!form.name || form.price === '' || !form.description || !form.image || !form.category || (isGoalRequired && !form.healthGoal) || form.countInStock === '') {
       toast.error('Please fill in all fields');
       return;
     }
@@ -407,7 +407,6 @@ export default function ProductFormPage() {
                   label="Brand"
                   value={form.brand}
                   onChange={(e) => handleChange('brand', e.target.value)}
-                  required
                   variant="outlined"
                   slotProps={{ inputLabel: { shrink: true } }}
                   sx={{ 
