@@ -35,6 +35,24 @@ const SLIDES = [
     btn2Text: 'Our Story',
     btn2Link: '/about',
   },
+  {
+    pcImage: '/images/hero/hero-3-pc.jpg',
+    mobileImage: '/images/hero/hero-3-pc.jpg',
+
+    btn1Text: 'Shop Now',
+    btn1Link: '/shop',
+    btn2Text: 'Our Story',
+    btn2Link: '/about',
+  },
+  {
+    pcImage: '/images/hero/hero-4-pc.jpg',
+    mobileImage: '/images/hero/hero-4-pc.jpg',
+
+    btn1Text: 'Shop Now',
+    btn1Link: '/shop',
+    btn2Text: 'Our Story',
+    btn2Link: '/about',
+  },
 ];
 
 const slideVariants = {
@@ -192,9 +210,9 @@ export default function HomePage() {
             <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, px: { xs: 3, md: 6, lg: 8 }, height: '100%' }}>
               <Box
                 sx={{
-                  position: 'absolute',
-                  top: { xs: 'auto', md: '80%' },
-                  bottom: { xs: '8px', md: 'auto' },
+                   position: 'absolute',
+                   top: { xs: 'auto', md: 'calc(80% + 10px)' },
+                   bottom: { xs: '8px', md: 'auto' },
                   left: { xs: 'auto', md: '50%' },
                   right: { xs: '16px', md: 'auto' },
                   transform: { xs: 'none', md: 'translate(-50%, -50%)' },
@@ -452,7 +470,7 @@ export default function HomePage() {
                  >
                   <Box
                     component="img"
-                    src="/images/nature/botanical_cosmetics.png"
+                    src="/images/nature/botanical_cosmetics.jpg"
                     sx={{
                       position: 'absolute',
                       inset: 0,
@@ -526,7 +544,7 @@ export default function HomePage() {
                   >
                     <Box
                       component="img"
-                      src="/images/nature/misty_vitality.png"
+                      src="/images/nature/misty_vitality.jpg"
                       sx={{
                         position: 'absolute',
                         inset: 0,
@@ -569,7 +587,7 @@ export default function HomePage() {
                   >
                     <Box
                       component="img"
-                      src="/images/nature/organic_story.png"
+                      src="/images/nature/organic_story.jpg"
                       sx={{
                         position: 'absolute',
                         inset: 0,
